@@ -4,9 +4,17 @@ const router = express.Router();
 
 /* ************************************************************************* */
 // Import And Use Routers Here
+const { sayWelcome } = require("../../controllers/sayActions");
+
+router.get("/", sayWelcome);
+
+const itemsAPIRouter = require("./items/itemsAPIRouter");
+
+router.use("/itemsapi", itemsAPIRouter);
+
 /* ************************************************************************* */
 
-const itemsRouter = require("./items/router");
+const itemsRouter = require("./items/itemRouter");
 
 router.use("/items", itemsRouter);
 
