@@ -1,6 +1,8 @@
 
 const sayWelcome = (req, res) => {
-    res.send("Bienvenue dans la Boutique de Matheroff !");
+    console.info(req.query);
+
+    res.send(`Bienvenue dans la Boutique de Matheroff, ${req.query.name} !`);
 };
 
 module.exports = { sayWelcome };

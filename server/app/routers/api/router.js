@@ -12,6 +12,10 @@ const itemsAPIRouter = require("./items/itemsAPIRouter");
 
 router.use("/itemsapi", itemsAPIRouter);
 
+const categoryRouter = require("./categories/categoryRouter");
+
+router.use("/categories", categoryRouter);
+
 /* ************************************************************************* */
 
 const itemsRouter = require("./items/itemRouter");
