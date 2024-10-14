@@ -1,0 +1,26 @@
+@import url("../index.css");
+
+.user-profile {
+    margin: 3em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 4em;
+
+    img {
+        width: 60vh;
+        height: auto;
+        margin: 0.5em;
+    }
+    
+}
+
+h3 {
+    text-align: center;
+}
+
+h2 {
+    padding-top: 0.8em;
+    text-align: center;
+}
+

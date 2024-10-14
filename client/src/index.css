@@ -1,0 +1,98 @@
+@font-face {
+    font-family: "Exo 2";
+    src: url("./assets/fonts/Exo2-Bold.ttf") format("ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Exo 2 ExtraLight";
+    src: url("./assets/fonts/Exo2-ExtraLight.ttf") format("ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Exo 2 SemiBold";
+    src: url("./assets/fonts/Exo2-SemiBold.ttf") format("ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    /* All colors */
+    --background-page-color: #eff6f4;
+    --button-color: #ffcd29;
+    --button-color2: #9d59bc;
+    --text-color: white;
+    --text-color2: black;
+    --searchbar-color: #D9D9D9;
+    --searchbar-text : #6d6d6d;
+
+    /* Font-family */
+    --ff-title: "Exo 2", san-serif;
+    --ff-text: "Exo 2 ExtraLight", san-serif;
+    --ff-button: "Exo 2 SemiBold", san-serif;
+
+    /* Font-size */
+    --size-title: 2rem;
+    --size-title2: 1.5rem;
+    --size-text1: 0.8rem;
+    --size-text2: 1rem;
+}
+
+* {
+    margin: 0;
+}
+
+body {
+    background-color: var(--background-page-color);
+}
+
+h1:hover, img:hover, button:hover {
+    cursor: pointer;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.fil-ariane {
+    height: 10vh;
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    gap: 4em;
+    padding-left: 3em;
+    font-family: var(--ff-text);
+
+    p:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}
+
+h2 {
+    font-family: var(--ff-title);
+    font-size: var(--size-title);
+    color: var(--text-color2);
+}
+
+h3 {
+    font-family: var(--ff-button);
+    font-size: var(--size-title2);
+    color: var(--text-color2);
+}
+
+button {
+    border-radius: 30px;
+    height: 3em;
+    width: 12em;
+    font-family: var(--ff-button);
+    font-size: var(--size-text2);
+    color: var(--text-color2);
+    background-color: var(--button-color);
+}
+

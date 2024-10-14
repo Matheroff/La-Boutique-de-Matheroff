@@ -1,0 +1,39 @@
+@import url("../index.css");
+
+.order-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 2em;
+
+    button {
+        background-color: var(--button-color2);
+        color: var(--text-color);
+        border-radius: 20px;
+      }
+}
+
+.order-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+        font-family: var(--ff-button);
+        font-size: var(--size-text2);
+        margin: 0.5em;
+    }
+
+    img {
+        height: 6vh;
+    }
+
+    button {
+        background-color: var(--button-color2);
+        color: var(--text-color);
+        border-radius: 20px;
+        margin-top: 1em;
+        margin-bottom: 3em;
+    }
+}

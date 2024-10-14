@@ -1,54 +1,96 @@
-const categories = [
-    {
-        id: 1,
-        name: "Mugs"
-    },
-    {
-        id: 2,
-        name: "T-Shirts"
-    },
-    {
-        id: 3,
-        name: "Gourdes"
-    },
-    {
-        id: 4,
-        name: "Casquettes"
-    },
-    {
-        id: 5,
-        name: "Stickers"
-    },
-    {
-        id: 6,
-        name: "Porte-clés"
-    }
-]
+const tables = require("../../database/tables");
 
-const browse = (req, res) => {
-    if (req.query.q !=null) {
-      const filteredCategories = categories.filter((category) =>
-      category.description.includes(req.query.q)
-    );
+// const categories = [
+//     {
+//         id: 1,
+//         name: "Mugs"
+//     },
+//     {
+//         id: 2,
+//         name: "T-Shirts"
+//     },
+//     {
+//         id: 3,
+//         name: "Gourdes"
+//     },
+//     {
+//         id: 4,
+//         name: "Casquettes"
+//     },
+//     {
+//         id: 5,
+//         name: "Stickers"
+//     },
+//     {
+//         id: 6,
+//         name: "Porte-clés"
+//     }
+// ]
 
-    res.json(filteredCategories);
-    } else {
+const browse = async (req, res, next) => {
+  try {
+    const categories = await tables.category.readAll();
+
     res.json(categories);
+  } catch (err) {
+    next(err);
   }
 };
 
-const read = (req, res) => {
-  const parsedId = parseInt(req.params.id, 10);
+const read = async (req, res, next) => {
+  try {
+    const category = await tables.category.read(req.params.id);
 
-  const category = categories.find((p) => p.id === parsedId);
-  
-  if (category != null) {
-    res.json(category);
-  } else {
-    res.sendStatus(404);
+    if (category == null) {
+      res.sendStatus(404);
+    } else {
+      res.json(category);
+    }
+  } catch (err) {
+    next(err);
   }
-
-  // res.send(`Hello Category ${req.params.id} !`);
 };
 
-module.exports = { browse, read };
+const edit = async (req, res, next) => {
+  try {
+    const category = req.body;
+
+    const updated = await tables.category.update(req.params.id, category);
+
+    if (updated == null) {
+      res.sendStatus(404);
+    } else {
+      res.json(updated);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+const add = async (req, res, next) => {
+  const category = req.body;
+
+  try {
+    const insertId = await tables.category.create(category);
+
+    res.status(201).json({ insertId });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const destroy = async (req, res, next) => {
+  try {
+    const deleted = await tables.category.delete(req.params.id);
+
+    if (deleted == null) {
+      res.sendStatus(404);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { browse, read, edit, add, destroy };

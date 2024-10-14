@@ -1,0 +1,55 @@
+@import url("../index.css");
+
+.user-infos {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 2em;
+
+  .form-informations {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: var(--size-text2);
+    border-radius: 10px;
+    flex: 1;
+    margin: auto;
+
+    p {
+      color: var(--button-color2);
+      font-family: var(--ff-text);
+      font-style: italic;
+    }
+
+    h3 {
+      margin-bottom: 0.5em;
+    }
+
+    input {
+      height: 2em;
+      border-radius: 10px;
+      margin: 0.4em;
+      width: 25vw;
+    }
+
+    select {
+      height: 2.4em;
+      width: 25.5vw;
+      border-radius: 10px;
+      margin: 0.4em;
+    }
+
+    button {
+      margin-top: 1em;
+      margin-bottom: 2em;
+    }
+  }
+
+  .order {
+    button {
+      background-color: var(--button-color2);
+      color: var(--text-color);
+      border-radius: 20px;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+@import url("../index.css");
+
+.bg-theme {
+    width: 100%;
+    height: 60vh;
+    background-image: url("../assets/images/nyan-cat.gif");
+    background-size: contain;
+    background-repeat: repeat;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    img {
+        height: 90%;
+        width: auto;
+    }
+
+    h2 {
+        font-family: var(--ff-title);
+        font-size: var(--size-title);
+        color: var(--text-color2);
+        background-repeat: no-repeat;
+        background-size: cover;
+        padding: 0;
+    }
+}

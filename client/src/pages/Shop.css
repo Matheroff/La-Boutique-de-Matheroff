@@ -1,0 +1,21 @@
+.grid-articles {
+        margin: 5em;
+        display: grid;
+        place-items: center;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        grid-column-gap: 1em;
+        grid-row-gap: 1em;
+    
+
+    div {
+        height: 40vh;
+        width: 40vh;
+    }
+
+    img {
+        height: 80%;
+        width: auto;
+        border-radius: 20%;
+    }
+}

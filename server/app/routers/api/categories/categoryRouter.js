@@ -2,13 +2,17 @@ const express = require("express");
 
 const categoryRouter = express.Router();
 
-const { browse, read } = require("../../../controllers/categoryActions");
+const { browse, read, edit, add, destroy } = require("../../../controllers/categoryActions");
 
 categoryRouter.get("/", browse);
 
 categoryRouter.get("/:id", read);
 
-// categoryRouter.post("/", add);
+categoryRouter.put("/:id", edit);
+
+categoryRouter.post("/", add);
+
+categoryRouter.delete("/:id", destroy);
 
 /* ************************************************************************* */
 

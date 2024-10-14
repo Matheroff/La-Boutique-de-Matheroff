@@ -12,15 +12,23 @@ const itemsAPIRouter = require("./items/itemsAPIRouter");
 
 router.use("/itemsapi", itemsAPIRouter);
 
+/* ************************************************************************* */
+
 const categoryRouter = require("./categories/categoryRouter");
 
 router.use("/categories", categoryRouter);
 
 /* ************************************************************************* */
 
-const itemsRouter = require("./items/itemRouter");
+const itemRouter = require("./items/itemRouter");
 
-router.use("/items", itemsRouter);
+router.use("/items", itemRouter);
+
+/* ************************************************************************* */
+
+const themeRouter = require("./themes/themeRouter");
+
+router.use("/themes", themeRouter);
 
 /* ************************************************************************* */
 

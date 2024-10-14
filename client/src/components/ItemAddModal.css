@@ -1,0 +1,54 @@
+@import url("../index.css");
+
+
+.modal-add-item {
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    .form-add-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 80%;
+    
+        label {
+            display: flex;
+            flex-direction: column;
+        }
+    
+        select {
+            width: 100%;
+            margin: 0.5em 0;
+        }
+
+        input, textarea {
+            width: 100%;
+            margin-bottom: 1.5em;
+        }
+
+    }
+
+    h2 {
+        padding: 0;
+        margin-bottom: 0.8em;
+    }
+
+    .modal-buttons {
+        
+        margin: 2em;
+
+        button {
+            margin: 0.5em;
+            width: 10em;
+        }
+
+        .grey-button {
+            background-color: rgb(186, 186, 186);
+        }
+    }
+
+}

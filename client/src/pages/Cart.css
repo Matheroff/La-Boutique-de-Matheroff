@@ -1,0 +1,23 @@
+@import url("../index.css");
+
+.empty-cart {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    p {
+        font-family: var(--ff-text);
+        font-size: var(--size-title2);
+        padding: 2em 0 0 0;
+    }
+
+    img {
+        height: 80vh;
+        width: auto;
+    }
+
+    button {
+        margin-bottom: 3em;
+    }
+}

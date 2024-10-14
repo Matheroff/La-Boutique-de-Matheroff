@@ -3,13 +3,20 @@ create table category (
   name varchar(50) not null
 );
 
+create table theme (
+  id int unsigned primary key auto_increment not null,
+  name varchar(255) not null
+);
+
 create table item (
   id int unsigned primary key auto_increment not null,
   name varchar(100) not null,
   description varchar(250) not null,
   unit_price decimal(10, 2),
   id_category int unsigned not null,
-  foreign key(id_category) references category(id)
+  id_theme int unsigned not null,
+  foreign key(id_category) references category(id),
+  foreign key(id_theme) references theme(id)
 );
 
 create table user (
