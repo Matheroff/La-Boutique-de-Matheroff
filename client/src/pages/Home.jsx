@@ -9,12 +9,6 @@ function Home() {
 
     const navigate = useNavigate();
 
-    const handleKeyDown = (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        navigate();
-      }
-    };
-
     return (
         <div className="column">
             <CategoriesIntro />
@@ -24,7 +18,6 @@ function Home() {
                 <button className="button-see-shop"
                     type="button"
                     onClick={() => navigate("/shop")}
-                    onKeyUp={handleKeyDown}
                 >
                     Voir la boutique
                 </button>

@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import "./Home.css";
 import "./Lists.css";
 import CategoriesIntro from "../components/CategoriesIntro";
@@ -6,15 +6,10 @@ import Footer from "../components/Footer";
 
 function Shop() {
 
-    const items = useLoaderData()
+    const items = useLoaderData();
     const navigate = useNavigate();
-
-    const handleKeyDown = (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          navigate();
-        }
-      };
-
+    // const { categoryId } = useParams();
+    console.info(items);
 
     return (
         <div className="column">
@@ -24,7 +19,6 @@ function Shop() {
                     type="button"
                     onClick={() => navigate("/")}
                     aria-hidden="true"
-                    onKeyUp={handleKeyDown}
                 >
                     Accueil ≻
                 </p>
@@ -32,13 +26,12 @@ function Shop() {
                     type="button"
                     onClick={() => navigate("/shop")}
                     aria-hidden="true"
-                    onKeyUp={handleKeyDown}
                 >
                     Nos articles ≻
                 </p>
             </section>
             <section className="grid-articles">
-            {items.map((item) => (
+            {items[0].map((item) => (
                 <div
                     key={item.id}> 
                     <img src={item.image} alt="Article"/>
@@ -46,7 +39,6 @@ function Shop() {
                     <button
                         type="button"
                         onClick={() => navigate(`/item/${item.id}`)}
-                        onKeyUp={handleKeyDown}
                     >
                         Voir +
                     </button>

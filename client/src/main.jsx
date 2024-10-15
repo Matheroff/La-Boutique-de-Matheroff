@@ -30,26 +30,46 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+        loader: async () => {
+          const response = await myAxios.get("/api/items");
+          const responsecat = await myAxios.get("/api/categories");
+
+          return [response.data, responsecat.data];
+        },
       },
       {
         path: "/shop",
         element: <Shop />,
         loader: async () => {
           const response = await myAxios.get("/api/items");
+          const responsecat = await myAxios.get("/api/categories");
 
-          return response.data;
+          return [response.data, responsecat.data];
         },
         action: async ({ request }) => {
           const formData = await request.formData();
 
           const name = formData.get("name");
           const image = formData.get("image");
-          console.info(name);
-          console.info(image);
 
           const response = await myAxios.post("/api/items", { name, image });
 
           return redirect(`/shop/${response.data.insertId}`);
+        },
+      },
+      {
+        path: "/shop/:categoryId",
+        element: <Shop />,
+        loader: async ({ params }) => {
+          const response = await myAxios.get("/api/items");
+          const responsecat = await myAxios.get("/api/categories");
+
+          const categoryId = `${params.categoryId}`
+          if (categoryId) {
+            response.data = response.data.filter((item) => item.id_category == categoryId)
+          }
+          
+          return [ response.data, responsecat.data];
         },
       },
       {

@@ -11,12 +11,6 @@ function ItemsList() {
     const items = useLoaderData();
     const navigate = useNavigate();
 
-    const handleKeyDown = (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          navigate();
-        }
-      };
-
     return (
         <div className="column">
             <section className="fil-ariane">
@@ -24,7 +18,6 @@ function ItemsList() {
                     type="button"
                     onClick={() => navigate("/")}
                     aria-hidden="true"
-                    onKeyUp={handleKeyDown}
                 >
                     Accueil ≻
                 </p>
@@ -32,7 +25,6 @@ function ItemsList() {
                     type="button"
                     onClick={() => navigate("/admin")}
                     aria-hidden="true"
-                    onKeyUp={handleKeyDown}
                 >
                     Tableau de bord ≻
                 </p>
@@ -60,15 +52,12 @@ function ItemsList() {
                     <button
                         type="button"
                         onClick={() => navigate(`/item/${item.id}`)}
-                        onKeyUp={handleKeyDown}
                     >
                         Editer/Modifier
                     </button>
                     <button
                         type="button"
                         onClick={() => navigate(`/item/${item.id}`)}
-                        aria-hidden="true"
-                        onKeyUp={handleKeyDown}
                     >
                         Supprimer
                     </button>
