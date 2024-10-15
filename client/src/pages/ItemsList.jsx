@@ -49,7 +49,7 @@ function ItemsList() {
                 <ItemAddModal
                     isOpen={modalIsOpen}
                     onRequestClose={() => setModalIsOpen(false)}
-                />
+                /> 
             </div>
             <section className="grid-articles">
             {items[0].map((item) => (

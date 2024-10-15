@@ -8,10 +8,6 @@ const { sayWelcome } = require("../../controllers/sayActions");
 
 router.get("/", sayWelcome);
 
-const itemsAPIRouter = require("./items/itemsAPIRouter");
-
-router.use("/itemsapi", itemsAPIRouter);
-
 /* ************************************************************************* */
 
 const categoryRouter = require("./categories/categoryRouter");

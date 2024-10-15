@@ -19,7 +19,6 @@ function ItemAddModal({ isOpen, onRequestClose }) {
   });
 
   const list = useLoaderData();
-  console.info(list)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,11 +26,12 @@ function ItemAddModal({ isOpen, onRequestClose }) {
   };
 
   const handleSubmit = async (e) => {
-    console.info(formData)
     e.preventDefault();
     try {
       const response = await myAxios.post("/api/items", formData);
-      navigate(`/items/${response.data.insertId}`);
+      console.info(response)
+      navigate(`/item/${response.data.insertId}`);
+      
     } catch (error) {
       console.error("Erreur lors de l'ajout de l'article:", error);
     }
@@ -42,7 +42,7 @@ function ItemAddModal({ isOpen, onRequestClose }) {
     <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
       <div className="modal-add-item">
         <h2>Créer un article</h2>
-        <Form className="form-add-item" onSubmit={handleSubmit}>
+        <Form method="post" className="form-add-item" onSubmit={handleSubmit}>
           <label htmlFor="name">
             Nom:
             <input

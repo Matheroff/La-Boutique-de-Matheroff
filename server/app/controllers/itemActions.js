@@ -60,7 +60,6 @@ const edit = async (req, res, next) => {
 const add = async (req, res, next) => {
   // Extract the item data from the request body
   const item = req.body;
-
   try {
     // Insert the item into the database
     const insertId = await tables.item.create(item);

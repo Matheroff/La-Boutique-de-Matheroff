@@ -199,9 +199,6 @@ const router = createBrowserRouter([
         },
         action: async ({ request }) => {
           const formData = await request.formData();
-          console.info(formData)
-          console.info("heyy")
-
 
           const name = formData.get("name");
           const description = formData.get("description");
@@ -209,9 +206,6 @@ const router = createBrowserRouter([
           const unitprice = formData.get("unit_price");
           const category = formData.get("category");
           const theme = formData.get("theme");
-          console.info(name);
-          console.info(image);
-          console.info("coucou 2");
 
           const response = await myAxios.post("/api/items", { name, description, image, "unit_price":unitprice, "id_category":category, "id_theme":theme });
           console.info(response);
