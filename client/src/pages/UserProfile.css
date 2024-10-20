@@ -12,6 +12,10 @@
         height: auto;
         margin: 0.5em;
     }
+
+    img:hover {
+        opacity: 0.6;
+    }
     
 }
 

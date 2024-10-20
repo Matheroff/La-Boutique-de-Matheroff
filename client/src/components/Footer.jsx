@@ -1,44 +1,34 @@
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Footer.css";
 import LogoM from "../assets/images/logo-M.jpg";
 
 function Footer() {
-    const navigate = useNavigate();
-
-    const handleKeyDown = (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-            navigate();
-        }
-    };
 
     return (
         <div className="footer">
             <div className="links">
+                <Link to="/">
                 <img 
                     src={LogoM} 
                     alt="Logo boutique"
                     type="button"
-                    onClick={() => navigate("/")}
-                    aria-hidden="true"
-                    onKeyUp={handleKeyDown}
                 />
+                </Link>
                 <div className="apropos">
+                <Link to="/apropos/#contact">
                     <p className="button-footer"
                         type="button"
-                        onClick={() => navigate("/apropos/#contact")}
-                        aria-hidden="true"
-                        onKeyUp={handleKeyDown}
                     >
                         Contact
                     </p>
+                    </Link>
+                    <Link to="/apropos">
                     <p className="button-footer"
                         type="button"
-                        onClick={() => navigate("/apropos")}
-                        aria-hidden="true"
-                        onKeyUp={handleKeyDown}
                     >
                         A propos
                     </p>
+                    </Link>
                 </div>
             </div>
             <p className="corporate">© 2024 - La Boutique de Matheroff</p>

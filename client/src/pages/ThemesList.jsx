@@ -6,18 +6,18 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import "./Lists.css";
 
-function CategoriesList() {
-    const categories = useLoaderData();
+function ThemesList() {
+    const themes = useLoaderData();
     const [formData, setFormData] = useState({
         name: "",
     });
-    const [editingCategory, setEditingCategory] = useState(null);
+    const [editingTheme, setEditingTheme] = useState(null);
     const [editFormData, setEditFormData] = useState({
         name: "",
     });
-    const [categoryList, setCategoryList] = useState(categories);
+    const [themeList, setThemeList] = useState(themes);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [categoryToDelete, setCategoryToDelete] = useState(null);
+    const [themeToDelete, setThemeToDelete] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -38,68 +38,68 @@ function CategoriesList() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await myAxios.post("/api/categories", {
+            const response = await myAxios.post("/api/themes", {
                 name: formData.name,
             });
-            console.info("Category added:", response.data);
-            setCategoryList([...categoryList, response.data]);
+            console.info("Theme added:", response.data);
+            setThemeList([...themeList, response.data]);
             setFormData({ name: "" }); // Réinitialise le formulaire
-            toast.success("Catégorie ajoutée avec succès!");
+            toast.success("Thème ajouté avec succès!");
         } catch (err) {
-            console.error("Error adding category:", err);
-            toast.error("Erreur lors de l'ajout de la catégorie.");
+            console.error("Error adding theme:", err);
+            toast.error("Erreur lors de l'ajout du thème.");
         }
     };
 
     const handleDelete = async (id) => {
         try {
-            const response = await myAxios.delete(`/api/categories/${id}`);
-            console.info("Category deleted:", response.data);
-            setCategoryList(categoryList.filter((category) => category.id !== id));
-            toast.success("Catégorie supprimée avec succès!");
+            const response = await myAxios.delete(`/api/themes/${id}`);
+            console.info("Theme deleted:", response.data);
+            setThemeList(themeList.filter((theme) => theme.id !== id));
+            toast.success("Thème supprimé avec succès!");
         } catch (err) {
-            console.error("Error deleting category:", err);
-            toast.error("Erreur lors de la suppression de la catégorie.");
+            console.error("Error deleting theme:", err);
+            toast.error("Erreur lors de la suppression du thème.");
         }
     };
 
-    const handleEdit = (category) => {
-        setEditingCategory(category.id);
-        setEditFormData({ name: category.name });
+    const handleEdit = (theme) => {
+        setEditingTheme(theme.id);
+        setEditFormData({ name: theme.name });
     };
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        console.info("Updating category:", editingCategory);
+        console.info("Updating theme:", editingTheme);
         try {
-            const response = await myAxios.put(`/api/categories/${editingCategory}`, {
+            const response = await myAxios.put(`/api/themes/${editingTheme}`, {
                 name: editFormData.name,
             });
-            console.info("Category updated:", response.data);
-            setCategoryList(categoryList.map((category) =>
-                category.id === editingCategory ? { ...category, name: editFormData.name } : category
+            console.info("theme updated:", response.data);
+            setThemeList(themeList.map((theme) =>
+                theme.id === editingTheme ? { ...theme, name: editFormData.name } : theme
             ));
-            setEditingCategory(null);
-            toast.success("Catégorie mise à jour avec succès!");
+            setEditingTheme(null);
+            toast.success("CThème mis à jour avec succès!");
         } catch (err) {
-            console.error("Error updating category:", err);
-            toast.error("Erreur lors de la mise à jour de la catégorie.");
+            console.error("Error updating theme:", err);
+            toast.error("Erreur lors de la mise à jour du thème.");
         }
     };
 
-    const openModal = (category) => {
-        setCategoryToDelete(category);
+    const openModal = (theme) => {
+        setThemeToDelete(theme);
         setIsModalOpen(true);
     };
 
     const closeModal = () => {
-        setCategoryToDelete(null);
+        setThemeToDelete(null);
         setIsModalOpen(false);
     };
 
     const confirmDelete = () => {
-        if (categoryToDelete) {
-            handleDelete(categoryToDelete.id);
+        if (themeToDelete) {
+            handleDelete(themeToDelete.id);
             closeModal();
         }
     };
@@ -114,10 +114,10 @@ function CategoriesList() {
                 <Link to="/">
                     <p type="button">Tableau de bord ≻</p>
                 </Link>
-                <p>Catégories</p>
+                <p>Thèmes</p>
             </section>
             <section className="add-category-theme">
-                <h3>Catégories</h3>
+                <h3>Thèmes</h3>
                 <form onSubmit={handleSubmit}>
                     <div className="flex-row">
                         <input
@@ -125,16 +125,16 @@ function CategoriesList() {
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
-                            placeholder="Nouvelle catégorie"
+                            placeholder="Nouveau thème"
                         />
                         <button type="submit">Ajouter</button>
                     </div>
                 </form>
             </section>
             <section>
-                {categoryList.map((category) => (
-                    <div className="row-list" key={category.id}>
-                        {editingCategory === category.id ? (
+                {themeList.map((theme) => (
+                    <div className="row-list" key={theme.id}>
+                        {editingTheme === theme.id ? (
                             <form onSubmit={handleUpdate}>
                                 <input
                                     type="text"
@@ -146,11 +146,11 @@ function CategoriesList() {
                             </form>
                         ) : (
                             <>
-                                <p>{category.name}</p>
-                                <button type="button" onClick={() => handleEdit(category)}>
+                                <p>{theme.name}</p>
+                                <button type="button" onClick={() => handleEdit(theme)}>
                                     Modifier
                                 </button>
-                                <button type="button" onClick={() => openModal(category)}>
+                                <button type="button" onClick={() => openModal(theme)}>
                                     Supprimer
                                 </button>
                             </>
@@ -162,7 +162,7 @@ function CategoriesList() {
             {isModalOpen && (
                 <div className="new-add-modal">
                     <div className="new-add-modal-content">
-                        <p>Êtes-vous sûr de vouloir supprimer cette catégorie ?</p>
+                        <p>Êtes-vous sûr de vouloir supprimer ce thème ?</p>
                         <div className="modal-buttons">
                             <button 
                                 type="button" 
@@ -185,10 +185,5 @@ function CategoriesList() {
     );
 }
 
-export default CategoriesList;
-
-
-
-
-
+export default ThemesList;
 

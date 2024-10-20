@@ -1,21 +1,79 @@
-.grid-articles {
-        margin: 5em;
-        display: grid;
-        place-items: center;
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: repeat(5, 1fr);
-        grid-column-gap: 1em;
-        grid-row-gap: 1em;
-    
+@import url("../index.css");
 
-    div {
+.grid-articles {
+    margin: 5em;
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+
+    .article-card {
         height: 40vh;
-        width: 40vh;
+        width: 40vh; 
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        border: 2px solid transparent; /* Initialise avec une bordure transparente */
+        transition: border 0.5s ease-in-out;
+
+        img {
+            height: 80%;
+            width: auto;
+            border-radius: 20%;
+            padding-top: 0.5em;
+        }
+
+        button {
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
     }
 
-    img {
-        height: 80%;
-        width: auto;
-        border-radius: 20%;
+    .article-card:hover {
+        border-color: #dba934; /* Change la couleur de la bordure au survol */
+        animation: border-animation 0.7s infinite; /* Ajoute l'animation de la bordure */
+    }
+
+    .article-card:hover button {
+        visibility: visible;
+        opacity: 1;
     }
 }
+
+@keyframes border-animation {
+    0% {
+        border-width: 2px;
+        border-style: solid;
+        border-color: #dba934 transparent transparent transparent;
+        border-radius: 20px;
+    }
+    20% {
+        border-color: #dba934 transparent transparent transparent;
+        border-radius: 20px;
+    }
+    35% {
+        border-color: #dba934 #dba934 transparent transparent;
+        border-radius: 20px;
+    }
+    50% {
+        border-color: #dba934 #dba934 #dba934 transparent;
+        border-radius: 20px;
+    }
+    65% {
+        border-color: transparent #dba934 #dba934 #dba934;
+        border-radius: 20px;
+    }
+    80% {
+        border-color: transparent transparent #dba934 #dba934;
+        border-radius: 20px;
+    }
+    100% {
+        border-color: transparent transparent transparent #dba934;
+        border-radius: 20px;
+    }
+}
+

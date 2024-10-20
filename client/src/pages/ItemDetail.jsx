@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, Link } from "react-router-dom";
 import { useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import "./ItemDetail.css";
@@ -8,7 +8,6 @@ import SimilarItems from "../components/SimilarItems";
 function ItemDetail() {
 
     const item = useLoaderData()
-    const navigate = useNavigate();
 
 /* ********************JS pour le bouton "quantité"******************* */
     const [quantity, setQuantity] = useState(1);
@@ -33,12 +32,6 @@ function ItemDetail() {
     };
 /* ********************JS pour le bouton "quantité"******************* */
 
-    const handleKeyDown = (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          navigate();
-        }
-      };
-
       const toggleFavorite = () => {
         setIsFavorite(!isFavorite);
     };
@@ -46,22 +39,12 @@ function ItemDetail() {
     return (
         <div>
             <section className="fil-ariane">
-                <p
-                    type="button"
-                    onClick={() => navigate("/")}
-                    aria-hidden="true"
-                    onKeyUp={handleKeyDown}
-                >
-                    Accueil ≻
-                </p>
-                <p
-                    type="button"
-                    onClick={() => navigate("/shop")}
-                    aria-hidden="true"
-                    onKeyUp={handleKeyDown}
-                >
-                    Nos articles ≻ 
-                </p>
+                <Link to="/">
+                    <p type="button">Accueil ≻</p>
+                </Link>
+                <Link to="/shop">
+                    <p type="button">Nos articles ≻</p>
+                </Link>
             </section>
             <section className="item-details">
                 <div className="image-container">
@@ -69,7 +52,6 @@ function ItemDetail() {
                     <div className="favorite-icon" 
                         onClick={toggleFavorite}
                         aria-hidden="true"
-                        onKeyUp={handleKeyDown}
                     >
                         {isFavorite ? <FaHeart /> : <FaRegHeart />}
                     </div>
@@ -102,13 +84,9 @@ function ItemDetail() {
                             />
                         )}
                     </div>
-                    <button
-                        type="button"
-                        onClick={() => navigate("/shop")}
-                        onKeyUp={handleKeyDown}
-                    >
-                        Ajouter au panier
-                    </button>
+                    <Link to="/shop">
+                        <button type="button">Ajouter au panier</button>
+                    </Link>
                 </div>
             </section>
             <SimilarItems />

@@ -1,41 +1,40 @@
+import { useState } from "react";
 import "./Header.css";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import Cart from "../assets/images/cart.png";
 import User from "../assets/images/user.png";
 import Heart from "../assets/images/heart.png";
 import Menu from "../assets/images/menu-burger.png";
+import Login from "./Login";
 
 function Header() {
-  const navigate = useNavigate();
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-      navigate();
-    }
-  };
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+};
+
+const handleModalClose = () => {
+    setIsModalOpen(false);
+};
 
   return (
     <div className="header">
-      <h1
-        type="button"
-        onClick={() => navigate("/")}
-        aria-hidden="true"
-        onKeyUp={handleKeyDown}
-      >
-        La Boutique de Matheroff
-      </h1>
+      <Link to="/">
+        <h1 type="button">La Boutique de Matheroff</h1>
+      </Link>
       <nav>
         <div className="navbar">
           <div className="menu-searchbar">
             <div className="img-title-text">
-              <img
-                src={Menu}
-                alt="Catégories"
-                type="button"
-                onClick={() => navigate("/")}
-                aria-hidden="true"
-                onKeyUp={handleKeyDown}
-              />
+              <Link to="/">
+                <img
+                  src={Menu}
+                  alt="Catégories"
+                  type="button"
+                />
+              </Link>
               <span className="hover-text">Catégories</span>
             </div>
             <input
@@ -46,41 +45,55 @@ function Header() {
           </div>
           <div className="user-icons">
             <div className="img-title-text">
-              <img
-                src={User}
-                alt="Se connecter"
-                type="button"
-                onClick={() => navigate("/userprofile")}
-                aria-hidden="true"
-                onKeyUp={handleKeyDown}
-              />
+              <Link to="/userprofile">
+                <img
+                  src={User}
+                  alt="Se connecter"
+                  type="button"
+                  aria-hidden="true"
+                  onClick={handleModalOpen}
+                />
+              </Link>
               <span className="hover-text">Mon compte</span>
             </div>
             <div className="img-title-text">
-              <img
-                src={Heart}
-                alt="Favoris"
-                type="button"
-                onClick={() => navigate("/favorites")}
-                aria-hidden="true"
-                onKeyUp={handleKeyDown}
-              />
+              <Link to="/favorites">
+                <img
+                  src={Heart}
+                  alt="Favoris"
+                  type="button"
+                />
+              </Link>
               <span className="hover-text">Favoris</span>
             </div>
             <div className="img-title-text">
-              <img
-                src={Cart}
-                alt="Panier"
-                onClick={() => navigate("/cart")}
-                aria-hidden="true"
-                onKeyUp={handleKeyDown}
-              />
+              <Link to="/cart">
+                <img
+                  src={Cart}
+                  alt="Panier"
+                />
+              </Link>
               <span className="hover-text">Panier</span>
             </div>
           </div>
         </div>
         <Outlet />
       </nav>
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <span 
+              className="close-button"
+              aria-hidden="true"
+              onClick={handleModalClose}>
+              &times;
+            </span>
+            <h2>Connexion</h2>
+            {/* <Login /> */}
+            <p>Ma modale</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

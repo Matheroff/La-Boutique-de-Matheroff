@@ -96,3 +96,12 @@ button {
     background-color: var(--button-color);
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.grey-button {
+    background-color: rgb(186, 186, 186);
+}
+

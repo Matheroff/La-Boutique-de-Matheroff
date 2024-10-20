@@ -8,6 +8,8 @@ import ItemAddModal from "../components/ItemAddModal";
 function ItemsList() {
     
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [action, setAction] = useState("");
+    const [item, setItem] = useState({});
     const items = useLoaderData();
     const navigate = useNavigate();
 
@@ -34,14 +36,13 @@ function ItemsList() {
                 <h3>Articles</h3>
                 <button
                     type="button" 
-                    onClick={() => setModalIsOpen(true)}
+                    onClick={() => {
+                        setModalIsOpen(true)
+                        setAction("add")
+                    }}
                 >
                     Créer un nouvel article
                 </button>
-                <ItemAddModal
-                    isOpen={modalIsOpen}
-                    onRequestClose={() => setModalIsOpen(false)}
-                /> 
             </div>
             <section className="grid-articles">
             {items[0].map((item) => (
@@ -51,13 +52,20 @@ function ItemsList() {
                     <p>{item.name}</p>
                     <button
                         type="button"
-                        onClick={() => navigate(`/item/${item.id}`)}
+                        onClick={() => {
+                            setModalIsOpen(true)
+                            setAction("update")
+                            setItem(item)
+                        }}
                     >
                         Editer/Modifier
                     </button>
                     <button
                         type="button"
-                        onClick={() => navigate(`/item/${item.id}`)}
+                        onClick={() => { 
+                            setModalIsOpen(true)
+                            setAction("delete")
+                        }}
                     >
                         Supprimer
                     </button>
@@ -65,6 +73,12 @@ function ItemsList() {
             ))}
             </section>
             <Footer />
+            <ItemAddModal
+                isOpen={modalIsOpen}
+                onRequestClose={() => setModalIsOpen(false)}
+                action={action}
+                item={item}
+            /> 
         </div>
     )
 }

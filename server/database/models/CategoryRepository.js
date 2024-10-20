@@ -29,10 +29,10 @@ class CategoryRepository extends AbstractRepository {
     return rows;
   }
 
-  async update(category) {
+  async update(id, category) {
     const [result] = await this.database.query(
       `update ${this.table} set name = ? where id = ?`,
-      [category.name]
+      [category.name, id]
     );
   
     return result.affectedRows;

@@ -29,10 +29,10 @@ class ThemeRepository extends AbstractRepository {
     return rows;
   }
 
-  async update(theme) {
+  async update(id, theme) {
     const [result] = await this.database.query(
       `update ${this.table} set name = ? where id = ?`,
-      [theme.name]
+      [theme.name, id]
     );
   
     return result.affectedRows;

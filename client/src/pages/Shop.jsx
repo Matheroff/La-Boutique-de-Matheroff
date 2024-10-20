@@ -1,5 +1,5 @@
-import { useLoaderData, useNavigate, useParams } from "react-router-dom";
-import "./Home.css";
+import { useLoaderData, Link } from "react-router-dom";
+import "./Shop.css";
 import "./Lists.css";
 import CategoriesIntro from "../components/CategoriesIntro";
 import Footer from "../components/Footer";
@@ -7,42 +7,28 @@ import Footer from "../components/Footer";
 function Shop() {
 
     const items = useLoaderData();
-    const navigate = useNavigate();
-    // const { categoryId } = useParams();
     console.info(items);
 
     return (
         <div className="column">
             <CategoriesIntro />
             <section className="fil-ariane">
-                <p
-                    type="button"
-                    onClick={() => navigate("/")}
-                    aria-hidden="true"
-                >
-                    Accueil ≻
-                </p>
-                <p
-                    type="button"
-                    onClick={() => navigate("/shop")}
-                    aria-hidden="true"
-                >
-                    Nos articles ≻
-                </p>
+                <Link to="/">
+                <p type="button">Accueil ≻</p>
+                </Link>
+                <Link to="/shop">
+                <p type="button">Nos articles ≻</p>
+                </Link>
             </section>
             <section className="grid-articles">
             {items[0].map((item) => (
-                <div
-                    key={item.id}> 
-                    <img src={item.image} alt="Article"/>
-                    <p>{item.name}</p>
-                    <button
-                        type="button"
-                        onClick={() => navigate(`/item/${item.id}`)}
-                    >
-                        Voir +
-                    </button>
-                </div>
+                <Link to={(`/item/${item.id}`)} key={item.id}>
+                    <div className="article-card"> 
+                        <img src={item.image} alt="Article"/>
+                        <p>{item.name}</p>
+                        <button type="button">Voir +</button>
+                    </div>
+                </Link>
             ))}
             </section>
             <Footer />

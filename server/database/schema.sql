@@ -15,6 +15,7 @@ create table item (
   unit_price decimal(10, 2),
   id_category int unsigned not null,
   id_theme int unsigned not null,
+  image text not null,
   foreign key(id_category) references category(id),
   foreign key(id_theme) references theme(id)
 );
@@ -28,7 +29,6 @@ create table user (
   phone_number varchar(15),
   adress varchar(255) not null,
   postal_code varchar(10) not null,
-  lastname varchar(100) not null,
   city varchar(100) not null
 );
 

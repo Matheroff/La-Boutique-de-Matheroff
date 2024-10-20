@@ -10,12 +10,10 @@ class ItemRepository extends AbstractRepository {
   // The C of CRUD - Create operation
 
   async create(item) {
-    console.info(item)
-    console.info("coucou")
     // Execute the SQL INSERT query to add a new item to the "item" table
     const [result] = await this.database.query(
-      `insert into ${this.table} (name, description, unit_price, id_category, id_theme) values (?, ?, ?, ?, ?)`,
-      [item.name, item.description, item.unit_price, item.category, item.theme]
+      `insert into ${this.table} (name, description, unit_price, id_category, id_theme, image) values (?, ?, ?, ?, ?, ?)`,
+      [item.name, item.description, item.unit_price, item.category, item.theme, item.image]
     );
 
     // Return the ID of the newly inserted item
@@ -44,11 +42,11 @@ class ItemRepository extends AbstractRepository {
   }
 
   // The U of CRUD - Update operation
-  async update(item) {
+  async update(id, item) {
     // Execute the SQL UPDATE query to modify an existing item
     const [result] = await this.database.query(
-      `update ${this.table} set name = ?, description = ?, unit_price = ?, id_category = ?, id_theme = ? where id = ?`,
-      [item.name, item.description, item.unit_price, item.id_category, item.id_theme, item.id]
+      `update ${this.table} set name = ?, description = ?, unit_price = ?, id_category = ?, id_theme = ?, image = ? where id = ?`,
+      [item.name, item.description, item.unit_price, item.category, item.theme, item.image, id]
     );
   
     // Return the number of affected rows
