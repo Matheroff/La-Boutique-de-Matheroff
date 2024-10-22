@@ -12,6 +12,7 @@
     .article-card {
         height: 40vh;
         width: 40vh; 
+        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -27,9 +28,16 @@
         }
 
         button {
+            width: 8em;
             visibility: hidden;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
+            margin-top: 0.6em;
+        }
+
+        p {
+            font-family: var(--ff-text);
+            margin-top: 0.6em;
         }
     }
 

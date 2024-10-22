@@ -1,13 +1,13 @@
 @import url("../index.css");
 
-.grid-articles {
-    margin: 5em;
+.grid-articles-admin {
+    margin: 2em;
     display: grid;
     text-align: center;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(5, 1fr);
-    grid-column-gap: 1em;
     grid-row-gap: 3em;
+    width: 100%;
 
 
     div {

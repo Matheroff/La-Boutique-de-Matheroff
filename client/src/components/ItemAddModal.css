@@ -48,3 +48,24 @@
     }
 
 }
+
+.modal-delete-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+
+    p {
+        font-family: var(--ff-text);
+    }
+
+    button {
+        margin: 0.5em;
+    }
+
+    .item-delete-image {
+        margin-top: 1em;
+        width: 25%;
+    }
+}

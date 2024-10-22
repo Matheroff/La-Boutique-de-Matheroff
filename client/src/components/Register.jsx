@@ -1,94 +1,61 @@
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import "./AuthModal.css";
+// import myAxios from "../services/myAxios";
 
 function Register() {
-  // Référence pour le champ email
-  const emailRef = useRef();
+    // const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
-  // États pour le mot de passe et la confirmation du mot de passe
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        setError("");
 
-  // Hook pour la navigation
-  const navigate = useNavigate();
+        // try {
+        //     const response = await myAxios.post(`/register`, {username, email, password});
+        //     return response.data;
+        // } catch (err) {
+        //     setError("Erreur lors de l'inscription. Vérifiez vos informations.");
+        //     console.error(err);
+        // }
+    };
 
-  // Gestionnaire de changement du mot de passe
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  // Gestionnaire de changement de la confirmation du mot de passe
-  const handleConfirmPasswordChange = (event) => {
-    setConfirmPassword(event.target.value);
-  };
-
-  // Gestionnaire de soumission du formulaire
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    try {
-      // Appel à l'API pour créer un nouvel utilisateur
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/users`,
-        {
-          method: "post",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: emailRef.current.value,
-            password,
-          }),
-        }
-      );
-
-      // Redirection vers la page de connexion si la création réussit
-      if (response.status === 201) {
-        navigate("/login");
-      } else {
-        // Log des détails de la réponse en cas d'échec
-        console.info(response);
-      }
-    } catch (err) {
-      // Log des erreurs possibles
-      console.error(err);
-    }
-  };
-
-  // Rendu du composant formulaire
-  return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        {/* Champ pour l'email */}
-        <label htmlFor="email">email</label>{" "}
-        <input ref={emailRef} type="email" id="email" />
-      </div>
-      <div>
-        {/* Champ pour le mot de passe */}
-        <label htmlFor="password">password</label>{" "}
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />{" "}
-        {/* Indicateur de force du mot de passe */}
-        {password.length >= 8 ? "✅" : "❌"} {`length: ${password.length} >= 8`}
-      </div>
-      <div>
-        {/* Champ pour la confirmation du mot de passe */}
-        <label htmlFor="confirm-password">confirm password</label>{" "}
-        <input
-          type="password"
-          id="confirm-password"
-          value={confirmPassword}
-          onChange={handleConfirmPasswordChange}
-        />{" "}
-        {/* Indicateur de correspondance avec le mot de passe */}
-        {password === confirmPassword ? "✅" : "❌"}
-      </div>
-      {/* Bouton de soumission du formulaire */}
-      <button type="submit">Send</button>
-    </form>
-  );
-}
+    return (
+        <div>
+            <h3>Inscription</h3>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <form onSubmit={handleRegister}>
+                <div>
+                    <input
+                        type="text"
+                        placeholder="Pseudo"
+                        // onChange={(e) => setUsername(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <input 
+                        type="email"
+                        placeholder="E-mail" 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)} 
+                        required 
+                    />
+                </div>
+                <div>
+                    <input
+                        type="password"
+                        placeholder="Mot de passe"
+                        // onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </div>
+                <button type="submit">S'inscrire</button>
+            </form>
+            <p>Déjà inscrit ?</p>
+        </div>
+    );
+};
 
 export default Register;

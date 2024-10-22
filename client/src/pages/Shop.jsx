@@ -3,33 +3,41 @@ import "./Shop.css";
 import "./Lists.css";
 import CategoriesIntro from "../components/CategoriesIntro";
 import Footer from "../components/Footer";
+import davidg from "../assets/images/davidg.webp";
 
 function Shop() {
 
     const items = useLoaderData();
-    console.info(items);
 
     return (
         <div className="column">
             <CategoriesIntro />
             <section className="fil-ariane">
                 <Link to="/">
-                <p type="button">Accueil ≻</p>
+                    <p>Accueil ≻</p>
                 </Link>
                 <Link to="/shop">
-                <p type="button">Nos articles ≻</p>
+                    <p>Nos articles ≻</p>
                 </Link>
             </section>
             <section className="grid-articles">
-            {items[0].map((item) => (
-                <Link to={(`/item/${item.id}`)} key={item.id}>
-                    <div className="article-card"> 
-                        <img src={item.image} alt="Article"/>
-                        <p>{item.name}</p>
-                        <button type="button">Voir +</button>
-                    </div>
-                </Link>
-            ))}
+                {items[0] && items[0].length > 0 ? (
+                    items[0].map((item) => (
+                        <Link to={(`/item/${item.id}`)} key={item.id}>
+                            <div className="article-card"> 
+                                <img src={item.image} alt="Article" />
+                                <p>{item.name}</p>
+                                <button type="button">Voir +</button>
+                            </div>
+                        </Link>
+                    ))
+                    ) : (
+                        <div className="no-item">
+                            <img src={davidg} alt="Désolé, aucun article disponible"/>
+                            <h3>Aucun article disponible</h3>
+                        </div>
+                    )
+                }
             </section>
             <Footer />
         </div>

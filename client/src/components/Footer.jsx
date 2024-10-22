@@ -21,14 +21,14 @@ function Footer() {
                     >
                         Contact
                     </p>
-                    </Link>
-                    <Link to="/apropos">
+                </Link>
+                <Link to="/apropos">
                     <p className="button-footer"
                         type="button"
                     >
                         A propos
                     </p>
-                    </Link>
+                </Link>
                 </div>
             </div>
             <p className="corporate">© 2024 - La Boutique de Matheroff</p>

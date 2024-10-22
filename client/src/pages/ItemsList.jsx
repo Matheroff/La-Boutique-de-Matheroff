@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import "./Home.css";
 import "./Lists.css";
 import Footer from "../components/Footer";
 import ItemAddModal from "../components/ItemAddModal";
@@ -44,9 +43,9 @@ function ItemsList() {
                     Créer un nouvel article
                 </button>
             </div>
-            <section className="grid-articles">
+            <section className="grid-articles-admin">
             {items[0].map((item) => (
-                <div
+                <div 
                     key={item.id}> 
                     <img src={item.image} alt="Article"/>
                     <p>{item.name}</p>
@@ -65,6 +64,7 @@ function ItemsList() {
                         onClick={() => { 
                             setModalIsOpen(true)
                             setAction("delete")
+                            setItem(item)
                         }}
                     >
                         Supprimer

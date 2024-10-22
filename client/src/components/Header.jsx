@@ -1,38 +1,60 @@
-import { useState } from "react";
+import { Outlet, useNavigate, Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import "./Header.css";
-import { Outlet, Link } from "react-router-dom";
 import Cart from "../assets/images/cart.png";
 import User from "../assets/images/user.png";
 import Heart from "../assets/images/heart.png";
 import Menu from "../assets/images/menu-burger.png";
-import Login from "./Login";
+import AuthModal from "./AuthModal";
 
 function Header() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Déclenche la navigation chaque fois que searchTerm est mis à jour
+  useEffect(() => {
+    // Je vérifie que je suis bien sur le path "/shop" pour faire la recherche d'articles
+    if (location.pathname.startsWith('/shop')) {
+      if (searchTerm) { // Assure que searchTerm n'est pas vide
+        navigate(`/shop/search/${searchTerm}`);
+      } else { // Si vide on affiche tout les articles
+        navigate(`/shop`);
+      }
+    } else {
+      navigate(`/`);
+    }
+  }, [searchTerm, navigate]); // S'exécute chaque fois que searchTerm change
+
+  const handleKeyDown = (event) => {
+    console.info(event.target.value)
+    if (event.key === 'Enter') {
+      setSearchTerm(event.target.value); // Met à jour dès touche entrée
+    }
+  };
 
   const handleModalOpen = () => {
-    setIsModalOpen(true);
-};
+     setIsModalOpen(true);
+   };
 
-const handleModalClose = () => {
-    setIsModalOpen(false);
-};
+   const handleModalClose = () => {
+     setIsModalOpen(false);
+   };
 
   return (
     <div className="header">
       <Link to="/">
-        <h1 type="button">La Boutique de Matheroff</h1>
+        <h1>La Boutique de Matheroff</h1>
       </Link>
       <nav>
         <div className="navbar">
           <div className="menu-searchbar">
-            <div className="img-title-text">
+            <div className="img-title-text">      
               <Link to="/">
                 <img
                   src={Menu}
                   alt="Catégories"
-                  type="button"
                 />
               </Link>
               <span className="hover-text">Catégories</span>
@@ -41,6 +63,7 @@ const handleModalClose = () => {
               className="search-input"
               type="text"
               placeholder="Que recherchez-vous ?"
+              onKeyUp={handleKeyDown}
             />
           </div>
           <div className="user-icons">
@@ -49,19 +72,17 @@ const handleModalClose = () => {
                 <img
                   src={User}
                   alt="Se connecter"
-                  type="button"
                   aria-hidden="true"
                   onClick={handleModalOpen}
                 />
               </Link>
               <span className="hover-text">Mon compte</span>
             </div>
-            <div className="img-title-text">
+            <div className="img-title-text">      
               <Link to="/favorites">
                 <img
                   src={Heart}
                   alt="Favoris"
-                  type="button"
                 />
               </Link>
               <span className="hover-text">Favoris</span>
@@ -79,21 +100,10 @@ const handleModalClose = () => {
         </div>
         <Outlet />
       </nav>
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <span 
-              className="close-button"
-              aria-hidden="true"
-              onClick={handleModalClose}>
-              &times;
-            </span>
-            <h2>Connexion</h2>
-            {/* <Login /> */}
-            <p>Ma modale</p>
-          </div>
-        </div>
-      )}
+       <AuthModal 
+         isOpen={isModalOpen} 
+         onClose={handleModalClose} 
+       /> 
     </div>
   );
 }
@@ -101,3 +111,113 @@ const handleModalClose = () => {
 export default Header;
 
 
+
+// import { useEffect, useState } from "react";
+// import "./Header.css";
+// import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+// import Cart from "../assets/images/cart.png";
+// import User from "../assets/images/user.png";
+// import Heart from "../assets/images/heart.png";
+// import Menu from "../assets/images/menu-burger.png";
+// import AuthModal from "./AuthModal";
+
+// function Header() {
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+//   const navigate = useNavigate
+//   const location = useLocation();
+//   const [searchTerm, setSearchTherm] = useState("");
+
+//   // Déclenche la navigation chaque fois que searchTerm est mis à jour
+//   useEffect(() => {
+//     // Je vérifie que je suis bien sur le path "/shop" pour faire la rehcerche d'articles
+//     if (location.pathname.startsWith("/shop")) {
+//       if (searchTerm) { // Assure que searchTerm n'est pas vide
+//         // navigate(`/shop/search/${searchTerm}`);
+//       } else { // Si vide, on affiche tous les articles
+//         navigate("/shop");
+//       }
+//     }
+//   }, [searchTerm, navigate]); // S'effectue à chaque fois que searchTerm change
+
+//   const handleKeyDown = (event) => {
+//     if (event.key === "Enter") {
+//       setSearchTherm(event.target.value); // Met à jour dès touche entrée
+//     }
+//   }
+
+//   const handleModalOpen = () => {
+//     setIsModalOpen(true);
+//   };
+
+//   const handleModalClose = () => {
+//     setIsModalOpen(false);
+//   };
+
+//   return (
+//     <div className="header">
+//       <Link to="/">
+//         <h1 type="button">La Boutique de Matheroff</h1>
+//       </Link>
+//       <nav>
+//         <div className="navbar">
+//           <div className="menu-searchbar">
+//             <div className="img-title-text">
+//               <Link to="/">
+//                 <img 
+//                   type="button"
+//                   src={Menu} 
+//                   alt="Catégories"
+//                 />
+//               </Link>
+//               <span className="hover-text">Catégories</span>
+//             </div>
+//             <input
+//               className="search-input"
+//               type="text"
+//               placeholder="Que recherchez-vous ?"
+//               onKeyUp={handleKeyDown}
+//             />
+//           </div>
+//           <div className="user-icons">
+//             <div className="img-title-text">
+//               <Link to="/userprofile">
+//                 <img
+//                   src={User}
+//                   alt="Se connecter"
+//                   aria-hidden="true"
+//                   onClick={handleModalOpen}
+//                 />
+//               </Link>
+//               <span className="hover-text">Mon compte</span>
+//             </div>
+//             <div className="img-title-text">
+//               <Link to="/favorites">
+//                 <img 
+//                   src={Heart} 
+//                   alt="Favoris" 
+//                 />
+//               </Link>
+//               <span className="hover-text">Favoris</span>
+//             </div>
+//             <div className="img-title-text">
+//               <Link to="/cart">
+//                 <img 
+//                   src={Cart} 
+//                   alt="Panier"
+//                 />
+//               </Link>
+//               <span className="hover-text">Panier</span>
+//             </div>
+//           </div>
+//         </div>
+//         <Outlet />
+//       </nav>
+//       <AuthModal 
+//         isOpen={isModalOpen} 
+//         onClose={handleModalClose} 
+//       />
+//     </div>
+//   );
+// }
+
+// export default Header;

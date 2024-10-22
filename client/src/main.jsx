@@ -14,6 +14,7 @@ import Home from "./pages/Home";
 import InfosPerso from "./pages/InfosPerso";
 import ItemDetail from "./pages/ItemDetail";
 import ItemsList from "./pages/ItemsList";
+import Login from "./components/Login";
 import Orders from "./pages/Orders";
 import Shop from "./pages/Shop";
 import Themes from "./pages/ThemesList";
@@ -24,6 +25,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Header />,
+    loader: async () => {
+      const response = await myAxios.get("/api/items");
+
+      return response.data;
+    },
     children: [
       {
         path: "/",
@@ -49,7 +55,7 @@ const router = createBrowserRouter([
         element: <Cart />,
       },
       {
-        path: "/categorieslist",
+        path: "/categories",
         element: <CategoriesList />,
         loader: async () => {
           const response = await myAxios.get("/api/categories");
@@ -165,6 +171,10 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: "/login",
+        element: <Login />,
+      },
+      {
         path: "/orders",
         element: <Orders />,
       },
@@ -199,7 +209,7 @@ const router = createBrowserRouter([
 
           const categoryId = `${params.categoryId}`
           if (categoryId) {
-            response.data = response.data.filter((item) => item.id_category == categoryId)
+            response.data = response.data.filter((item) => item.id_category === categoryId)
           }
           
           return [ response.data, responsecat.data, responsethe.data];
@@ -215,10 +225,27 @@ const router = createBrowserRouter([
 
           const themeId = `${params.themeId}`
           if (themeId) {
-            response.data = response.data.filter((item) => item.id_theme == themeId)
+            response.data = response.data.filter((item) => item.id_theme === themeId)
           }
           
           return [ response.data, responsecat.data, responsethe.data];
+        },
+      },
+      {
+        path: "/shop/search/:searchTerm",
+        element: <Shop />,
+        loader: async ({ params }) => {
+          const response = await myAxios.get("/api/items");
+          const responsecategories = await myAxios.get("/api/categories");
+          const responsethemes = await myAxios.get("/api/themes");
+
+          const searchTerm = `${params.searchTerm}`
+          if (searchTerm) {
+            // includes permet de voir si le string est contenu dans le nom de l'item
+            response.data = response.data.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()))
+          }
+
+          return [ response.data, responsecategories.data, responsethemes.data];
         },
       },
       {

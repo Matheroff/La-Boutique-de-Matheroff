@@ -29,7 +29,8 @@ create table user (
   phone_number varchar(15),
   adress varchar(255) not null,
   postal_code varchar(10) not null,
-  city varchar(100) not null
+  city varchar(100) not null,
+  pseudo varchar(100)
 );
 
 create table cart (
@@ -41,10 +42,19 @@ create table cart (
   foreign key(id_item) references item(id)
 );
 
+create table favorite (
+  id int auto_increment primary key,
+  id_user int,
+  id_item int,
+  foreign key (id_user) references user(id),
+  foreign key (id_item) references item(id)
+);
+
+
 create table user_order (
-  item_quantity INT not null,
+  item_quantity int not null,
   total_order decimal(10, 2) not null,
-  order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP not null,
+  order_date timestanp default current_timestanp not null,
   id_user int unsigned not null,
   id_item int unsigned not null,
   foreign key(id_user) references user(id),

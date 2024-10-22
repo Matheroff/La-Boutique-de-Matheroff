@@ -28,4 +28,10 @@ router.use("/themes", themeRouter);
 
 /* ************************************************************************* */
 
+const userRouter = require("./users/userRouter");
+
+router.use("/users", userRouter);
+
+/* ************************************************************************* */
+
 module.exports = router;
