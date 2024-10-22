@@ -9,11 +9,11 @@ class ItemRepository extends AbstractRepository {
 
   // The C of CRUD - Create operation
 
-  async create(item) {
+  async create(id, item) {
     // Execute the SQL INSERT query to add a new item to the "item" table
     const [result] = await this.database.query(
       `insert into ${this.table} (name, description, unit_price, id_category, id_theme, image) values (?, ?, ?, ?, ?, ?)`,
-      [item.name, item.description, item.unit_price, item.category, item.theme, item.image]
+      [item.name, item.description, item.unit_price, item.category, item.theme, item.image, id]
     );
 
     // Return the ID of the newly inserted item

@@ -4,17 +4,23 @@ import myAxios from "../services/myAxios";
 import "./AuthModal.css";
 
 function Register() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+      });
 
     const handleRegister = async (e) => {
         e.preventDefault();
         setError("");
 
         try {
-            const response = await myAxios.post(`/register`, { email, password });
+            // const response = await myAxios.post("/api/user", { email, password });
+            const response = await myAxios.post("/api/user", formData);
+            navigate("/userprofile");
             
             if (response.data.success) {
                 // Peut-être rediriger vers la page de connexion ou de profil
@@ -36,8 +42,8 @@ function Register() {
                     <input 
                         type="email"
                         placeholder="E-mail" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
+                        value={formData.email} 
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value})} 
                         required 
                     />
                 </div>
@@ -45,8 +51,8 @@ function Register() {
                     <input
                         type="password"
                         placeholder="Mot de passe"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={formData.password}
+                        onChange={(e) => setFormData({ ...formData, password: e.target.value})}
                         required
                     />
                 </div>

@@ -16,6 +16,7 @@ import ItemDetail from "./pages/ItemDetail";
 import ItemsList from "./pages/ItemsList";
 import Login from "./components/Login";
 import Orders from "./pages/Orders";
+import Register from "./components/Register";
 import Shop from "./pages/Shop";
 import Themes from "./pages/ThemesList";
 import UserProfile from "./pages/UserProfile";
@@ -177,6 +178,25 @@ const router = createBrowserRouter([
       {
         path: "/orders",
         element: <Orders />,
+      },
+      {
+        path: "/register",
+        element: <Register />,        
+        // loader: async () => {
+        //   const response = await myAxios.get("/api/user");
+
+        //   return response.data;
+        // },        
+        // action: async ({ request }) => {
+        //   const formData = await request.formData();
+
+        //   const email = formData.post("email");
+        //   const password = formData.post("password");
+
+        //   const response = await myAxios.post("/api/register", { email, password });
+
+        //   return redirect(`/userprofile${response.data.insertId}`);
+        // },
       },
       {
         path: "/shop",

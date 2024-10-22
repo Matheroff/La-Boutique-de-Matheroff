@@ -18,7 +18,7 @@ userRouter.delete("/:id", destroy);
 
 // Routes d'authentification
 userRouter.post("/register", register); // Pour l'inscription
-userRouter.get("/login", login); // Pour la connexion
+userRouter.post("/login", login); // Pour la connexion
 
 /* ************************************************************************* */
 

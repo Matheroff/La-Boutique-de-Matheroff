@@ -10,11 +10,17 @@ const register = async (req, res, next) => {
   const user = req.body;
 
   try {
+    // Vérifier si l'email existe déjà
+    const existingUser = await tables.user.findByEmail(user.email);
+    if (existingUser) {
+        return res.status(409).json({ message: "L'utilisateur existe déjà" }); // 409 Conflict
+    }
+
     const insertId = await tables.user.create(user);
     res.status(201).json({ insertId });
-  } catch (err) {
+} catch (err) {
     next(err);
-  }
+}
 };
 
 // Route pour la connexion
