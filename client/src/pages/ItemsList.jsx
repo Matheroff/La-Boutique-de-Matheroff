@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, Link } from "react-router-dom";
 import "./Lists.css";
 import Footer from "../components/Footer";
 import ItemAddModal from "../components/ItemAddModal";
@@ -10,25 +10,16 @@ function ItemsList() {
     const [action, setAction] = useState("");
     const [item, setItem] = useState({});
     const items = useLoaderData();
-    const navigate = useNavigate();
 
     return (
         <div className="column">
             <section className="fil-ariane">
-                <p
-                    type="button"
-                    onClick={() => navigate("/")}
-                    aria-hidden="true"
-                >
-                    Accueil ≻
-                </p>
-                <p
-                    type="button"
-                    onClick={() => navigate("/admin")}
-                    aria-hidden="true"
-                >
-                    Tableau de bord ≻
-                </p>
+                <Link to="/">
+                    <p>Accueil ≻</p>
+                </Link>
+                <Link to="/admin">
+                    <p>Tableau de bord ≻</p>
+                </Link>
                 <p>Articles</p>
             </section>
             <div className="create-item-button">
