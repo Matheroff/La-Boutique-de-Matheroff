@@ -1,5 +1,5 @@
 import { useLoaderData, Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import "./ItemDetail.css";
 import Footer from "../components/Footer";
@@ -7,7 +7,12 @@ import SimilarItems from "../components/SimilarItems";
 
 function ItemDetail() {
 
-    const item = useLoaderData()
+    const items = useLoaderData();
+    const item = items[0]
+
+    useEffect(() => {
+        window.scrollTo(0, 0); // Défiler en haut de la page
+    }, []);
 
 /* ********************JS pour le bouton "quantité"******************* */
     const [quantity, setQuantity] = useState(1);
@@ -89,7 +94,7 @@ function ItemDetail() {
                     </Link>
                 </div>
             </section>
-            <SimilarItems />
+            <SimilarItems currentItem={item}/>
             <Footer />
         </div>
     );

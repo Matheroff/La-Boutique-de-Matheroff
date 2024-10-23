@@ -4,10 +4,9 @@
     margin: 5em;
     display: grid;
     place-items: center;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    grid-column-gap: 1em;
-    grid-row-gap: 1em;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-rows: minmax(300px, auto);
+    grid-gap: 5em;
 
     .article-card {
         height: 40vh;
@@ -17,7 +16,7 @@
         justify-content: center;
         align-items: center;
         position: relative;
-        border: 2px solid transparent; /* Initialise avec une bordure transparente */
+        border: 2px solid transparent;
         transition: border 0.5s ease-in-out;
 
         img {
@@ -42,14 +41,24 @@
     }
 
     .article-card:hover {
-        border-color: #dba934; /* Change la couleur de la bordure au survol */
-        animation: border-animation 0.7s infinite; /* Ajoute l'animation de la bordure */
+        border-color: #dba934;
+        animation: border-animation 0.7s infinite;
     }
 
     .article-card:hover button {
         visibility: visible;
         opacity: 1;
     }
+
+    .no-item {
+        display: flex;
+        flex-direction: column;
+
+        img {
+            opacity: 70%;
+        }
+    }
+
 }
 
 @keyframes border-animation {

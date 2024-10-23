@@ -22,14 +22,14 @@ create table item (
 
 create table user (
   id int unsigned primary key auto_increment not null,
-  firstname varchar(100) not null,
-  lastname varchar(100) not null,
+  firstname varchar(100),
+  lastname varchar(100),
   email varchar(255) not null unique,
   password varchar(100) not null,
   phone_number varchar(15),
-  adress varchar(255) not null,
-  postal_code varchar(10) not null,
-  city varchar(100) not null,
+  adress varchar(255),
+  postal_code varchar(10),
+  city varchar(100),
   pseudo varchar(100)
 );
 

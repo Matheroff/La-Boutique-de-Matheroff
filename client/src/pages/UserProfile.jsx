@@ -5,6 +5,9 @@ import Commande from "../assets/images/commande.jpg";
 import InfoPerso from "../assets/images/infoperso.jpg";
 
 function UserProfile() {
+    const myUser = JSON.parse(localStorage.getItem('myUser'));
+    console.log('locaStorage / UserProfile')
+    console.log(myUser)
 
     return (
         <div>
@@ -15,7 +18,7 @@ function UserProfile() {
                 <p>Mon profil</p>
             </section>
             <section>
-                <h2>Bienvenue Mathieu !</h2>
+                <h2>Bienvenue {myUser.firstname} !</h2>
                 <h3>Ravi de vous voir !</h3>
                 <div className="user-profile">
                     <div>

@@ -3,7 +3,7 @@ import "./Shop.css";
 import "./Lists.css";
 import CategoriesIntro from "../components/CategoriesIntro";
 import Footer from "../components/Footer";
-import davidg from "../assets/images/davidg.webp";
+import davidg from "../assets/images/davidgood.png";
 
 function Shop() {
 
@@ -33,8 +33,8 @@ function Shop() {
                     ))
                     ) : (
                         <div className="no-item">
-                            <img src={davidg} alt="Désolé, aucun article disponible"/>
                             <h3>Aucun article disponible</h3>
+                            <img src={davidg} alt="Désolé, aucun article disponible"/>
                         </div>
                     )
                 }

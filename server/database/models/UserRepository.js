@@ -1,77 +1,82 @@
 const AbstractRepository = require("./AbstractRepository");
 
-const bcrypt = require("bcrypt");
-
 class UserRepository extends AbstractRepository {
   constructor() {
     super({ table: "user" });
   }
 
-  async create(id, user) {
-    const hashedPassword = await bcrypt.hash(user.password, 10); // Hashage du mot de passe
+  async create(user) {
     const [result] = await this.database.query(
-      `INSERT INTO ${this.table} (firstname, lastname, email, password, phone_number, adress, postal_code, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [user.firstname, user.lastname, user.email, hashedPassword, user.phone_number, user.adress, user.postal_code, user.city, id]
+      `INSERT INTO ${this.table} (email, password) VALUES (?,?)`,
+      [user.email, user.password]
     );
-    return result.insertId;
+    return result.insertId; // Retourne l'ID du nouvel utilisateur créé
   }
 
-  async findByEmail(email) {
+  async read(id) {
     const [rows] = await this.database.query(
-      `SELECT * FROM ${this.table} WHERE email = ?`,
-      [email]
+      `SELECT * FROM ${this.table} WHERE id = ?`,
+      [id]
     );
-    return rows[0]; // Retourne l'utilisateur correspondant à l'email
+    return rows[0]; // Retourne l'utilisateur correspondant à l'ID
   }
 
-  verifyPassword(inputPassword, storedPassword) {
-    return bcrypt.compare(inputPassword, storedPassword); // Vérification du mot de passe
+  async readAll() {
+    const [rows] = await this.database.query(`SELECT * FROM ${this.table}`);
+    return rows; // Retourne tous les utilisateurs
+  }
+
+  async update(id, user) {
+    const [result] = await this.database.query(
+      `UPDATE ${this.table} SET firstname = ?, lastname = ?, email = ?, password = ?, phone_number = ?, adress = ?, postal_code = ?, city = ? , pseudo = ? WHERE id = ?`,
+      [user.firstname, user.lastname, user.email, user.password, user.phone_number, user.adress, user.postal_code, user.city, user.pseudo, id]
+    );
+    return result.affectedRows; // Retourne le nombre de lignes affectées
+  }
+
+  async delete(id) {
+    const [result] = await this.database.query(
+      `DELETE FROM ${this.table} WHERE id = ?`,
+      [id]
+    );
+    return result.affectedRows; // Retourne le nombre de lignes supprimées
   }
 }
 
 module.exports = UserRepository;
 
 
+// const bcrypt = require("bcrypt");
+
 // class UserRepository extends AbstractRepository {
 //   constructor() {
 //     super({ table: "user" });
 //   }
 
+//   findOne = async(id) => {
+//     const [user] = await this.database.query('SELECT * FROM user WHERE id = ?', [id])
+//     return user;
+//   }
+
 //   async create(id, user) {
+//     const hashedPassword = await bcrypt.hash(user.password, 10); // Hashage du mot de passe
 //     const [result] = await this.database.query(
 //       `INSERT INTO ${this.table} (firstname, lastname, email, password, phone_number, adress, postal_code, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-//       [user.firstname, user.lastname, user.email, user.password, user.phone_number, user.adress, user.postal_code, user.city, id]
+//       [user.firstname, user.lastname, user.email, hashedPassword, user.phone_number, user.adress, user.postal_code, user.city, id]
 //     );
-//     return result.insertId; // Retourne l'ID du nouvel utilisateur créé
+//     return result.insertId;
 //   }
 
-//   async read(id) {
+//   async findByEmail(email) {
 //     const [rows] = await this.database.query(
-//       `SELECT * FROM ${this.table} WHERE id = ?`,
-//       [id]
+//       `SELECT * FROM ${this.table} WHERE email = ?`,
+//       [email]
 //     );
-//     return rows[0]; // Retourne l'utilisateur correspondant à l'ID
+//     return rows[0]; // Retourne l'utilisateur correspondant à l'email
 //   }
 
-//   async readAll() {
-//     const [rows] = await this.database.query(`SELECT * FROM ${this.table}`);
-//     return rows; // Retourne tous les utilisateurs
-//   }
-
-//   async update(id, user) {
-//     const [result] = await this.database.query(
-//       `UPDATE ${this.table} SET firstname = ?, lastname = ?, email = ?, password = ?, phone_number = ?, adress = ?, postal_code = ?, city = ? WHERE id = ?`,
-//       [user.firstname, user.lastname, user.email, user.password, user.phone_number, user.adress, user.postal_code, user.city, id]
-//     );
-//     return result.affectedRows; // Retourne le nombre de lignes affectées
-//   }
-
-//   async delete(id) {
-//     const [result] = await this.database.query(
-//       `DELETE FROM ${this.table} WHERE id = ?`,
-//       [id]
-//     );
-//     return result.affectedRows; // Retourne le nombre de lignes supprimées
+//   verifyPassword(inputPassword, storedPassword) {
+//     return bcrypt.compare(inputPassword, storedPassword); // Vérification du mot de passe
 //   }
 // }
 

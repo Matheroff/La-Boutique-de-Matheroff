@@ -1,4 +1,4 @@
-import { Outlet, useNavigate, Link, useLocation } from "react-router-dom";
+import { Outlet, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./Header.css";
 import Cart from "../assets/images/cart.png";
@@ -8,43 +8,34 @@ import Menu from "../assets/images/menu-burger.png";
 import AuthModal from "./AuthModal";
 
 function Header() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Déclenche la navigation chaque fois que searchTerm est mis à jour
+  const myUser = JSON.parse(localStorage.getItem('myUser'));
+
   useEffect(() => {
-    // Je vérifie que je suis bien sur le path "/shop" pour faire la recherche d'articles
-    if (location.pathname.startsWith('/shop')) {
       if (searchTerm) { // Assure que searchTerm n'est pas vide
         navigate(`/shop/search/${searchTerm}`);
-      } else { // Si vide on affiche tout les articles
-        navigate(`/shop`);
       }
-    } else {
-      navigate(`/`);
-    }
   }, [searchTerm, navigate]); // S'exécute chaque fois que searchTerm change
 
   const handleKeyDown = (event) => {
-    console.info(event.target.value)
+    // console.info(event.target.value)
     if (event.key === 'Enter') {
       setSearchTerm(event.target.value); // Met à jour dès touche entrée
     }
   };
-
   const handleModalOpen = () => {
      setIsModalOpen(true);
    };
-
    const handleModalClose = () => {
      setIsModalOpen(false);
    };
 
   return (
     <div className="header">
-      <Link to="/">
+      <Link to='/'>
         <h1>La Boutique de Matheroff</h1>
       </Link>
       <nav>
@@ -68,7 +59,7 @@ function Header() {
           </div>
           <div className="user-icons">
             <div className="img-title-text">
-              <Link to="/userprofile">
+              <Link to={myUser ? '/userprofile' : '/'}>
                 <img
                   src={User}
                   alt="Se connecter"
@@ -101,7 +92,7 @@ function Header() {
         <Outlet />
       </nav>
        <AuthModal 
-         isOpen={isModalOpen} 
+         isOpen={isModalOpen}
          onClose={handleModalClose} 
        /> 
     </div>

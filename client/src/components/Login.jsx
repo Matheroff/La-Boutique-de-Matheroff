@@ -1,41 +1,66 @@
+import { useNavigate, useLoaderData } from "react-router-dom";
 import { useState } from "react";
-import myAxios from "../services/myAxios";
 import "./AuthModal.css";
+import _ from 'lodash';
 
 function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
     const [error, setError] = useState("");
-    const handleLogin = async (e) => {
+    const users = useLoaderData();
+    const navigate = useNavigate();
+
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+      };
+    
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+        const listUsers = users[1]
 
-        try {
-            const response = await myAxios.post("/api/login", { email, password }); // Assurez-vous que les champs correspondent
-            console.info("Connexion réussie :", response.data);
-            // Stocker le token si nécessaire et rediriger
-        } catch (err) {
+        // console.log('----------------------------------------------------------')
+        // console.log(formData)
+        // console.log(listUsers)
+
+        // je vérifie que mon formData est exact par rapport aux données d'au moins un de mes users
+        const myUser = listUsers.find(user => 
+            user.email === formData.email && user.password === formData.password
+        );
+
+        if (myUser) {
+            console.log("Correspondance trouvée :", myUser);
+            localStorage.setItem('myUser', JSON.stringify(myUser));
+            navigate("/userprofile");
+        } else {
+            console.log("Aucune correspondance trouvée");
             setError("Erreur lors de la connexion. Vérifiez vos informations.");
-            console.error(err);
         }
+        
     };
 
     return (
         <div>
             {error && <p style={{ color: "red" }}>{error}</p>}
-            <form onSubmit={handleLogin}>
-                <input 
+            <form onSubmit={handleSubmit}>
+                <input
+                    name="email"
                     type="text" 
                     placeholder="E-mail" 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)} 
+                    value={formData.email}
+                    onChange={handleChange}
                     required 
                 />
-                <input 
+                <input
+                    name="password"
                     type="password" 
                     placeholder="Mot de passe"  
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)} 
+                    value={formData.password}
+                    onChange={handleChange} 
                     required 
                 />
                 <button type="submit">Se connecter</button>

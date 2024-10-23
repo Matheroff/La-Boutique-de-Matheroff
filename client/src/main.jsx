@@ -28,8 +28,9 @@ const router = createBrowserRouter([
     element: <Header />,
     loader: async () => {
       const response = await myAxios.get("/api/items");
+      const responseUsers = await myAxios.get("/api/users");
 
-      return response.data;
+      return [response.data, responseUsers.data];
     },
     children: [
       {
@@ -97,8 +98,22 @@ const router = createBrowserRouter([
         element: <ItemDetail />,
         loader: async ({ params }) => {
           const response = await myAxios.get(`/api/items/${params.id}`);
+          const responseall = await myAxios.get("/api/items");
+          
+          const currentItem = response.data; // L'article actuellement affiché
+          const currentItemName = currentItem.name.toLowerCase(); // Nom de l'article affiché
 
-          return response.data;
+          // Filtrer les articles dont le nom contient un mot similaire
+          const filteredItems = responseall.data.filter((item) => {
+            const itemName = item.name.toLowerCase();
+            const wordsInName = currentItemName.split(" "); // Découpe le nom en mots clés
+
+            // Vérifie si l'un des mots du nom de l'article est contenu dans le nom des autres articles
+            return wordsInName.some((word) => itemName.includes(word)) && item.id !== currentItem.id;
+          }); 
+            console.info(filteredItems);
+
+          return [response.data, filteredItems];
         },
         action: async ({ request }) => {
           const formData = await request.formData();
@@ -181,22 +196,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/register",
-        element: <Register />,        
-        // loader: async () => {
-        //   const response = await myAxios.get("/api/user");
-
-        //   return response.data;
-        // },        
-        // action: async ({ request }) => {
-        //   const formData = await request.formData();
-
-        //   const email = formData.post("email");
-        //   const password = formData.post("password");
-
-        //   const response = await myAxios.post("/api/register", { email, password });
-
-        //   return redirect(`/userprofile${response.data.insertId}`);
-        // },
+        element: <Register />,
       },
       {
         path: "/shop",
@@ -229,7 +229,7 @@ const router = createBrowserRouter([
 
           const categoryId = `${params.categoryId}`
           if (categoryId) {
-            response.data = response.data.filter((item) => item.id_category === categoryId)
+            response.data = response.data.filter((item) => item.id_category == categoryId)
           }
           
           return [ response.data, responsecat.data, responsethe.data];
@@ -245,7 +245,7 @@ const router = createBrowserRouter([
 
           const themeId = `${params.themeId}`
           if (themeId) {
-            response.data = response.data.filter((item) => item.id_theme === themeId)
+            response.data = response.data.filter((item) => item.id_theme == themeId)
           }
           
           return [ response.data, responsecat.data, responsethe.data];
