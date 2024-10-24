@@ -1,4 +1,5 @@
 import { useLoaderData, Link } from "react-router-dom";
+import { useEffect } from "react";
 import "./Shop.css";
 import "./Lists.css";
 import CategoriesIntro from "../components/CategoriesIntro";
@@ -8,6 +9,10 @@ import davidg from "../assets/images/davidgood.png";
 function Shop() {
 
     const items = useLoaderData();
+
+    useEffect(() => {
+        window.scrollTo(0, 0); // Défiler en haut de la page
+    }, []);
 
     return (
         <div className="column">

@@ -30,7 +30,8 @@ create table user (
   adress varchar(255),
   postal_code varchar(10),
   city varchar(100),
-  pseudo varchar(100)
+  pseudo varchar(100),
+  is_admin boolean default false
 );
 
 create table cart (
@@ -51,12 +52,20 @@ create table favorite (
 );
 
 
-create table user_order (
+create table order (
+  id int auto_increment primary key,
   item_quantity int not null,
   total_order decimal(10, 2) not null,
   order_date timestanp default current_timestanp not null,
+  statut enum("En attente de validation", "Validée", "Livrée") not null,
   id_user int unsigned not null,
+  foreign key(id_user) references user(id)
+);
+
+create table user_order (
+  id int auto_increment primary key,
   id_item int unsigned not null,
-  foreign key(id_user) references user(id),
+  id_order int unsigned not null,
   foreign key(id_item) references item(id)
+  foreign key(id_order) references order(id)
 );

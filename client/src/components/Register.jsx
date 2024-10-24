@@ -1,35 +1,51 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLoaderData } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import myAxios from "../services/myAxios";
 import "./AuthModal.css";
 
 function Register() {
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
       });
+    const users = useLoaderData();
 
-    const handleRegister = async (e) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
+        const listUsers = users[1]
 
+        // je vérifie que l'email saisit n'est pas déjà en base
+        const userAlreadyExist = listUsers.find(user => 
+            user.email === formData.email
+        );
         try {
-            // const response = await myAxios.post("/api/user", { email, password });
-            const response = await myAxios.post("/api/user", formData);
-            navigate("/userprofile");
-            
-            if (response.data.success) {
-                // Peut-être rediriger vers la page de connexion ou de profil
-                navigate("/login");
+            // si email conforme : inscription
+            if (!userAlreadyExist) {
+                const response = await myAxios.post("/api/users", formData);
+                if (response && response.data.insertId) {
+                    localStorage.setItem(
+                        'myUser', 
+                        JSON.stringify({id: response.data.insertId, email: formData.email, password: formData.password})
+                    );
+                    navigate("/userprofile")
+                }
             } else {
-                setError("Erreur lors de l'inscription. Veuillez réessayer.");
+                setError("Cet email est déjà associé à un compte. Veuillez vérifier vos informations.");
             }
-        } catch (err) {
-            setError("Erreur lors de l'inscription. Vérifiez vos informations.");
+        }
+        catch (error) {
+            console.error("Erreur lors de l'inscription", error);
+            toast.error("Une erreur est survenue lors de l'inscription !");
         }
     };
 
@@ -37,28 +53,31 @@ function Register() {
         <div>
             <h3>Inscription</h3>
             {error && <p style={{ color: "red" }}>{error}</p>}
-            <form onSubmit={handleRegister}>
+            <form onSubmit={handleSubmit}>
                 <div>
                     <input 
+                        name="email"
                         type="email"
                         placeholder="E-mail" 
                         value={formData.email} 
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value})} 
+                        onChange={handleChange} 
                         required 
                     />
                 </div>
                 <div>
                     <input
+                        name="password"
                         type="password"
                         placeholder="Mot de passe"
                         value={formData.password}
-                        onChange={(e) => setFormData({ ...formData, password: e.target.value})}
+                        onChange={handleChange}
                         required
                     />
                 </div>
                 <button type="submit">S'inscrire</button>
             </form>
             <p>Déjà inscrit ?</p>
+            <ToastContainer />
         </div>
     );
 }

@@ -1,13 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./UserProfile.css";
 import Footer from "../components/Footer";
 import Commande from "../assets/images/commande.jpg";
 import InfoPerso from "../assets/images/infoperso.jpg";
 
 function UserProfile() {
+    const navigate = useNavigate();
     const myUser = JSON.parse(localStorage.getItem('myUser'));
-    console.log('locaStorage / UserProfile')
-    console.log(myUser)
+
+    const handleSubmit = () => {
+        // Je retire mon user du localStorage et me redirige vers la page home
+        localStorage.removeItem('myUser')
+        navigate('/')
+    };
 
     return (
         <div>
@@ -20,6 +25,7 @@ function UserProfile() {
             <section>
                 <h2>Bienvenue {myUser.firstname} !</h2>
                 <h3>Ravi de vous voir !</h3>
+                <button type="button" onClick={handleSubmit}>Déconnexion</button>
                 <div className="user-profile">
                     <div>
                         <h3> Mes commandes</h3>
