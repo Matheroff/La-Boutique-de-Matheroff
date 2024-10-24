@@ -47,16 +47,11 @@
     
     .favorite-icon {
         position: absolute;
-        bottom: 10px;
-        right: 10px;
-        font-size: 24px;
+        bottom: 0.3em;
+        right: 0.5em;
+        font-size: 2em;
         color: rgb(178, 108, 188);
         cursor: pointer;
-        display: none;
     }
-    
-    .image-container:hover .favorite-icon {
-        display: block;
-    }  
 
 }

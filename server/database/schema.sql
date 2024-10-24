@@ -11,7 +11,7 @@ create table theme (
 create table item (
   id int unsigned primary key auto_increment not null,
   name varchar(100) not null,
-  description varchar(250) not null,
+  description text not null,
   unit_price decimal(10, 2),
   id_category int unsigned not null,
   id_theme int unsigned not null,

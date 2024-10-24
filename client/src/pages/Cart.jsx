@@ -5,7 +5,7 @@ import EmptyCart from "../components/EmptyCart";
 import "./Cart.css";
 
 function Cart() {
-  // État pour les articles du panier avec des données en dur
+
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
@@ -23,7 +23,7 @@ function Cart() {
       unit_price: 15.00,
       quantity: 1,
     },
-  ]); // On a inséré deux articles fictifs avec leurs détails
+  ]);
 
   /* ********************JS pour le bouton "quantité"******************* */
   const [quantity, setQuantity] = useState(1); // Quantité par défaut
@@ -54,58 +54,62 @@ function Cart() {
             <Link to="/">
                 <p type="button">Accueil ≻</p>
             </Link>
-            <p>Mon panier</p>
+            <p>Mon panier ≻</p>
         </section>
-        <section className="item-cart">
-            {cartItems.length === 0 ? (
-            // Si le panier est vide, on affiche le composant EmptyCart
-            <EmptyCart />
-            ) : (
-            
-            // Parcours des articles du panier et affichage des infos de chaque item
-            cartItems.map((item) => (
-            <div key={item.id}>
-                <div className="item-cart-img">
-                    <img src={item.image} alt={item.name} />
-                </div>
-                <div className="item-cart-infos">
-                    <h3>{item.name}</h3>
-                    <h3>{item.unit_price} €</h3>
-                    <div className="quantity-button">
-                        <label htmlFor="quantity">Quantité :</label>
-                        <select
-                            id="quantity"
-                            value={isCustom ? "+" : quantity}
-                            onChange={handleSelectChange}
-                        >
-                            {/* Génère un menu déroulant avec des valeurs de 1 à 10 */}
-                            {[...Array(10).keys()].map((num) => (
-                            <option 
-                                key={num + 1} 
-                                value={num + 1}>
-                                {num + 1}
-                            </option>
-                            ))}
-                            <option value="+">+</option> {/* Option pour ajouter une quantité personnalisée */}
-                        </select>
-                        {isCustom && (
-                        <input
-                            type="number"
-                            min="11"
-                            value={customQuantity}
-                            onChange={handleCustomChange}
-                            placeholder="Entrez la quantité"
-                        />
-                        )}
+        <section className="cart-container">
+    {cartItems.length === 0 ? (
+        <EmptyCart />
+    ) : (
+        <>
+            <div className="items-list">
+                {cartItems.map((item) => (
+                    <div className="item-cart" key={item.id}>
+                        <img src={item.image} alt={item.name} />
+                        <div className="item-cart-infos">
+                            <p>{item.name}</p>
+                            <p>Prix unité : {item.unit_price} €</p>
+                            <div>
+                                <label htmlFor="quantity">Quantité :</label>
+                                <select
+                                    id="quantity"
+                                    value={isCustom ? "+" : quantity}
+                                    onChange={handleSelectChange}
+                                >
+                                    {[...Array(10).keys()].map((num) => (
+                                        <option key={num + 1} value={num + 1}>
+                                            {num + 1}
+                                        </option>
+                                    ))}
+                                    <option value="+">+</option>
+                                </select>
+                                {isCustom && (
+                                    <input
+                                        type="number"
+                                        min="11"
+                                        value={customQuantity}
+                                        onChange={handleCustomChange}
+                                        placeholder="Entrez la quantité"
+                                    />
+                                )}
+                                <div className="img-title-text">
+                                    <button type="button">X</button>
+                                    <span className="hover-text">Supprimer du panier</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p>Prix : {item.unit_price * item.quantity}€</p>
                     </div>
-                <div>
-                    <p>{item.unit_price * item.item_quantity}</p>
-                </div>    
-                </div>
+                ))}
             </div>
-            ))
-            )}
-        </section>
+            <div className="total-cart">
+                <h2>Total :</h2>
+                <h2>25€</h2>
+                <button type="submit">Passer la commande</button>
+            </div>
+        </>
+    )}
+</section>
+
       <Footer />
     </div>
   );

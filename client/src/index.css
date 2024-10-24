@@ -94,6 +94,11 @@ button {
     font-size: var(--size-text2);
     color: var(--text-color2);
     background-color: var(--button-color);
+    transition: filter 0.3s ease;
+}
+
+button:hover {
+    filter: brightness(85%);
 }
 
 a {

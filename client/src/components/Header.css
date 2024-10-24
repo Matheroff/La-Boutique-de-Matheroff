@@ -33,12 +33,13 @@
         .img-title-text {
             position: relative;
             display: inline-block;
-        }
-
-        .hover-text {
+          }
+          
+          .hover-text {
             visibility: hidden;
             width: 120px;
-            background-color: rgb(0, 0, 0, 0.4);
+            background-color: rgba(0, 0, 0, 0.4);
+            font-family: var(--ff-text);
             color: white;
             text-align: center;
             border-radius: 6px;
@@ -47,12 +48,11 @@
             z-index: 1;
             top: 125%;
             left: 50%;
-            margin-left: -60px;
+            transform: translateX(-50%);
             opacity: 0;
             transition: opacity 0.5s;
-            font-family: var(--ff-text);
           }
-
+          
           .img-title-text:hover .hover-text {
             visibility: visible;
             opacity: 1;

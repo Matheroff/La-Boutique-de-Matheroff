@@ -34,4 +34,22 @@ router.use("/users", userRouter);
 
 /* ************************************************************************* */
 
+const cartRouter = require("./carts/cartRouter");
+
+router.use("/carts", cartRouter);
+
+/* ************************************************************************* */
+
+const orderRouter = require("./orders/orderRouter");
+
+router.use("/carts", cartRouter);
+
+/* ************************************************************************* */
+
+const favoriteRouter = require("./favorites/favoriteRouter");
+
+router.use("/carts", cartRouter);
+
+/* ************************************************************************* */
+
 module.exports = router;
