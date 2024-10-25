@@ -28,3 +28,11 @@ h2 {
     text-align: center;
 }
 
+.exit-button {
+    position: absolute;
+    right: 1em;
+
+    button {
+        width: 9em;
+    }
+}

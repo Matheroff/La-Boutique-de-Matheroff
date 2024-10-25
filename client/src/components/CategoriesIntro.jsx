@@ -11,7 +11,6 @@ import PorteCle from "../assets/images/intro/portecle-intro.png";
 function CategoriesIntro() {
 
     const categories = useLoaderData();
-    console.info(categories[1]);
 
     const imagesMapping = {
         "Mug": Mug,

@@ -101,6 +101,13 @@ button:hover {
     filter: brightness(85%);
 }
 
+.button-2 {
+    color: white;
+    background-color: var(--button-color2);
+    border-radius: 20px;
+    margin: 0.5em;
+}
+
 a {
     text-decoration: none;
     color: black;

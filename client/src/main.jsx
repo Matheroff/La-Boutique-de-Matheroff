@@ -15,6 +15,7 @@ import InfosPerso from "./pages/InfosPerso";
 import ItemDetail from "./pages/ItemDetail";
 import ItemsList from "./pages/ItemsList";
 import Login from "./components/Login";
+import OrderDetail from "./pages/OrderDetail";
 import Orders from "./pages/Orders";
 import Register from "./components/Register";
 import Shop from "./pages/Shop";
@@ -99,6 +100,8 @@ const router = createBrowserRouter([
         loader: async ({ params }) => {
           const response = await myAxios.get(`/api/items/${params.id}`);
           const responseall = await myAxios.get("/api/items");
+          const responsecart = await myAxios.get("/api/carts");
+          const responsefav = await myAxios.get("/api/favorites");
           
           const currentItem = response.data; // L'article actuellement affiché
           const currentItemName = currentItem.name.toLowerCase(); // Nom de l'article affiché
@@ -110,10 +113,9 @@ const router = createBrowserRouter([
 
             // Vérifie si l'un des mots du nom de l'article est contenu dans le nom des autres articles
             return wordsInName.some((word) => itemName.includes(word)) && item.id !== currentItem.id;
-          }); 
-            console.info(filteredItems);
+          });
 
-          return [response.data, filteredItems];
+          return [response.data, filteredItems, responsecart.data, responsefav.data];
         },
         action: async ({ request }) => {
           const formData = await request.formData();
@@ -122,10 +124,6 @@ const router = createBrowserRouter([
           const name = formData.get("name");
           const unitPrice = formData.get("unit_price")
           const description = formData.get("description");
-          console.info(image);
-          console.info(name);
-          console.info(unitPrice);
-          console.info(description);
 
           const response = await myAxios.post("/api/items/:id", { image, name, "unit_price":unitPrice, description });
 
@@ -148,7 +146,6 @@ const router = createBrowserRouter([
           switch (request.method.toLowerCase()) {
 
             case "post": {
-              console.info('-------POST---------')
               const name = formData.get("name");
               const description = formData.get("description");
               const image = formData.get("image");
@@ -162,7 +159,6 @@ const router = createBrowserRouter([
             }
 
             case "put": {
-              console.info('-------PUT---------')
               await myAxios.put(`/api/items/${params.id}`, {
                 name: formData.get("name"),
                 description : formData.get("description"),
@@ -193,6 +189,10 @@ const router = createBrowserRouter([
       {
         path: "/orders",
         element: <Orders />,
+      },
+      {
+        path: "/orderdetail",
+        element: <OrderDetail />,
       },
       {
         path: "/register",
@@ -280,7 +280,6 @@ const router = createBrowserRouter([
           const formData = await request.formData();
 
           const name = formData.get("name");
-          console.info(name);
 
           const response = await myAxios.post("/api/themes", { name });
 
@@ -294,6 +293,11 @@ const router = createBrowserRouter([
       {
         path: "/userprofile",
         element: <UserProfile />,
+        loader: async () => {
+          const response = await myAxios.get("/api/users");
+          
+          return response.data;
+        },
       }
     ]
   }

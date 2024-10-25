@@ -25,90 +25,108 @@ function Cart() {
     },
   ]);
 
-  /* ********************JS pour le bouton "quantité"******************* */
-  const [quantity, setQuantity] = useState(1); // Quantité par défaut
-  const [customQuantity, setCustomQuantity] = useState(""); // Quantité personnalisée
-  const [isCustom, setIsCustom] = useState(false); // Vérifie si la quantité est personnalisée ou non
-
-  // Gère le changement dans la sélection de quantité
-  const handleSelectChange = (event) => {
-    const value = event.target.value;
-    if (value === "+") {
-      setIsCustom(true); // Active l'input de quantité personnalisée
-      setQuantity(""); // Réinitialise la quantité sélectionnée
-    } else {
-      setIsCustom(false); // Désactive l'input personnalisé
-      setQuantity(Number(value)); // Met à jour la quantité choisie
-    }
+  // Gère la suppression d'un article du panier
+  const handleRemoveItem = (id) => {
+    const updatedCartItems = cartItems.filter((item) => item.id !== id);
+    setCartItems(updatedCartItems);
   };
 
-  // Gère le changement dans le champ de quantité personnalisée
-  const handleCustomChange = (event) => {
-    setCustomQuantity(event.target.value); // Met à jour la quantité personnalisée
-    setQuantity(Number(event.target.value)); // Met à jour la quantité globale
+  // Gère le changement de quantité
+  const handleQuantityChange = (id, value) => {
+    const updatedCartItems = cartItems.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            quantity: value === "+" ? item.quantity : Number(value),
+            customQuantity: value === "+" ? item.quantity : "",
+            isCustom: value === "+",
+          }
+        : item
+    );
+    setCartItems(updatedCartItems);
   };
+
+  // Gère la quantité personnalisée
+  const handleCustomQuantityChange = (id, value) => {
+    const updatedCartItems = cartItems.map((item) =>
+      item.id === id
+        ? {
+            ...item,
+            quantity: Number(value),
+            customQuantity: value,
+          }
+        : item
+    );
+    setCartItems(updatedCartItems);
+  };
+
+  const totalPrice = cartItems.reduce(
+    (acc, item) => acc + item.unit_price * item.quantity,
+    0
+  );
 
   return (
     <div>
-        <section className="fil-ariane">
-            <Link to="/">
-                <p type="button">Accueil ≻</p>
-            </Link>
-            <p>Mon panier ≻</p>
-        </section>
-        <section className="cart-container">
-    {cartItems.length === 0 ? (
+      <section className="fil-ariane">
+        <Link to="/">
+          <p type="button">Accueil ≻</p>
+        </Link>
+        <p>Mon panier ≻</p>
+      </section>
+
+      {cartItems.length === 0 ? (
         <EmptyCart />
-    ) : (
-        <>
-            <div className="items-list">
-                {cartItems.map((item) => (
-                    <div className="item-cart" key={item.id}>
-                        <img src={item.image} alt={item.name} />
-                        <div className="item-cart-infos">
-                            <p>{item.name}</p>
-                            <p>Prix unité : {item.unit_price} €</p>
-                            <div>
-                                <label htmlFor="quantity">Quantité :</label>
-                                <select
-                                    id="quantity"
-                                    value={isCustom ? "+" : quantity}
-                                    onChange={handleSelectChange}
-                                >
-                                    {[...Array(10).keys()].map((num) => (
-                                        <option key={num + 1} value={num + 1}>
-                                            {num + 1}
-                                        </option>
-                                    ))}
-                                    <option value="+">+</option>
-                                </select>
-                                {isCustom && (
-                                    <input
-                                        type="number"
-                                        min="11"
-                                        value={customQuantity}
-                                        onChange={handleCustomChange}
-                                        placeholder="Entrez la quantité"
-                                    />
-                                )}
-                                <div className="img-title-text">
-                                    <button type="button">X</button>
-                                    <span className="hover-text">Supprimer du panier</span>
-                                </div>
-                            </div>
-                        </div>
-                        <p>Prix : {item.unit_price * item.quantity}€</p>
+      ) : (
+        <section className="cart-container">
+          <div className="items-list">
+            {cartItems.map((item) => (
+              <div className="item-cart" key={item.id}>
+                <img src={item.image} alt={item.name} />
+                <div className="item-cart-infos">
+                  <p>{item.name}</p>
+                  <p>Prix unité : {item.unit_price} €</p>
+                  <div>
+                    <label htmlFor={`quantity-${item.id}`}>Quantité :</label>
+                    <select
+                      id={`quantity-${item.id}`}
+                      value={item.isCustom ? "+" : item.quantity}
+                      onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                    >
+                      {[...Array(10).keys()].map((num) => (
+                        <option key={num + 1} value={num + 1}>
+                          {num + 1}
+                        </option>
+                      ))}
+                      <option value="+">+</option>
+                    </select>
+                    {item.isCustom && (
+                      <input
+                        type="number"
+                        min="11"
+                        value={item.customQuantity}
+                        onChange={(e) => handleCustomQuantityChange(item.id, e.target.value)}
+                        placeholder="Entrez la quantité"
+                      />
+                    )}
+                    <div className="img-title-text">
+                      <button type="button" onClick={() => handleRemoveItem(item.id)}>
+                        ✕
+                      </button>
+                      <span className="hover-text">Supprimer du panier</span>
                     </div>
-                ))}
-            </div>
-            <div className="total-cart">
-                <h2>Total :</h2>
-                <h2>25€</h2>
-                <button type="submit">Passer la commande</button>
-            </div>
-        </>
-    )}
-</section>
+                  </div>
+                </div>
+                <p>Prix : {item.unit_price * item.quantity}€</p>
+              </div>
+            ))}
+          </div>
+          <div className="total-cart">
+            <h2>Total :</h2>
+            <h2>{totalPrice}€</h2>
+            <button type="submit">Passer la commande</button>
+          </div>
+        </section>
+      )}
 
       <Footer />
     </div>

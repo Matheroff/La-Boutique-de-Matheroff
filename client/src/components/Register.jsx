@@ -74,7 +74,7 @@ function Register() {
                         required
                     />
                 </div>
-                <button type="submit">S'inscrire</button>
+                <button className="button-2" type="submit">S'inscrire</button>
             </form>
             <p>Déjà inscrit ?</p>
             <ToastContainer />

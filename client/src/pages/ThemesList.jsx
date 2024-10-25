@@ -80,7 +80,7 @@ function ThemesList() {
                 theme.id === editingTheme ? { ...theme, name: editFormData.name } : theme
             ));
             setEditingTheme(null);
-            toast.success("CThème mis à jour avec succès!");
+            toast.success("Thème mis à jour avec succès!");
         } catch (err) {
             console.error("Error updating theme:", err);
             toast.error("Erreur lors de la mise à jour du thème.");

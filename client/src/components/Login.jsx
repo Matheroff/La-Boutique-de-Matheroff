@@ -1,7 +1,7 @@
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useState } from "react";
 import "./AuthModal.css";
-import _ from 'lodash';
+// import _ from 'lodash';
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -33,11 +33,11 @@ function Login() {
         );
 
         if (myUser) {
-            console.log("Correspondance trouvée :", myUser);
+            console.info("Correspondance trouvée :", myUser);
             localStorage.setItem('myUser', JSON.stringify(myUser));
             navigate("/userprofile");
         } else {
-            console.log("Aucune correspondance trouvée");
+            console.info("Aucune correspondance trouvée");
             setError("Erreur lors de la connexion. Vérifiez vos informations.");
         }
         
@@ -63,7 +63,7 @@ function Login() {
                     onChange={handleChange} 
                     required 
                 />
-                <button type="submit">Se connecter</button>
+                <button className="button-2" type="submit">Se connecter</button>
             </form>
         </div>
     );

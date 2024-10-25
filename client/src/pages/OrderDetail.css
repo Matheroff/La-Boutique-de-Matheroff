@@ -1,0 +1,20 @@
+@import url("../index.css");
+
+.order-detail {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 5em;
+    gap: 3em;
+
+    img {
+        width : 50vh;
+        height: auto;
+    }
+
+    .image-container {
+        position: relative;
+        display: inline-block;
+    }
+}

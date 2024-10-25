@@ -5,6 +5,7 @@ import Commande from "../assets/images/commande.jpg";
 import InfoPerso from "../assets/images/infoperso.jpg";
 
 function UserProfile() {
+    
     const navigate = useNavigate();
     const myUser = JSON.parse(localStorage.getItem('myUser'));
 
@@ -22,10 +23,18 @@ function UserProfile() {
                 </Link>
                 <p>Mon profil</p>
             </section>
+            <section className="exit-button">
+                <button
+                    className="button-2"
+                    type="button" 
+                    onClick={handleSubmit}
+                >
+                    Déconnexion
+                </button>
+            </section>
             <section>
-                <h2>Bienvenue {myUser.firstname} !</h2>
+                <h2>Bienvenue {myUser && myUser.firstname ? myUser.firstname : ""} !</h2>
                 <h3>Ravi de vous voir !</h3>
-                <button type="button" onClick={handleSubmit}>Déconnexion</button>
                 <div className="user-profile">
                     <div>
                         <h3> Mes commandes</h3>

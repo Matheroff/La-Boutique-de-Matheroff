@@ -5,7 +5,6 @@ import "./Suggestions.css";
 function Suggestions() {
 
     const items = useLoaderData();
-    console.info(items);
     const [randomItems, setRandomItems] = useState([]);
 
     useEffect(() => {

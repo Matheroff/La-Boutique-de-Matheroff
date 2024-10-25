@@ -1,29 +1,44 @@
 import { useLoaderData, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import "./ItemDetail.css";
 import myAxios from "../services/myAxios";
 import Footer from "../components/Footer";
 import SimilarItems from "../components/SimilarItems";
-import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 function ItemDetail() {
 
-    const [item, items] = useLoaderData();
-    console.log(item)
-
-    useEffect(() => {
-        window.scrollTo(0, 0); // Défiler en haut de la page
-    }, []);
+    const [item, items, initialCarts, initialFavorites] = useLoaderData();
 
 /* ********************JS pour le bouton "quantité"******************* */
     const [quantity, setQuantity] = useState(1);
     const [customQuantity, setCustomQuantity] = useState("");
     const [isCustom, setIsCustom] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
+    const [isInCart, setIsInCart] = useState(false);
+    
+    const [favorites, setFavorites] = useState(initialFavorites || []);
+    const [carts, setCarts] = useState(initialCarts || []);
 
     const myUser = JSON.parse(localStorage.getItem('myUser'));
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+
+        // Vérifie si l'article est déjà en favoris
+        if (myUser && favorites) {
+            const alreadyFavorite = favorites.some(fav => fav.id_item === item.id && fav.id_user === myUser.id);
+            setIsFavorite(alreadyFavorite);
+        }
+
+        // Vérifie si l'article est déjà dans le panier
+        if (myUser && carts) {
+            const alreadyInCart = carts.some(cart => cart.id_item === item.id && cart.id_user === myUser.id);
+            setIsInCart(alreadyInCart);
+        }
+    }, [favorites, carts, item, myUser]);
   
     const handleSelectChange = (event) => {
       const value = event.target.value;
@@ -43,38 +58,55 @@ function ItemDetail() {
 
     const handleAddCart = async (e) => {
         e.preventDefault();
-        /*const [cartItems, setCartItems] = useState([]);
-
-            useEffect(() => {
-                // Récupérer le panier dans le localStorage (ou un autre stockage)
-                const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
-                setCartItems(storedCart);
-            }, []);*/
         try {
             if (myUser) {
-                // @TODO : A améliorer pour le cas où on ajoute deux fois le même item
-                const response = await myAxios.post("/api/carts", {id_user: myUser.id, id_item: item.id, quantity: quantity});
-                if (response && response.data) {
-                    /* localStorage.setItem(
-                        'myUser', 
-                        JSON.stringify({id: response.data.insertId, email: formData.email, password: formData.password})
-                    );*/
-                    localStorage.setItem('cart', JSON.stringify({id_item: item.id}))
-                    toast.success("Article ajouté au panier !");
+                if (!isInCart) {
+                    const response = await myAxios.post("/api/carts", {id_user: myUser.id, id_item: item.id, quantity: quantity});
+                    if (response && response.data) {
+                        setIsInCart(true);
+                        setCarts(prevCarts => [...prevCarts, { id_user: myUser.id, id_item: item.id, quantity }])
+                        toast.success("Article ajouté au panier !");
+                    }
+                } else {
+                    toast.info("Article déjà ajouté au panier !");
                 }
             } else {
-                toast.error("Vous devez vous connecter pour ajouter un article !");
+                toast.error("Vous devez vous connecter pour ajouter un article au panier !")
             }
-        } 
-        catch (error) {
+        } catch (error) {
             console.error("Erreur lors de l'ajout de l'article au panier:", error);
         }
-      };
+    };
 
-/* ********************JS pour le bouton "quantité"******************* */
-
-      const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
+      const toggleFavorite = async (e) => {
+        e.preventDefault();
+        try {
+            if (myUser) {
+                if (!isFavorite) {
+                    const response = await myAxios.post("/api/favorites", {id_user: myUser.id, id_item: item.id});
+                    if (response && response.data) {
+                        setIsFavorite(true);
+                        setFavorites(prevFavorites => [...prevFavorites, { id: response.data.insertId, id_user: myUser.id, id_item: item.id }]);
+                        toast.success("Article ajouté aux favoris !");
+                    }
+                } else {
+                    const fav = favorites.find(fav => fav.id_item === item.id && fav.id_user === myUser.id);
+                    if (fav) {
+                        const response = await myAxios.delete(`/api/favorites/${fav.id}`);
+                        if (response) {
+                            setIsFavorite(false);
+                            setFavorites(prevFavorites => prevFavorites.filter(f => f.id_item !== item.id));
+                            toast.success("Article retiré des favoris !")
+                        }
+                    }
+                }
+            } else {
+                setIsFavorite(false);
+                toast.error("Vous devez vous connecter pour ajouter un article aux favoris !")
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'ajout de l'article aux favoris");
+        }
     };
 
     return (

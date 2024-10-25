@@ -36,13 +36,13 @@ function AuthModal({ isOpen, onClose }) {
             <Login />
             <p>
               Pas de compte ?{" "}
-              <button type="button" onClick={toggleMode}>Inscrivez-vous ici</button>
+              <button className="button-2" type="button" onClick={toggleMode}>Inscrivez-vous ici</button>
             </p>
           </div>
         ) : (
           <div>
             <Register />
-              <button type="button" onClick={toggleMode}>Connectez-vous ici</button>
+              <button className="button-2" type="button" onClick={toggleMode}>Connectez-vous ici</button>
           </div>
         )}
       </div>

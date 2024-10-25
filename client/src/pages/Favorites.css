@@ -13,17 +13,14 @@
     }
 
     img {
-        height: 30vh;
+        height: 40vh;
         width: auto;
         opacity: 0.5;
-        margin: 2em;
+        margin: 1em;
     }
 
     button {
-        margin-bottom: 1.5em;
-        color: var(--text-color);
-        background-color: var(--button-color2);
-        border-radius: 1rem;
+        margin-bottom: 2em;
     }
 }
 

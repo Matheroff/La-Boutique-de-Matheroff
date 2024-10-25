@@ -10,7 +10,10 @@ function EmptyFavorites() {
                 <p>Vous n'avez pas de favoris</p>
                 <img src={favoritestar} alt="Panier vide"/>
                 <Link to="/shop">
-                    <button type="button">
+                    <button 
+                        className="button-2" 
+                        type="button"
+                    >
                         Voir la boutique
                     </button>
                 </Link>

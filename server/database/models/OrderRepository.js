@@ -12,8 +12,8 @@ class OrderRepository extends AbstractRepository {
   async create(order) {
     // Execute the SQL INSERT query to add a new order to the "order" table
     const [result] = await this.database.query(
-      `insert into ${this.table} (item_quantity, total_order, order_date, statut, id_user) values (?, ?, ?, ?, ?)`,
-      [order.id_user, order.id_item, order.quantity]
+      `insert into ${this.table} (item_quantity, total_order, order_date, id_user, statut) values (?, ?, ?, ?, ?)`,
+      [order.item_quantity, order.total_order, order.order_date, order.id_user, order.statut]
     );
 
     // Return the ID of the newly inserted order
@@ -45,8 +45,8 @@ class OrderRepository extends AbstractRepository {
   async update(id, order) {
     // Execute the SQL UPDATE query to modify an existing order
     const [result] = await this.database.query(
-      `update ${this.table} set item_quantity = ?, total_order = ?, order_date = ?, statut = ?, id_user = ? where id = ?`,
-      [order.id_user, order.id_item, order.quantity, id]
+      `update ${this.table} set item_quantity = ?, total_order = ?, order_date = ?, id_user = ?, statut = ? where id = ?`,
+      [order.item_quantity, order.total_order, order.order_date, order.id_user, order.statut, id]
     );
   
     // Return the number of affected rows

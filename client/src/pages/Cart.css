@@ -13,12 +13,14 @@
     }
 
     img {
-        height: 80vh;
+        height: 40vh;
         width: auto;
+        opacity: 0.7;
+        margin: 1em;
     }
 
     button {
-        margin-bottom: 3em;
+        margin-bottom: 2em;
     }
 }
 
@@ -80,11 +82,17 @@
                 }
         
                 button {
-                    background-color: rgb(202, 202, 202);
+                    position: absolute;
+                    top: -1em;
+                    right: 0;
+                    background: none;
+                    border: none;
                     color: red;
                     cursor: pointer;
                     width: 3em;
-                    margin: 1em
+                    margin: 1em;
+                    font-weight: bold;
+                    font-size: 2em;
                   }
                   
                   button:hover {
@@ -107,8 +115,8 @@
                     padding: 5px 0;
                     position: absolute;
                     z-index: 1;
-                    top: 20%;
-                    left: 160%;
+                    top: 1em;
+                    left: -12em;
                     transform: translateX(-50%);
                     opacity: 0;
                     transition: opacity 0.5s;

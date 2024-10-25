@@ -44,12 +44,4 @@
       margin-bottom: 2em;
     }
   }
-
-  .order {
-    button {
-      background-color: var(--button-color2);
-      color: var(--text-color);
-      border-radius: 20px;
-    }
-  }
 }

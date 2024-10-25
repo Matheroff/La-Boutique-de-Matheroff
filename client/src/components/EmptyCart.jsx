@@ -10,7 +10,10 @@ function EmptyCart() {
                 <p>Votre panier est vide</p>
                 <img src={Emptycart} alt="Panier vide"/>
                 <Link to="/">
-                    <button type="button">
+                    <button
+                        className="button-2" 
+                        type="button"
+                    >
                         Retour à l'accueil
                     </button>
                 </Link>

@@ -6,22 +6,23 @@ import Footer from "../components/Footer";
 function InfosPerso() {
   
     const [formData, setFormData] = useState({
-      civilite: "",
-      nom: "",
-      prenom: "",
-      telephone: "",
+      civility: "",
+      lastname: "",
+      firstname: "",
       email: "",
-      pays: "",
-      adresse: "",
-      ville: "",
-      codePostal: "",
-      motDePasse: "",
+      phone_number: "",
+      adress: "",
+      postal_code: "",
+      city: "",
+      country: "",
+      password: "",
     });
+    
+    const myUser = JSON.parse(localStorage.getItem("myUser"));
   
     const handleChange = (e) => {
       const { name, value } = e.target;
       setFormData({
-        ...formData,
         [name]: value,
       });
     };
@@ -47,8 +48,8 @@ function InfosPerso() {
           <form className="form-informations" onSubmit={handleSubmit}>
             <p>Les champs avec un * sont obligatoires</p>
             <select
-              name="civilite"
-              value={formData.civilite}
+              name="civility"
+              value={formData.civility}
             >
               <option value="">Civilité</option>
               <option value="Madame">Madame</option>
@@ -56,24 +57,17 @@ function InfosPerso() {
             </select>
             <input
               type="text"
-              name="nom"
-              value={formData.nom}
+              name="lastname"
+              value={formData.lastname}
               onChange={handleChange}
               placeholder="Nom*"
             />
             <input
               type="text"
-              name="prenom"
-              value={formData.prenom}
+              name="firstname"
+              value={formData.firstname}
               onChange={handleChange}
               placeholder="Prénom*"
-            />
-            <input
-              type="tel"
-              name="telephone"
-              value={formData.telephone}
-              onChange={handleChange}
-              placeholder="Téléphone*"
             />
             <input
               type="email"
@@ -83,53 +77,60 @@ function InfosPerso() {
               placeholder="E-mail*"
             />
             <input
-              type="text"
-              name="pays"
-              value={formData.pays}
+              type="tel"
+              name="phone_number"
+              value={formData.phone_number}
               onChange={handleChange}
-              placeholder="Pays*"
+              placeholder="Téléphone*"
             />
             <input
               type="text"
-              name="adresse"
-              value={formData.adresse}
+              name="adress"
+              value={formData.adress}
               onChange={handleChange}
               placeholder="Adresse*"
             />
             <input
               type="text"
-              name="ville"
-              value={formData.ville}
+              name="postal_code"
+              value={formData.postal_code}
+              onChange={handleChange}
+              placeholder="Code Postal*"
+            />
+            <input
+              type="text"
+              name="city"
+              value={formData.city}
               onChange={handleChange}
               placeholder="Ville*"
             />
             <input
               type="text"
-              name="codePostal"
-              value={formData.codePostal}
+              name="country"
+              value={formData.country}
               onChange={handleChange}
-              placeholder="Code Postal*"
+              placeholder="Pays*"
             />
             <button type="submit">Enregistrer</button>
             <h3>Mon mot de passe</h3>
             <input
               type="password"
-              name="motDePasse"
-              value={formData.motDePasseActuel}
+              name="password"
+              value={formData.currentpassword}
               onChange={handleChange}
               placeholder="Mot de passe actuel"
             />
             <input
               type="password"
               name="motDePasse"
-              value={formData.nouveauMotDePasse}
+              value={formData.newpassword}
               onChange={handleChange}
               placeholder="Nouveau mot de passe"
             />
             <input
               type="password"
               name="motDePasse"
-              value={formData.confirmerMotDePasse}
+              value={formData.confirmnewpassword}
               onChange={handleChange}
               placeholder="Confirmer le nouveau mot de passe"
             />
@@ -138,6 +139,7 @@ function InfosPerso() {
           <div className="order">
             <Link to="/orders">
               <button
+                className="button-2"
                 alt="Commandes"
                 type="button"
               >
