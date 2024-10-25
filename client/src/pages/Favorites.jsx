@@ -33,6 +33,12 @@ function Favorites() {
     },
   ]);
 
+  const handleRemoveItem = (id) => {
+    const updatedCartItems = cartItems.filter((item) => item.id !== id);
+    setCartItems(updatedCartItems);
+  };
+
+
   return (
     <div>
         <section className="fil-ariane">
@@ -53,10 +59,14 @@ function Favorites() {
                                 <button 
                                     className="remove-favorite" 
                                     type="button"
+                                    onClick={(e) => {
+                                    e.preventDefault(); // Empêche la navigation lors du clic sur la croix
+                                    handleRemoveItem(item.id);
+                                    }}
                                 >
                                     ✕
                                 </button>
-                                <span className="hover-text">Supprimer du panier</span>
+                                <span className="hover-text">Supprimer des favoris</span>
                             </div>
                             <img src={item.image} alt="Article" />
                             <p>{item.name}</p>
