@@ -34,7 +34,7 @@ function ItemsList() {
                     Créer un nouvel article
                 </button>
             </div>
-            <section className="grid-articles-admin">
+            <section className="grid-items-admin">
             {items[0].map((item) => (
                 <div 
                     key={item.id}> 

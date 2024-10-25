@@ -1,6 +1,6 @@
 @import url("../index.css");
 
-.grid-articles {
+.grid-items {
     margin: 5em;
     display: grid;
     place-items: center;
@@ -8,7 +8,7 @@
     grid-template-rows: minmax(300px, auto);
     grid-gap: 5em;
 
-    .article-card {
+    .item-card {
         height: 40vh;
         width: 40vh; 
         display: flex;
@@ -28,6 +28,7 @@
 
         button {
             width: 8em;
+            height: 1.5em;
             visibility: hidden;
             opacity: 0;
             transition: opacity 0.5s ease-in-out;
@@ -40,12 +41,12 @@
         }
     }
 
-    .article-card:hover {
+    .item-card:hover {
         border-color: #dba934;
         animation: border-animation 0.7s infinite;
     }
 
-    .article-card:hover button {
+    .item-card:hover button {
         visibility: visible;
         opacity: 1;
     }

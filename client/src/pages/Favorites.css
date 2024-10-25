@@ -1,0 +1,80 @@
+@import url("../index.css");
+
+.empty-favorites {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    p {
+        font-family: var(--ff-text);
+        font-size: var(--size-title2);
+        padding: 2em 0 0 0;
+    }
+
+    img {
+        height: 30vh;
+        width: auto;
+        opacity: 0.5;
+        margin: 2em;
+    }
+
+    button {
+        margin-bottom: 1.5em;
+        color: var(--text-color);
+        background-color: var(--button-color2);
+        border-radius: 1rem;
+    }
+}
+
+.item-card {
+
+    .img-title-text {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .hover-text {
+        visibility: hidden;
+        width: 10em;
+        background-color: rgba(0, 0, 0, 0.6);
+        font-family: var(--ff-text);
+        color: white;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        top: -1.5em;
+        left: 160%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+      
+      .img-title-text:hover .hover-text {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .remove-favorite {
+        position: absolute;
+        width: 1em;
+        top: -1.2em;
+        right: -6.2em;
+        border: none;
+        background: none;
+        color: red;
+        font-weight: bold;
+        font-size: 4em;
+        cursor: pointer;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
+        
+    .item-card:hover .remove-favorite {
+        visibility: visible;
+        opacity: 1;
+    }
+}

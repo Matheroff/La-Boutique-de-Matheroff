@@ -25,11 +25,11 @@ function Shop() {
                     <p>Nos articles ≻</p>
                 </Link>
             </section>
-            <section className="grid-articles">
+            <section className="grid-items">
                 {items[0] && items[0].length > 0 ? (
                     items[0].map((item) => (
                         <Link to={(`/item/${item.id}`)} key={item.id}>
-                            <div className="article-card"> 
+                            <div className="item-card"> 
                                 <img src={item.image} alt="Article" />
                                 <p>{item.name}</p>
                                 <button type="button">Voir +</button>

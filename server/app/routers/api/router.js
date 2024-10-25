@@ -42,13 +42,13 @@ router.use("/carts", cartRouter);
 
 const orderRouter = require("./orders/orderRouter");
 
-router.use("/carts", cartRouter);
+router.use("/orders", orderRouter);
 
 /* ************************************************************************* */
 
 const favoriteRouter = require("./favorites/favoriteRouter");
 
-router.use("/carts", cartRouter);
+router.use("/favorites", favoriteRouter);
 
 /* ************************************************************************* */
 

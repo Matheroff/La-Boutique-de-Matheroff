@@ -1,40 +1,20 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import "./Apropos.css";
 import Footer from "../components/Footer";
 
 function Apropos() {
 
-    const [formData, setFormData] = useState({
-        theme: "",
-        });
-       
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-          ...formData,
-          [name]: value,
-        });
-      };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.info("Form Data Submitted:", formData);
-      };
-
     return (
         <div>
             <section className="fil-ariane">
                 <Link to="/">
-                    <p type="button">Accueil ≻
-                    </p>
+                    <p type="button">Accueil ≻</p>
                 </Link>
-                <p>A propos</p>
+                <p>A propos ≻</p>
             </section>
             <section className="apropos-page">
             <h3 className="apropos-boutique">A propos de la boutique</h3>
                 <div className="border-bottom">
-                    
                     <p>
                         La Boutique de Matheroff est une boutique spécialisée dans la 
                         vente d’articles  de pop-culture. Créée en 2024, elle a pour but 
@@ -49,18 +29,7 @@ function Apropos() {
                 <h3>Contactez-nous</h3>
                 <div className="border-bottom">
                     <p>matheroffshop@hotmail.fr<br/>
-                    Siège social - 11 Rue Hippolyte Kahn - 69100 Villeurbanne</p>
-                    <div className="theme-idea" onSubmit={handleSubmit}>
-                        <p>Une idée de thème ?</p>
-                        <input
-                            type="text"
-                            name="nom"
-                            value={formData.nom}
-                            onChange={handleChange}
-                            placeholder="Suggérez-la nous ..."
-                        />
-                        <button type="submit">Envoyer</button>
-                    </div>
+                    Siège social : La Boutique de Matheroff<br/>11 Rue Hippolyte Kahn - 69100 Villeurbanne</p>
                 </div>
             </section>
             <Footer />
