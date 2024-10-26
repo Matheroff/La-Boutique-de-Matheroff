@@ -24,7 +24,55 @@
     }
 }
 
-.item-card {
+.grid-favorites-items {
+    margin: 5em;
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-rows: minmax(300px, auto);
+    grid-gap: 2em;
+
+    .item-favorites-card {
+        width: 40vh; 
+        height: 40vh;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        position: relative;
+        border: 2px solid transparent;
+        transition: border 0.5s ease-in-out;
+
+        img {
+            height: 13em;
+            width: auto;
+            border-radius: 20%;
+            padding-top: 0.5em;
+        }
+
+        button {
+            width: 8em;
+            height: 1.5em;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            margin-top: 0.6em;
+        }
+
+        p {
+            font-family: var(--ff-text);
+            margin-top: 0.6em;
+        }
+    }
+
+    .item-favorites-card:hover {
+        border-color: #dba934;
+        animation: border-animation 0.7s infinite;
+    }
+
+    .item-favorites-card:hover button {
+        visibility: visible;
+        opacity: 1;
+    }
 
     .img-title-text {
         position: relative;
@@ -42,7 +90,7 @@
         padding: 5px 0;
         position: absolute;
         z-index: 1;
-        top: -1.5em;
+        top: -1.6em;
         left: 160%;
         transform: translateX(-50%);
         opacity: 0;
@@ -57,8 +105,8 @@
       .remove-favorite {
         position: absolute;
         width: 1em;
-        top: -1.2em;
-        right: -6.2em;
+        top: -1.4em;
+        right: -4em;
         border: none;
         background: none;
         color: red;
@@ -70,8 +118,41 @@
         transition: opacity 0.3s ease-in-out;
     }
         
-    .item-card:hover .remove-favorite {
+    .item-favorites-card:hover .remove-favorite {
         visibility: visible;
         opacity: 1;
+    }
+}
+
+@keyframes border-animation {
+    0% {
+        border-width: 2px;
+        border-style: solid;
+        border-color: #dba934 transparent transparent transparent;
+        border-radius: 20px;
+    }
+    20% {
+        border-color: #dba934 transparent transparent transparent;
+        border-radius: 20px;
+    }
+    35% {
+        border-color: #dba934 #dba934 transparent transparent;
+        border-radius: 20px;
+    }
+    50% {
+        border-color: #dba934 #dba934 #dba934 transparent;
+        border-radius: 20px;
+    }
+    65% {
+        border-color: transparent #dba934 #dba934 #dba934;
+        border-radius: 20px;
+    }
+    80% {
+        border-color: transparent transparent #dba934 #dba934;
+        border-radius: 20px;
+    }
+    100% {
+        border-color: transparent transparent transparent #dba934;
+        border-radius: 20px;
     }
 }

@@ -5,32 +5,31 @@ import Footer from "../components/Footer";
 import "./Favorites.css";
 
 function Favorites() {
-
   const [favoriteItems, setFavoriteItems] = useState([
-    // {
-    //   id: 27,
-    //   name: "Mug Super Mario Bros",
-    //   description: "Mug Super Mario Bros avec les différents Mario au fil des années",
-    //   image: "https://th.bing.com/th/id/OIP.1uDcKwlqgfZMg-fEplYYZwHaHa?rs=1&pid=ImgDetMain",
-    //   unit_price: 10.00,
-    //   quantity: 1,
-    // },
-    // {
-    //     id: 45,
-    //     name: "Mug Super Mario Bros",
-    //     description: "Mug Super Mario Bros avec les différents Mario au fil des années",
-    //     image: "https://th.bing.com/th/id/OIP.1uDcKwlqgfZMg-fEplYYZwHaHa?rs=1&pid=ImgDetMain",
-    //     unit_price: 10.00,
-    //     quantity: 1,
-    // },
-    // {
-    //     id: 47,
-    //     name: "Mug Super Mario Bros",
-    //     description: "Mug Super Mario Bros avec les différents Mario au fil des années",
-    //     image: "https://th.bing.com/th/id/OIP.1uDcKwlqgfZMg-fEplYYZwHaHa?rs=1&pid=ImgDetMain",
-    //     unit_price: 10.00,
-    //     quantity: 1,
-    // },
+    {
+      id: 27,
+      name: "Mug Super Mario Bros",
+      description: "Mug Super Mario Bros avec les différents Mario au fil des années",
+      image: "https://th.bing.com/th/id/OIP.1uDcKwlqgfZMg-fEplYYZwHaHa?rs=1&pid=ImgDetMain",
+      unit_price: 10.00,
+      quantity: 1,
+    },
+    {
+      id: 45,
+      name: "Mug Super Mario Bros",
+      description: "Mug Super Mario Bros avec les différents Mario au fil des années",
+      image: "https://th.bing.com/th/id/OIP.1uDcKwlqgfZMg-fEplYYZwHaHa?rs=1&pid=ImgDetMain",
+      unit_price: 10.00,
+      quantity: 1,
+    },
+    {
+      id: 47,
+      name: "Mug Super Mario Bros",
+      description: "Mug Super Mario Bros avec les différents Mario au fil des années",
+      image: "https://th.bing.com/th/id/OIP.1uDcKwlqgfZMg-fEplYYZwHaHa?rs=1&pid=ImgDetMain",
+      unit_price: 10.00,
+      quantity: 1,
+    },
   ]);
 
   const handleRemoveItem = (id) => {
@@ -38,9 +37,8 @@ function Favorites() {
     setFavoriteItems(updatedFavoriteItems);
   };
 
-
   return (
-    <div>
+    <div className="column">
       <section className="fil-ariane">
         <Link to="/">
           <p type="button">Accueil ≻</p>
@@ -50,15 +48,15 @@ function Favorites() {
       {favoriteItems.length === 0 ? (
         <EmptyFavorites />
       ) : (
-        <section className="grid-items">
+        <section className="grid-favorites-items">
           {favoriteItems.map((item) => (
-            <div className="item-card" key={item.id}>
+            <div className="item-favorites-card" key={item.id}>
               <div className="img-title-text">
                 <button
                   className="remove-favorite"
                   type="button"
                   onClick={(e) => {
-                    e.preventDefault(); // Empêche la navigation lors du clic sur la croix
+                    e.preventDefault();
                     handleRemoveItem(item.id);
                   }}
                 >

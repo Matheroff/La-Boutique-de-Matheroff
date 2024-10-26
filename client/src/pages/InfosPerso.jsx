@@ -44,7 +44,7 @@ function InfosPerso() {
           <p>Informations personnelles</p>
         </section>
         <section className="user-infos">
-          <h3>Mes informations personnelles</h3>
+          <h3>Mes informations</h3>
           <form className="form-informations" onSubmit={handleSubmit}>
             <p>Les champs avec un * sont obligatoires</p>
             <select

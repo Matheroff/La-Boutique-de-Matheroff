@@ -38,25 +38,25 @@
         width: 80%;
         border-collapse: collapse;
         margin-top: 1em;
-    }
-    
-    th, td {
-        padding: 0.5em;
-        text-align: center;
-        font-family: var(--ff-text);
-    }
-    
-    th {
-        font-weight: bold;
-        background-color: #f0eee0;
-    }
+        
+        th, td {
+            padding: 0.5em;
+            text-align: center;
+            font-family: var(--ff-text);
+        }
+        
+        th {
+            font-weight: bold;
+            background-color: #f0eee0;
+        }
 
-    button {
-        height: 2em;
-        width: 8em;
-    }
+        button {
+            height: 2em;
+            width: 8em;
+        }
 
-    .order-item{
-        border-bottom: 2px solid #cccccc;
+        .order-item{
+            border-bottom: 2px solid #cccccc;
+        }
     }
 }

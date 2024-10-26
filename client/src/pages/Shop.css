@@ -9,7 +9,7 @@
     grid-gap: 5em;
 
     .item-card {
-        height: 40vh;
+        height:40vh;
         width: 40vh; 
         display: flex;
         flex-direction: column;
