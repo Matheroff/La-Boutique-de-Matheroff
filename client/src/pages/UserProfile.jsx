@@ -1,13 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import "./UserProfile.css";
 import Footer from "../components/Footer";
 import Commande from "../assets/images/commande.jpg";
 import InfoPerso from "../assets/images/infoperso.jpg";
+import DashboardButton from "../components/DashboardButton";
 
 function UserProfile() {
     
     const navigate = useNavigate();
-    const myUser = JSON.parse(localStorage.getItem('myUser'));
+    const myUser = JSON.parse(localStorage.getItem("myUser"));
+    const user = useLoaderData();
+    console.info(user);
 
     const handleSubmit = () => {
         // Je retire mon user du localStorage et me redirige vers la page home
@@ -31,13 +34,21 @@ function UserProfile() {
                 >
                     Déconnexion
                 </button>
+                {myUser && myUser.is_admin === 1 && (
+                    <DashboardButton />
+                )}
             </section>
             <section>
-                <h2>Bienvenue {myUser && myUser.firstname ? myUser.firstname : ""} !</h2>
-                <h3>Ravi de vous voir !</h3>
+                {user && user.firstname && user.lastname && (<h2>Profil de {user.firstname} {user.lastname}</h2>)}
+                {!user && (
+                    <>
+                        <h2>Bienvenue {myUser && myUser.firstname ? myUser.firstname : ""} !</h2>
+                        <h3>Ravi de vous voir !</h3>
+                    </>
+                )}
                 <div className="user-profile">
                     <div>
-                        <h3> Mes commandes</h3>
+                        <h3> Commandes</h3>
                         <Link to="/orders">
                             <img
                                 src={Commande} 
@@ -47,7 +58,7 @@ function UserProfile() {
                         </Link>
                     </div>
                     <div>
-                        <h3>Mes informations personnelles</h3>
+                        <h3>Informations personnelles</h3>
                         <Link to="/infosperso">
                             <img
                                 src={InfoPerso} 

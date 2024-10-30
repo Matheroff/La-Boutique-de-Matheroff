@@ -1,31 +1,10 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import "./Order.css";
+import { Link, useLoaderData } from "react-router-dom";
 import Footer from "../components/Footer";
-import EmptyOrder from "../components/EmptyOrder";
+import "./UsersList.css";
 
 function Users() {
 
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      user_date: "23/10/2024",
-      item_quantity: 1,
-      total_user: 10.00,
-      id_user: 1,
-      statut: 1
-    },
-    {
-      id: 2,
-      user_date: "25/10/2024",
-      item_quantity: 1,
-      total_user: 10.00,
-      id_user: 1,
-      statut: 1
-    },
-
-    
-  ]);
+  const users = useLoaderData();
 
   return (
     <div>
@@ -34,54 +13,41 @@ function Users() {
           <p type="button">Accueil ≻</p>
         </Link>
         <Link to="/userprofile">
-          <p type="button">Mon profil ≻</p>
+          <p type="button">Administrateur ≻</p>
         </Link>
-        <p>Commandes</p>
+        <p>Utilisateurs</p>
       </section>
-      <section className="user-info">
-        <h3>Mes commandes</h3>
-        <Link to="/infosperso">
-          <button
-            className="button-2"
-            alt="Commandes"
-            type="button"
-          >
-            Voir mes informations personnelles
-          </button>
-        </Link>
-      </section>
-      {users.length === 0 ? (
-        <Emptyuser />
-      ) : (
-        <section className="user-list">
-          <table className="users-table">
-            <thead>
-              <tr>
-                <th>Numéro de commande</th>
-                <th>Date</th>
-                <th>Quantité d'articles</th>
-                <th>Total</th>
-                <th>Détail commande</th>
+      <section className="user-list">
+        <h3>Utilisateurs</h3>
+        <table className="users-table">
+          <thead>
+            <tr>
+              <th>Identifiant</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>E-mail</th>
+              <th>Pseudo</th>
+              <th>Détail</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id} className="user-item">
+                <td>{user.id}</td>
+                <td>{user.lastname}</td>
+                <td>{user.firstname}</td>
+                <td>{user.email}</td>
+                <td>{user.pseudo}</td>
+                <td>
+                <Link to={`/userprofile/${user.id}`}>
+                  <button type="button">Voir le profil</button>
+                </Link>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id} className="user-item">
-                  <td>{user.id}</td>
-                  <td>{user.user_date}</td>
-                  <td>{user.item_quantity} article</td>
-                  <td>{user.total_user} €</td>
-                  <td>
-                  <Link to="/orderdetail">
-                    <button type="button">Voir le détail</button>
-                  </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
-      )}
+            ))}
+          </tbody>
+        </table>
+      </section>
       <Footer />
     </div>
   );

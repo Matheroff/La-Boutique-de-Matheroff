@@ -1,0 +1,50 @@
+@import url("../index.css");
+
+.dashboard-flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin: 2em;
+
+    p, th {
+        font-family: var(--ff-text);
+    }
+
+    th {
+        padding-right: 2em;
+    }
+
+    button {
+        width: 8em;
+        height: 2.5em;
+    }
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2em 0;
+    display: flex;
+    justify-content: center;
+    
+    th, td {
+        padding: 0.5em;
+        text-align: center;
+        font-family: var(--ff-text);
+    }
+    
+    th {
+        font-weight: bold;
+        background-color: #f0eee0;
+    }
+
+    button {
+        height: 2em;
+        width: 8em;
+    }
+
+    .user-item{
+        border-bottom: 2px solid #cccccc;
+    }
+}

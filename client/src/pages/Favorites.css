@@ -90,8 +90,7 @@
         padding: 5px 0;
         position: absolute;
         z-index: 1;
-        top: -1.6em;
-        left: 160%;
+        top: -3em;
         transform: translateX(-50%);
         opacity: 0;
         transition: opacity 0.5s;

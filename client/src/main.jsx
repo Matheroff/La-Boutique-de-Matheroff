@@ -4,10 +4,10 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, redirect, RouterProvider } from "react-router-dom";
 
 import myAxios from "./services/myAxios";
-import Admin from "./pages/Admin";
 import Apropos from "./pages/Apropos";
 import Cart from "./pages/Cart";
 import CategoriesList from "./pages/CategoriesList";
+import Dashboard from "./pages/Dashboard";
 import Favorites from "./pages/Favorites";
 import Header from "./components/Header";
 import Home from "./pages/Home";
@@ -46,8 +46,8 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/admin",
-        element: <Admin />,
+        path: "/dashboard",
+        element: <Dashboard />,
       },
       {
         path: "/apropos",
@@ -56,6 +56,17 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />,
+        loader: async () => {
+          const responsecart = await myAxios.get("/api/carts");
+          const responseitem = await myAxios.get("/api/items");
+
+          // const categoryId = `${params.categoryId}`
+          // if (categoryId) {
+          //   response.data = response.data.filter((item) => item.id_category == categoryId)
+          // }
+
+          return [responsecart.data, responseitem.data];
+        },
       },
       {
         path: "/categories",
@@ -289,15 +300,24 @@ const router = createBrowserRouter([
       {
         path: "/users",
         element: <UsersList />,
-      },
-      {
-        path: "/userprofile",
-        element: <UserProfile />,
         loader: async () => {
           const response = await myAxios.get("/api/users");
           
           return response.data;
         },
+      },
+      {
+        path: "/userprofile/:id",
+        element: <UserProfile />,
+        loader: async ({ params }) => {
+          const response = await myAxios.get(`/api/users/${params.id}`);
+          
+          return response.data;
+        },
+      },
+      {
+        path: "/userprofile",
+        element: <UserProfile />,
       }
     ]
   }

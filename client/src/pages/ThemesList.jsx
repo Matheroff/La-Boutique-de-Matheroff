@@ -8,57 +8,41 @@ import "./Lists.css";
 
 function ThemesList() {
     const themes = useLoaderData();
-    const [formData, setFormData] = useState({
-        name: "",
-    });
+    const [formData, setFormData] = useState({ name: "" });
     const [editingTheme, setEditingTheme] = useState(null);
-    const [editFormData, setEditFormData] = useState({
-        name: "",
-    });
+    const [editFormData, setEditFormData] = useState({ name: "" });
     const [themeList, setThemeList] = useState(themes);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [themeToDelete, setThemeToDelete] = useState(null);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        setFormData({ ...formData, [name]: value });
     };
 
     const handleEditChange = (e) => {
         const { name, value } = e.target;
-        setEditFormData({
-            ...editFormData,
-            [name]: value,
-        });
+        setEditFormData({ ...editFormData, [name]: value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await myAxios.post("/api/themes", {
-                name: formData.name,
-            });
-            console.info("Theme added:", response.data);
+            const response = await myAxios.post("/api/themes", { name: formData.name });
             setThemeList([...themeList, response.data]);
-            setFormData({ name: "" }); // Réinitialise le formulaire
+            setFormData({ name: "" });
             toast.success("Thème ajouté avec succès!");
         } catch (err) {
-            console.error("Error adding theme:", err);
             toast.error("Erreur lors de l'ajout du thème.");
         }
     };
 
     const handleDelete = async (id) => {
         try {
-            const response = await myAxios.delete(`/api/themes/${id}`);
-            console.info("Theme deleted:", response.data);
+            await myAxios.delete(`/api/themes/${id}`);
             setThemeList(themeList.filter((theme) => theme.id !== id));
             toast.success("Thème supprimé avec succès!");
         } catch (err) {
-            console.error("Error deleting theme:", err);
             toast.error("Erreur lors de la suppression du thème.");
         }
     };
@@ -70,19 +54,14 @@ function ThemesList() {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        console.info("Updating theme:", editingTheme);
         try {
-            const response = await myAxios.put(`/api/themes/${editingTheme}`, {
-                name: editFormData.name,
-            });
-            console.info("theme updated:", response.data);
+            await myAxios.put(`/api/themes/${editingTheme}`, { name: editFormData.name });
             setThemeList(themeList.map((theme) =>
                 theme.id === editingTheme ? { ...theme, name: editFormData.name } : theme
             ));
             setEditingTheme(null);
             toast.success("Thème mis à jour avec succès!");
         } catch (err) {
-            console.error("Error updating theme:", err);
             toast.error("Erreur lors de la mise à jour du thème.");
         }
     };
@@ -132,31 +111,41 @@ function ThemesList() {
                 </form>
             </section>
             <section>
-                {themeList.map((theme) => (
-                    <div className="row-list" key={theme.id}>
-                        {editingTheme === theme.id ? (
-                            <form onSubmit={handleUpdate}>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={editFormData.name}
-                                    onChange={handleEditChange}
-                                />
-                                <button type="submit">Mettre à jour</button>
-                            </form>
-                        ) : (
-                            <>
-                                <p>{theme.name}</p>
-                                <button type="button" onClick={() => handleEdit(theme)}>
-                                    Modifier
-                                </button>
-                                <button type="button" onClick={() => openModal(theme)}>
-                                    Supprimer
-                                </button>
-                            </>
-                        )}
-                    </div>
-                ))}
+                <table className="category-theme-table">
+                    <tbody>
+                        {themeList.map((theme) => (
+                            <tr key={theme.id}>
+                                <td>
+                                    {editingTheme === theme.id ? (
+                                        <form onSubmit={handleUpdate}>
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                value={editFormData.name}
+                                                onChange={handleEditChange}
+                                            />
+                                            <button type="submit">Mettre à jour</button>
+                                        </form>
+                                    ) : (
+                                        theme.name
+                                    )}
+                                </td>
+                                <td>
+                                    {editingTheme !== theme.id && (
+                                        <>
+                                            <button type="button" onClick={() => handleEdit(theme)}>
+                                                Modifier
+                                            </button>
+                                            <button type="button" onClick={() => openModal(theme)}>
+                                                Supprimer
+                                            </button>
+                                        </>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </section>
             <Footer />
             {isModalOpen && (
@@ -164,17 +153,10 @@ function ThemesList() {
                     <div className="new-add-modal-content">
                         <p>Êtes-vous sûr de vouloir supprimer ce thème ?</p>
                         <div className="modal-buttons">
-                            <button 
-                                type="button" 
-                                onClick={confirmDelete}
-                            >
+                            <button type="button" onClick={confirmDelete}>
                                 Supprimer
                             </button>
-                            <button 
-                                className="grey-button" 
-                                type="button" 
-                                onClick={closeModal}
-                            >
+                            <button className="grey-button" type="button" onClick={closeModal}>
                                 Annuler
                             </button>
                         </div>
@@ -186,4 +168,5 @@ function ThemesList() {
 }
 
 export default ThemesList;
+
 

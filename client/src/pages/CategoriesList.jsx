@@ -132,49 +132,52 @@ function CategoriesList() {
                 </form>
             </section>
             <section>
-                {categoryList.map((category) => (
-                    <div className="row-list" key={category.id}>
-                        {editingCategory === category.id ? (
-                            <form onSubmit={handleUpdate}>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={editFormData.name}
-                                    onChange={handleEditChange}
-                                />
-                                <button type="submit">Mettre à jour</button>
-                            </form>
-                        ) : (
-                            <>
-                                <p>{category.name}</p>
-                                <button type="button" onClick={() => handleEdit(category)}>
-                                    Modifier
-                                </button>
-                                <button type="button" onClick={() => openModal(category)}>
-                                    Supprimer
-                                </button>
-                            </>
-                        )}
-                    </div>
-                ))}
+                <table className="category-theme-table">
+                    <tbody>
+                        {categoryList.map((category) => (
+                            <tr key={category.id}>
+                                <td>
+                                    {editingCategory === category.id ? (
+                                        <form onSubmit={handleUpdate}>
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                value={editFormData.name}
+                                                onChange={handleEditChange}
+                                            />
+                                            <button type="submit">Mettre à jour</button>
+                                        </form>
+                                    ) : (
+                                        category.name
+                                    )}
+                                </td>
+                                <td>
+                                    {editingCategory !== category.id && (
+                                        <>
+                                            <button type="button" onClick={() => handleEdit(category)}>
+                                                Modifier
+                                            </button>
+                                            <button type="button" onClick={() => openModal(category)}>
+                                                Supprimer
+                                            </button>
+                                        </>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </section>
             <Footer />
             {isModalOpen && (
                 <div className="new-add-modal">
                     <div className="new-add-modal-content">
-                        <p>Êtes-vous sûr de vouloir supprimer cette catégorie ?</p>
+                        <p>Êtes-vous sûr de vouloir supprimer ce thème ?</p>
                         <div className="modal-buttons">
-                            <button 
-                                type="button" 
-                                onClick={confirmDelete}
-                            >
+                            <button type="button" onClick={confirmDelete}>
                                 Supprimer
                             </button>
-                            <button 
-                                className="grey-button" 
-                                type="button" 
-                                onClick={closeModal}
-                            >
+                            <button className="grey-button" type="button" onClick={closeModal}>
                                 Annuler
                             </button>
                         </div>
