@@ -100,6 +100,12 @@ const router = createBrowserRouter([
       {
         path: "/favorites",
         element: <Favorites />,
+        loader: async () => {
+          const responsefav = await myAxios.get("/api/favorites");
+          const responseitem = await myAxios.get("/api/items");
+
+          return [responsefav.data, responseitem.data];
+        },
       },
       {
         path: "/infosperso",

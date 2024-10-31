@@ -17,19 +17,22 @@
 
     button {
         width: 8em;
-        height: 2.5em;
+        height: 2em;
     }
 }
 
 .order-table {
     width: 100%;
-    border-collapse: collapse;
     margin: 2em 0;
     display: flex;
     justify-content: center;
+
+    table {
+        border-collapse: collapse;
+    }
     
     th, td {
-        padding: 0.5em;
+        padding: 0.8em;
         text-align: center;
         font-family: var(--ff-text);
     }
@@ -44,7 +47,35 @@
         width: 8em;
     }
 
-    .user-item{
-        border-bottom: 2px solid #cccccc;
+}
+
+.order-valid-modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+
+    .order-valid-modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 1em;
+        border: 1px solid #888;
+        border-radius: 10px;
+        width: 80%;
+        text-align: center;
+
+        p {
+            font-family: var(--ff-text);
+            padding: 1em;
+        }
+
+        button {
+            margin: 0.2em;
+            width: 10em;
+        }
     }
 }

@@ -90,7 +90,7 @@ function ThemesList() {
                 <Link to="/">
                     <p type="button">Accueil ≻</p>
                 </Link>
-                <Link to="/">
+                <Link to="/dashboard">
                     <p type="button">Tableau de bord ≻</p>
                 </Link>
                 <p>Thèmes</p>

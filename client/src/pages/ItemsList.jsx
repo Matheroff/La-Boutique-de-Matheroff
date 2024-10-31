@@ -17,7 +17,7 @@ function ItemsList() {
                 <Link to="/">
                     <p>Accueil ≻</p>
                 </Link>
-                <Link to="/admin">
+                <Link to="/dashboard">
                     <p>Tableau de bord ≻</p>
                 </Link>
                 <p>Articles</p>

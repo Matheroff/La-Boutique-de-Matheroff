@@ -12,8 +12,8 @@ function Users() {
         <Link to="/">
           <p type="button">Accueil ≻</p>
         </Link>
-        <Link to="/userprofile">
-          <p type="button">Administrateur ≻</p>
+        <Link to="/dashboard">
+          <p type="button">Tableau de bord ≻</p>
         </Link>
         <p>Utilisateurs</p>
       </section>

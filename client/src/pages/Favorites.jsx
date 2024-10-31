@@ -1,41 +1,36 @@
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { useState } from "react";
 import EmptyFavorites from "../components/EmptyFavorites";
 import Footer from "../components/Footer";
 import "./Favorites.css";
+import myAxios from "../services/myAxios";
 
 function Favorites() {
-  const [favoriteItems, setFavoriteItems] = useState([
-    {
-      id: 27,
-      name: "Mug Super Mario Bros",
-      description: "Mug Super Mario Bros avec les différents Mario au fil des années",
-      image: "https://th.bing.com/th/id/OIP.1uDcKwlqgfZMg-fEplYYZwHaHa?rs=1&pid=ImgDetMain",
-      unit_price: 10.00,
-      quantity: 1,
-    },
-    {
-      id: 45,
-      name: "Mug Super Mario Bros",
-      description: "Mug Super Mario Bros avec les différents Mario au fil des années",
-      image: "https://th.bing.com/th/id/OIP.1uDcKwlqgfZMg-fEplYYZwHaHa?rs=1&pid=ImgDetMain",
-      unit_price: 10.00,
-      quantity: 1,
-    },
-    {
-      id: 47,
-      name: "Mug Super Mario Bros",
-      description: "Mug Super Mario Bros avec les différents Mario au fil des années",
-      image: "https://th.bing.com/th/id/OIP.1uDcKwlqgfZMg-fEplYYZwHaHa?rs=1&pid=ImgDetMain",
-      unit_price: 10.00,
-      quantity: 1,
-    },
-  ]);
 
-  const handleRemoveItem = (id) => {
-    const updatedFavoriteItems = favoriteItems.filter((item) => item.id !== id);
-    setFavoriteItems(updatedFavoriteItems);
-  };
+  const [favorites, items] = useLoaderData();
+  const myUser = JSON.parse(localStorage.getItem("myUser"));
+
+    // Initialiser favoriteItems avec les articles de l'utilisateur filtrés et enrichis
+    const [favoriteItems, setFavoriteItems] = useState(
+      favorites
+        .filter((favorite) => favorite.id_user === myUser.id)
+        .map((favorite) => {
+          const itemDetails = items.find((item) => item.id === favorite.id_item);
+          return {
+            favoriteId: favorite.id, // ID du panier
+            ...favorite,
+            ...itemDetails, // Détails de l'article
+            isCustom: false, // État pour gérer l'option personnalisée
+            customQuantity: "", // Quantité personnalisée
+          };
+        })
+    );
+
+    const handleRemoveItem = async (id) => {
+      setFavoriteItems((prevItems) => prevItems.filter((item) => item.id !== id));
+      const item = favoriteItems.find((item) => item.id_item === id);
+      await myAxios.delete(`/api/favorites/${item.favoriteId}`);
+    };
 
   return (
     <div className="column">

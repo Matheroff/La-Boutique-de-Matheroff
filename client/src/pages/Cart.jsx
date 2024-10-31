@@ -1,82 +1,89 @@
 import { Link, useLoaderData } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Footer from "../components/Footer";
 import EmptyCart from "../components/EmptyCart";
 import "./Cart.css";
+import myAxios from "../services/myAxios";
 
 function Cart() {
-
   const [carts, items] = useLoaderData();
-  const [cartItems, setCartItems] = useState(carts);
   const myUser = JSON.parse(localStorage.getItem("myUser"));
-  console.info(myUser);
 
-  // const [cartItems, setCartItems] = useState([
-  //   {
-  //     id: 1,
-  //     name: "Mug Super Mario Bros",
-  //     description: "Mug Super Mario Bros avec les différents Mario au fil des années",
-  //     image: "https://th.bing.com/th/id/OIP.1uDcKwlqgfZMg-fEplYYZwHaHa?rs=1&pid=ImgDetMain",
-  //     unit_price: 10.00,
-  //     quantity: 1,
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "T-Shirt Ultra Vomit",
-  //     description: "T-Shirt Ultra Vomit Je collectionne des canards (vivants) / Nos tailles de t-shirts sont standards et uniques",
-  //     image: "https://th.bing.com/th/id/R.f854b6aac010865b936c7820f290cb83?rik=dxlgXAuiKLCS0g&pid=ImgRaw&r=0",
-  //     unit_price: 15.00,
-  //     quantity: 1,
-  //   },
-  // ]);
+  // Initialiser cartItems avec les articles de l'utilisateur filtrés et enrichis
+  const [cartItems, setCartItems] = useState(
+    carts
+      .filter((cart) => cart.id_user === myUser.id)
+      .map((cart) => {
+        const itemDetails = items.find((item) => item.id === cart.id_item);
+        return {
+          cartId: cart.id, // ID du panier
+          ...cart,
+          ...itemDetails, // Détails de l'article
+          isCustom: false, // État pour gérer l'option personnalisée
+          customQuantity: "", // Quantité personnalisée
+        };
+      })
+  );
 
-  // useEffect(() => {
-  //   if (myUser && carts) {
-  //     // setCartItems(cart.filter((item) => item.id_user === myUser.id))
-  //     const myUserCart = carts.some(cart => cart.id_user === myUser.id)
-  //     setCartItems(myUserCart);
-  //   }
-  // }, [carts, myUser]);
-
-  // Gère la suppression d'un article du panier
-  const handleRemoveItem = (id) => {
-    const updatedCartItems = cartItems.filter((item) => item.id !== id);
-    setCartItems(updatedCartItems);
-  };
-
-  // Gère le changement de quantité
-  const handleQuantityChange = (id, value) => {
-    const updatedCartItems = cartItems.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            quantity: value === "+" ? item.quantity : Number(value),
-            customQuantity: value === "+" ? item.quantity : "",
-            isCustom: value === "+",
-          }
-        : item
+  // Gérer le changement de quantité
+  const handleQuantityChange = async (id, value) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              quantity: value === "+" ? item.quantity : Number(value),
+              isCustom: value === "+", // Activer l'input si "personnalisée" est sélectionné
+              customQuantity: value === "+" ? item.customQuantity : "", // Réinitialiser customQuantity
+            }
+          : item
+      )
     );
-    setCartItems(updatedCartItems);
+    if (value !== "+") {
+      // Met à jour la quantité en base si ce n'est pas "personnalisé"
+      const item = cartItems.find((item) => item.id_item === id);
+      await myAxios.put(`/api/carts/${item.cartId}`, {
+        id_item: item.id_item,
+        id_user: item.id_user,
+        quantity: Number(value),
+      });
+    }
   };
 
-  // Gère la quantité personnalisée
-  const handleCustomQuantityChange = (id, value) => {
-    const updatedCartItems = cartItems.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            quantity: Number(value),
-            customQuantity: value,
-          }
-        : item
+  // Gérer la quantité personnalisée
+  const handleCustomQuantityChange = async (id, value) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              quantity: Number(value),
+              customQuantity: value,
+            }
+          : item
+      )
     );
-    setCartItems(updatedCartItems);
+    // Met à jour la quantité en base
+    const item = cartItems.find((item) => item.id_item === id);
+    await myAxios.put(`/api/carts/${item.cartId}`, {
+      id_item: item.id_item,
+      id_user: item.id_user,
+      quantity: Number(value),
+    });
   };
 
-  // const totalPrice = cartItems.reduce(
-  //   (acc, item) => acc + item.unit_price * item.quantity,
-  //   0
-  // );
+  // Gérer la suppression d'un article du panier
+  const handleRemoveItem = async (id) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    const item = cartItems.find((item) => item.id_item === id);
+    await myAxios.delete(`/api/carts/${item.cartId}`);
+  };
+
+  // Calcul du prix total
+  const totalPrice = cartItems.reduce(
+    (acc, item) => acc + item.unit_price * item.quantity,
+    0
+  );
 
   return (
     <div>
@@ -92,8 +99,8 @@ function Cart() {
       ) : (
         <section className="cart-container">
           <div className="items-list">
-            {cartItems.map((cart) => (
-              <div className="item-cart" key={cart.id}>
+            {cartItems.map((item) => (
+              <div className="item-cart" key={item.id}>
                 <img src={item.image} alt={item.name} />
                 <div className="item-cart-infos">
                   <p>{item.name}</p>
@@ -103,7 +110,9 @@ function Cart() {
                     <select
                       id={`quantity-${item.id}`}
                       value={item.isCustom ? "+" : item.quantity}
-                      onChange={(e) => handleQuantityChange(item.id, e.target.value)}
+                      onChange={(e) =>
+                        handleQuantityChange(item.id, e.target.value)
+                      }
                     >
                       {[...Array(10).keys()].map((num) => (
                         <option key={num + 1} value={num + 1}>
@@ -117,7 +126,9 @@ function Cart() {
                         type="number"
                         min="11"
                         value={item.customQuantity}
-                        onChange={(e) => handleCustomQuantityChange(item.id, e.target.value)}
+                        onChange={(e) =>
+                          handleCustomQuantityChange(item.id, e.target.value)
+                        }
                         placeholder="Entrez la quantité"
                       />
                     )}
@@ -135,7 +146,7 @@ function Cart() {
           </div>
           <div className="total-cart">
             <h2>Total :</h2>
-            {/* <h2>{totalPrice}€</h2> */}
+            <h2>{totalPrice}€</h2>
             <button type="submit">Passer la commande</button>
           </div>
         </section>
