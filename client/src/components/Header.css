@@ -86,4 +86,18 @@
         justify-content: space-around;
         flex: 1;
     }
+
+    .cart-icon {
+        position: relative;
+    }
+      
+    .cart-notification {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        width: 10px;
+        height: 10px;
+        background-color: red;
+        border-radius: 50%;
+    }
 }

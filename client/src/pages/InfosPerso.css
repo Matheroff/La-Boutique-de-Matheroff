@@ -6,6 +6,11 @@
   align-items: flex-start;
   margin: 2em;
 
+  .forms-flex {
+    display: flex;
+    flex-direction: column;
+  }
+
   .form-informations {
     display: flex;
     align-items: center;
@@ -19,6 +24,8 @@
       color: var(--button-color2);
       font-family: var(--ff-text);
       font-style: italic;
+      text-align: center;
+      margin: 1em 0;
     }
 
     h3 {

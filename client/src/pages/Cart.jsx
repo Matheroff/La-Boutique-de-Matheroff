@@ -6,6 +6,7 @@ import "./Cart.css";
 import myAxios from "../services/myAxios";
 
 function Cart() {
+  
   const [carts, items] = useLoaderData();
   const myUser = JSON.parse(localStorage.getItem("myUser"));
 

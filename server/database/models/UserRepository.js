@@ -28,8 +28,8 @@ class UserRepository extends AbstractRepository {
 
   async update(id, user) {
     const [result] = await this.database.query(
-      `UPDATE ${this.table} SET firstname = ?, lastname = ?, email = ?, password = ?, phone_number = ?, adress = ?, postal_code = ?, city = ? , pseudo = ? WHERE id = ?`,
-      [user.firstname, user.lastname, user.email, user.password, user.phone_number, user.adress, user.postal_code, user.city, user.pseudo, id]
+      `UPDATE ${this.table} SET firstname = ?, lastname = ?, email = ?, password = ?, phone_number = ?, adress = ?, postal_code = ?, city = ? , country = ? WHERE id = ?`,
+      [user.firstname, user.lastname, user.email, user.password, user.phone_number, user.adress, user.postal_code, user.city, user.country, id]
     );
     return result.affectedRows; // Retourne le nombre de lignes affectées
   }

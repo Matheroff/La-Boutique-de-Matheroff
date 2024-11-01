@@ -10,7 +10,6 @@ function UserProfile() {
     const navigate = useNavigate();
     const myUser = JSON.parse(localStorage.getItem("myUser"));
     const user = useLoaderData();
-    console.info(user);
 
     const handleSubmit = () => {
         // Je retire mon user du localStorage et me redirige vers la page home
