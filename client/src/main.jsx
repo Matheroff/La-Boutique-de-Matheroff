@@ -60,11 +60,6 @@ const router = createBrowserRouter([
           const responsecart = await myAxios.get("/api/carts");
           const responseitem = await myAxios.get("/api/items");
 
-          // const categoryId = `${params.categoryId}`
-          // if (categoryId) {
-          //   response.data = response.data.filter((item) => item.id_category == categoryId)
-          // }
-
           return [responsecart.data, responseitem.data];
         },
       },

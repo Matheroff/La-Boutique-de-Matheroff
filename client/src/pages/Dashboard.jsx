@@ -131,7 +131,7 @@ function Dashboard() {
                         {orderDetails && (
                             <div>
                                 <p><strong>Message à </strong> {orderDetails.user}</p>
-                                <p>Votre commande est confirmée. Vous la recevrez le {formattedDeliveryDate}. <br/>
+                                <p>Votre commande est confirmée. Vous la recevrez aux alentours du {formattedDeliveryDate}. <br/>
                                 La Boutique de Matheroff vous remercie et vous souhaite une bonne réception !</p>
                             </div>
                         )}

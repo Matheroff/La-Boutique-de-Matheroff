@@ -3,24 +3,28 @@ import { useEffect, useState } from "react";
 import "./Header.css";
 import Cart from "../assets/images/cart.png";
 import Userlocked from "../assets/images/userlocked1.png";
+import User from "../assets/images/user.png";
 import Heart from "../assets/images/heart.png";
 import Menu from "../assets/images/menu-burger.png";
 import AuthModal from "./AuthModal";
 import myAxios from "../services/myAxios"; // Import pour récupérer le panier
 
 function Header() {
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [cartItemCount, setCartItemCount] = useState(0); // Compteur d'articles dans le panier
 
   const myUser = JSON.parse(localStorage.getItem("myUser"));
 
   useEffect(() => {
     if (myUser) {
-      myAxios.get(`/api/carts?id_user=${myUser.id}`).then((response) => {
-        console.info(response.data);
-        setCartItemCount(response.data.length);
+      myAxios.get(`/api/carts`).then((response) => {
+        // Filtrer les résultats pour ne conserver que ceux correspondant à l'utilisateur connecté
+        const filteredCart = response.data.filter(item => item.id_user === myUser.id);
+        console.info(filteredCart);
+        setCartItemCount(filteredCart.length);
       });
     }
   }, [myUser]);
@@ -66,16 +70,29 @@ function Header() {
             />
           </div>
           <div className="user-icons">
-            <div className="img-title-text">
-              <Link to={myUser ? '/userprofile' : '/'}>
+            {/* Afficher l'icône Userlocked si aucun utilisateur n'est connecté */}
+            {!myUser ? (
+              <div className="img-title-text">
                 <img
                   src={Userlocked}
                   alt="Se connecter"
                   aria-hidden="true"
-                  onClick={handleModalOpen} />
-              </Link>
-              <span className="hover-text">Mon compte</span>
-            </div>
+                  onClick={handleModalOpen}
+                />
+                <span className="hover-text">Mon compte</span>
+              </div>
+            ) : (
+              // Afficher l'icône User si un utilisateur est connecté
+              <div className="img-title-text">
+                <Link to="/userprofile">
+                  <img
+                    src={User}
+                    alt="Mon profil"
+                  />
+                </Link>
+                <span className="hover-text">Mon compte</span>
+              </div>
+            )}
             <div className="img-title-text">      
               <Link to="/favorites">
                 <img src={Heart} alt="Favoris" />
