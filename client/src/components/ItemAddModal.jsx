@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLoaderData, Form } from "react-router-dom";
 import Modal from "react-modal";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import PropTypes from "prop-types";
 import myAxios from "../services/myAxios";
 import "./ItemAddModal.css";
@@ -12,12 +12,12 @@ Modal.setAppElement("#root");
 function ItemAddModal({ isOpen, onRequestClose, action, item = {} }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    image: '',
+    name: "",
+    description: "",
+    image: "",
     unit_price: 0,
-    category: '',
-    theme: ''
+    category: "",
+    theme: ""
   });
 
   const list = useLoaderData();
@@ -26,21 +26,21 @@ function ItemAddModal({ isOpen, onRequestClose, action, item = {} }) {
     if ((action === "update" || action === "delete") && item) {
       console.info(item);
       setFormData({
-        name: item.name || '',
-        description: item.description || '',
-        image: item.image || '',
+        name: item.name || "",
+        description: item.description || "",
+        image: item.image || "",
         unit_price: item.unit_price || 0,
-        category: item.id_category || '',
-        theme: item.id_theme || ''
+        category: item.id_category || "",
+        theme: item.id_theme || ""
       });
     } else if (action === "add") {
       setFormData({
-        name: '',
-        description: '',
-        image: '',
+        name: "",
+        description: "",
+        image: "",
         unit_price: 0,
-        category: '',
-        theme: ''
+        category: "",
+        theme: ""
       });
       console.info(formData);
     }

@@ -62,6 +62,20 @@ const router = createBrowserRouter([
 
           return [responsecart.data, responseitem.data];
         },
+        action: async ({ request }) => {
+          const formData = await request.formData();
+
+          const itemQuantity = formData.get("item_quantity");
+          const totalOrder = formData.get("total_order");
+          const orderDate = formData.get("order_date");
+          const idUser = formData.get("id_user");
+          const statut = formData.get("statut");
+          const confirmationDate = formData.get("confirmation_date");
+
+          const response = await myAxios.post("/api/orders/:id", { "item_quantity":itemQuantity, "total_order":totalOrder, "order_date":orderDate, "id_user":idUser, statut, "confirmation_date":confirmationDate });
+
+          return redirect(`/orderdetail/${response.data.insertId}`);
+        },
       },
       {
         path: "/categories",
@@ -201,6 +215,11 @@ const router = createBrowserRouter([
       {
         path: "/orders",
         element: <Orders />,
+        loader: async () => {
+          const response = await myAxios.get("/api/orders");
+
+          return response.data;
+        },
       },
       {
         path: "/orderdetail",
