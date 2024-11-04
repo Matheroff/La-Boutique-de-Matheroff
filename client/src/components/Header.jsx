@@ -5,12 +5,11 @@ import Cart from "../assets/images/cart.png";
 import Userlocked from "../assets/images/userlocked1.png";
 import User from "../assets/images/user.png";
 import Heart from "../assets/images/heart.png";
-import Menu from "../assets/images/menu-burger.png";
+import Shop from "../assets/images/shop.png";
 import AuthModal from "./AuthModal";
 import myAxios from "../services/myAxios"; // Import pour récupérer le panier
 
 function Header() {
-  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
@@ -44,8 +43,18 @@ function Header() {
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
+
   const handleModalClose = () => {
     setIsModalOpen(false);
+  };
+
+  const handleProtectedNavigation = (event, path) => {
+    if (!myUser) {
+      event.preventDefault();
+      handleModalOpen();
+    } else {
+      navigate(path);
+    }
   };
 
   return (
@@ -57,10 +66,10 @@ function Header() {
         <div className="navbar">
           <div className="menu-searchbar">
             <div className="img-title-text">      
-              <Link to="/">
-                <img src={Menu} alt="Catégories" />
+              <Link to="/shop">
+                <img src={Shop} alt="Boutique" />
               </Link>
-              <span className="hover-text">Catégories</span>
+              <span className="hover-text">Boutique</span>
             </div>
             <input
               className="search-input"
@@ -94,16 +103,16 @@ function Header() {
               </div>
             )}
             <div className="img-title-text">      
-              <Link to="/favorites">
+              <a href="/favorites" onClick={(e) => handleProtectedNavigation(e, '/favorites')}>
                 <img src={Heart} alt="Favoris" />
-              </Link>
+              </a>
               <span className="hover-text">Favoris</span>
             </div>
             <div className="img-title-text cart-icon">
-              <Link to="/cart">
+              <a href="/cart" onClick={(e) => handleProtectedNavigation(e, '/cart')}>
                 <img src={Cart} alt="Panier" />
                 {cartItemCount > 0 && <span className="cart-notification"></span>}
-              </Link>
+              </a>
               <span className="hover-text">Panier</span>
             </div>
           </div>

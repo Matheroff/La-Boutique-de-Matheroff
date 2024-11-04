@@ -58,6 +58,7 @@ create table order (
   total_order decimal(10, 2) not null,
   order_date timestanp default current_timestanp not null,
   statut enum("En attente de validation", "Validée", "Livrée") not null,
+  confirmation_date default current_timestanp ,
   id_user int unsigned not null,
   foreign key(id_user) references user(id)
 );
