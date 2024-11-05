@@ -194,28 +194,20 @@ function Cart() {
       })
   );
 
-  useEffect(() => {
-    console.info("Données des articles du panier mises à jour :", cartItems);
-  }, [cartItems]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const orderData = {
+        item_quantity: Number(cartItems.length),
         id_user: myUser.id,
-        items: cartItems.map((item) => ({
-          id_item: item.id_item,
-          quantity: item.quantity,
-          unit_price: item.unit_price,
-        })),
         total_order: totalPrice,
-        order_date: new Date().toISOString(),
-        statut: "En cours",
+        order_date: new Date().toISOString().split('T')[0] + ' 00:00:00',
+        statut: "En attente de validation",
       };
 
       const response = await myAxios.post("/api/orders", orderData);
       toast.success("Commande passée avec succès !");
-      navigate(`/order/${response.data.insertId}`);
+      navigate("/thankyoufororder");
     } catch (error) {
       console.error("Erreur lors du traitement de la commande:", error);
       toast.error("Une erreur est survenue lors de la commande !");

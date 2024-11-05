@@ -24,7 +24,6 @@ function ItemAddModal({ isOpen, onRequestClose, action, item = {} }) {
 
   useEffect(() => {
     if ((action === "update" || action === "delete") && item) {
-      console.info(item);
       setFormData({
         name: item.name || "",
         description: item.description || "",
@@ -42,7 +41,6 @@ function ItemAddModal({ isOpen, onRequestClose, action, item = {} }) {
         category: "",
         theme: ""
       });
-      console.info(formData);
     }
   }, [action, item]);
 

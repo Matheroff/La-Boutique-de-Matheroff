@@ -19,6 +19,7 @@ import OrderDetail from "./pages/OrderDetail";
 import Orders from "./pages/Orders";
 import Register from "./components/Register";
 import Shop from "./pages/Shop";
+import ThankYouForOrder from "./pages/ThankYouForOrder";
 import Themes from "./pages/ThemesList";
 import UserProfile from "./pages/UserProfile";
 import UsersList from "./pages/UsersList";
@@ -61,20 +62,6 @@ const router = createBrowserRouter([
           const responseitem = await myAxios.get("/api/items");
 
           return [responsecart.data, responseitem.data];
-        },
-        action: async ({ request }) => {
-          const formData = await request.formData();
-
-          const itemQuantity = formData.get("item_quantity");
-          const totalOrder = formData.get("total_order");
-          const orderDate = formData.get("order_date");
-          const idUser = formData.get("id_user");
-          const statut = formData.get("statut");
-          const confirmationDate = formData.get("confirmation_date");
-
-          const response = await myAxios.post("/api/orders/:id", { "item_quantity":itemQuantity, "total_order":totalOrder, "order_date":orderDate, "id_user":idUser, statut, "confirmation_date":confirmationDate });
-
-          return redirect(`/orderdetail/${response.data.insertId}`);
         },
       },
       {
@@ -298,6 +285,10 @@ const router = createBrowserRouter([
 
           return [ response.data, responsecategories.data, responsethemes.data];
         },
+      },
+      {
+        path: "/thankyoufororder",
+        element: <ThankYouForOrder />,
       },
       {
         path: "/themes",

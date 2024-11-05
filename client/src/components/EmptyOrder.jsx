@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "../pages/Order.css";
+import "../pages/Orders.css";
 import smiley from "../assets/images/smiley.png";
 
 function EmptyOrder() {

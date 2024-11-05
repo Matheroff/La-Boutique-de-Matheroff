@@ -52,4 +52,10 @@ router.use("/favorites", favoriteRouter);
 
 /* ************************************************************************* */
 
+const userOrderRouter = require("./userOrders/userOrdersRouter");
+
+router.use("/userorders", userOrderRouter);
+
+/* ************************************************************************* */
+
 module.exports = router;

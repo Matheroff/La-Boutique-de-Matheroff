@@ -33,11 +33,9 @@ function Login() {
         );
 
         if (myUser) {
-            console.info("Correspondance trouvée :", myUser);
             localStorage.setItem('myUser', JSON.stringify(myUser));
             navigate("/userprofile");
         } else {
-            console.info("Aucune correspondance trouvée");
             setError("Erreur lors de la connexion. Vérifiez vos informations.");
         }
         

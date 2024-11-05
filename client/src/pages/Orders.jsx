@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import "./Order.css";
+import "./Orders.css";
 import Footer from "../components/Footer";
 import EmptyOrder from "../components/EmptyOrder";
 
@@ -86,4 +86,3 @@ function Orders() {
 }
 
 export default Orders;
-

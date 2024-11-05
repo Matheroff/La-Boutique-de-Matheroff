@@ -22,7 +22,6 @@ function Header() {
       myAxios.get(`/api/carts`).then((response) => {
         // Filtrer les résultats pour ne conserver que ceux correspondant à l'utilisateur connecté
         const filteredCart = response.data.filter(item => item.id_user === myUser.id);
-        console.info(filteredCart);
         setCartItemCount(filteredCart.length);
       });
     }

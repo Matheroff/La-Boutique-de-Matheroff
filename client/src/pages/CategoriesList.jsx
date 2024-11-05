@@ -41,7 +41,6 @@ function CategoriesList() {
             const response = await myAxios.post("/api/categories", {
                 name: formData.name,
             });
-            console.info("Category added:", response.data);
             setCategoryList([...categoryList, response.data]);
             setFormData({ name: "" }); // Réinitialise le formulaire
             toast.success("Catégorie ajoutée avec succès!");
@@ -54,7 +53,6 @@ function CategoriesList() {
     const handleDelete = async (id) => {
         try {
             const response = await myAxios.delete(`/api/categories/${id}`);
-            console.info("Category deleted:", response.data);
             setCategoryList(categoryList.filter((category) => category.id !== id));
             toast.success("Catégorie supprimée avec succès!");
         } catch (err) {
@@ -70,12 +68,10 @@ function CategoriesList() {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        console.info("Updating category:", editingCategory);
         try {
             const response = await myAxios.put(`/api/categories/${editingCategory}`, {
                 name: editFormData.name,
             });
-            console.info("Category updated:", response.data);
             setCategoryList(categoryList.map((category) =>
                 category.id === editingCategory ? { ...category, name: editFormData.name } : category
             ));

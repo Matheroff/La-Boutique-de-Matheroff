@@ -62,7 +62,6 @@ const handleChange = (e) => {
       [name]: value,
     }));
   } else {
-    console.info(name, value);
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -75,7 +74,6 @@ const handleChange = (e) => {
     e.preventDefault();
 
     try {
-      console.info(formData);
       await myAxios.put(`/api/users/${myUser.id}`, formData);
       
       toast.success("Les informations ont été mises à jour avec succès !");
@@ -94,8 +92,6 @@ const handleChange = (e) => {
           return;
         }
 
-        console.info(passwordData.currentPassword);
-        console.info(myUser.password);
         // Vérifier que le champ "mot de passe actuel" corresponde au mot de passe de la BDD
         if (passwordData.currentPassword !== myUser.password) {
           toast.error("Le mot de passe actuel renseigné ne correspond pas.");
@@ -111,7 +107,6 @@ const handleChange = (e) => {
     try {
       await myAxios.put(`/api/users/${myUser.id}`, formData);
       localStorage.setItem("myUser", JSON.stringify({ ...myUser, password: formData.password }));
-      console.info(formData);
       toast.success("Les informations ont été mises à jour avec succès !");
     } catch (error) {
       console.error("Erreur lors de la mise à jour des informations :", error);

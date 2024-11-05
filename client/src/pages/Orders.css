@@ -60,3 +60,12 @@
         }
     }
 }
+
+.thanks-order {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3em;
+    margin-bottom: 1em;
+    gap: 1em;
+}

@@ -9,11 +9,11 @@ class OrderRepository extends AbstractRepository {
 
   // The C of CRUD - Create operation
 
-  async create(order) {
-    // Execute the SQL INSERT query to add a new order to the "order" table
+  async create(userOrder) {
+    // Execute the SQL INSERT query to add a new userOrder to the "user_order" table
     const [result] = await this.database.query(
-      `insert into ${this.table} (item_quantity, total_order, order_date, id_user, statut) values (?, ?, ?, ?, ?)`,
-      [order.item_quantity, order.total_order, order.order_date, order.id_user, order.statut]
+      `insert into ${this.table} (id_item, id_order) values (?, ?)`,
+      [userOrder.id_item, userOrder.id_order]
     );
 
     // Return the ID of the newly inserted order
@@ -23,18 +23,18 @@ class OrderRepository extends AbstractRepository {
   // The Rs of CRUD - Read operations
 
   async read(id) {
-    // Execute the SQL SELECT query to retrieve a specific order by its ID
+    // Execute the SQL SELECT query to retrieve a specific userOrder by its ID
     const [rows] = await this.database.query(
       `select * from ${this.table} where id = ?`,
       [id]
     );
 
-    // Return the first row of the result, which represents the order
+    // Return the first row of the result, which represents the userOrder
     return rows[0];
   }
 
   async readAll() {
-    // Execute the SQL SELECT query to retrieve all orders from the "order" table
+    // Execute the SQL SELECT query to retrieve all userOrders from the "user_order" table
     const [rows] = await this.database.query(`select * from ${this.table}`);
 
     // Return the array of orders
@@ -42,11 +42,11 @@ class OrderRepository extends AbstractRepository {
   }
 
   // The U of CRUD - Update operation
-  async update(id, order) {
-    // Execute the SQL UPDATE query to modify an existing order
+  async update(id, userOrder) {
+    // Execute the SQL UPDATE query to modify an existing userOrder
     const [result] = await this.database.query(
-      `update ${this.table} set item_quantity = ?, total_order = ?, order_date = ?, id_user = ?, statut = ?, confirmation_date = ? where id = ?`,
-      [order.item_quantity, order.total_order, order.order_date, order.id_user, order.statut, order.confirmation_date, id]
+      `update ${this.table} set id_item = ?, id_order = ? where id = ?`,
+      [userOrder.id_item, userOrder.id_order, id]
     );
   
     // Return the number of affected rows
@@ -55,7 +55,7 @@ class OrderRepository extends AbstractRepository {
   
   // The D of CRUD - Delete operation
   async delete(id) {
-    // Execute the SQL DELETE query to remove an order by its ID
+    // Execute the SQL DELETE query to remove an userOrder by its ID
     const [result] = await this.database.query(
       `delete from ${this.table} where id = ?`,
       [id]
