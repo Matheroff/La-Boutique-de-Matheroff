@@ -1,11 +1,12 @@
 // Import the repository modules responsible for handling data operations on the tables
-const ItemRepository = require("./models/ItemRepository");
-const CategoryRepository = require("./models/CategoryRepository");
-const ThemeRepository = require("./models/ThemeRepository");
-const UserRepository = require("./models/UserRepository");
 const CartRepository = require("./models/CartRepository");
-const OrderRepository = require("./models/OrderRepository");
+const CategoryRepository = require("./models/CategoryRepository");
 const FavoriteRepository = require("./models/FavoriteRepository");
+const ItemRepository = require("./models/ItemRepository");
+const OrderRepository = require("./models/OrderRepository");
+const ThemeRepository = require("./models/ThemeRepository");
+const UserOrderRepository = require("./models/UserOrderRepository");
+const UserRepository = require("./models/UserRepository");
 
 // Create an empty object to hold data repositories for different tables
 const tables = {};
@@ -15,13 +16,14 @@ const tables = {};
 /* ************************************************************************* */
 
 // Register each repository as data access point for its table
-tables.item = new ItemRepository();
 tables.category = new CategoryRepository();
-tables.theme = new ThemeRepository();
-tables.user = new UserRepository();
 tables.cart = new CartRepository();
-tables.order = new OrderRepository();
 tables.favorite = new FavoriteRepository();
+tables.item = new ItemRepository();
+tables.order = new OrderRepository();
+tables.theme = new ThemeRepository();
+tables.user_order = new UserOrderRepository();
+tables.user = new UserRepository();
 
 /* ************************************************************************* */
 

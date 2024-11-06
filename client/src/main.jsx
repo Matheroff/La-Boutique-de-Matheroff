@@ -15,8 +15,10 @@ import InfosPerso from "./pages/InfosPerso";
 import ItemDetail from "./pages/ItemDetail";
 import ItemsList from "./pages/ItemsList";
 import Login from "./components/Login";
-import OrderDetail from "./pages/OrderDetail";
 import Orders from "./pages/Orders";
+import OrderDetail from "./pages/OrderDetail";
+import OrderDetailAdmin from "./pages/OrderDetailAdmin";
+import OrdersList from "./pages/OrdersList";
 import Register from "./components/Register";
 import Shop from "./pages/Shop";
 import ThankYouForOrder from "./pages/ThankYouForOrder";
@@ -45,10 +47,6 @@ const router = createBrowserRouter([
 
           return [response.data, responsecat.data, responsethe.data];
         },
-      },
-      {
-        path: "/dashboard",
-        element: <Dashboard />,
       },
       {
         path: "/apropos",
@@ -91,6 +89,19 @@ const router = createBrowserRouter([
             default:
               throw new Response("", { status: 405 });
           }
+        },
+      },
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+        loader: async () => {
+          const response = await myAxios.get("/api/orders");
+          const responseus = await myAxios.get("/api/users");
+          const responsecat = await myAxios.get("/api/categories");
+          const responsethe = await myAxios.get("/api/themes");
+          const responseit = await myAxios.get("/api/items");
+
+          return [response.data, responseus.data, responsecat.data, responsethe.data, responseit.data];
         },
       },
       {
@@ -209,8 +220,58 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/orderdetail",
+        path: "/orderdetail/:id",
         element: <OrderDetail />,
+        loader: async ({params}) => {
+          const responseOrder = await myAxios.get(`/api/orders/${params.id}`);
+          const responseUserOrder = await myAxios.get("/api/userorders");
+          const responseItem = await myAxios.get("/api/items");
+
+          const idOrder = `${params.id}`
+          if (idOrder) {
+            // Filtre sur user_orders avec le params.id = id_order
+            responseUserOrder.data = responseUserOrder.data.filter((userOrder) => userOrder.id_order == idOrder);
+
+            // Filtre les items à partir des id_item présents dans responseuo.data
+            responseItem.data = responseItem.data.filter((item) =>
+            responseUserOrder.data.some((userOrder) => String(userOrder.id_item) === String(item.id)) // Forcer la comparaison en chaîne de caractères
+            );
+          }
+
+          return [responseOrder.data, responseUserOrder.data, responseItem.data];
+        },
+      },
+      {
+        path: "/orderdetailadmin/:id",
+        element: <OrderDetailAdmin />,
+        loader: async ({params}) => {
+          const responseOrder = await myAxios.get(`/api/orders/${params.id}`);
+          const responseUserOrder = await myAxios.get("/api/userorders");
+          const responseItem = await myAxios.get("/api/items");
+
+          const idOrder = `${params.id}`
+          if (idOrder) {
+            // Filtre sur user_orders avec le params.id = id_order
+            responseUserOrder.data = responseUserOrder.data.filter((userOrder) => userOrder.id_order == idOrder);
+
+            // Filtre les items à partir des id_item présents dans responseuo.data
+            responseItem.data = responseItem.data.filter((item) =>
+            responseUserOrder.data.some((userOrder) => String(userOrder.id_item) === String(item.id)) // Forcer la comparaison en chaîne de caractères
+            );
+          }
+
+          return [responseOrder.data, responseUserOrder.data, responseItem.data];
+        },
+      },
+      {
+        path: "/orderslist",
+        element: <OrdersList />,
+        loader: async () => {
+          const response = await myAxios.get("/api/orders");
+          const responseus = await myAxios.get("/api/users");
+
+          return [response.data, responseus.data];
+        },
       },
       {
         path: "/register",

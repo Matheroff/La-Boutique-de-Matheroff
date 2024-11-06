@@ -3,18 +3,28 @@
 .order-detail {
 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     margin: 5em;
     gap: 3em;
 
+    p {
+        font-family: var(--ff-text);
+        font-size: 1rem;
+        margin: 0.5em;
+        text-align: center;
+    }
+
     img {
-        width : 50vh;
+        width : 40vh;
         height: auto;
     }
 
     .image-container {
-        position: relative;
-        display: inline-block;
+        display: flex;
+        flex-direction: row;
+        gap: 3em;
+        align-items: center;
     }
 }

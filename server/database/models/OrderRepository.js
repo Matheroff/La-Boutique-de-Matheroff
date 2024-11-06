@@ -3,7 +3,7 @@ const AbstractRepository = require("./AbstractRepository");
 class OrderRepository extends AbstractRepository {
   constructor() {
     // Call the constructor of the parent class (AbstractRepository)
-    // and pass the table name "cart" as configuration
+    // and pass the table name "order" as configuration
     super({ table: "`order`" });
   }
 

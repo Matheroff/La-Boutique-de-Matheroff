@@ -26,7 +26,6 @@ function Users() {
               <th>Nom</th>
               <th>Prénom</th>
               <th>E-mail</th>
-              <th>Pseudo</th>
               <th>Détail</th>
             </tr>
           </thead>
@@ -37,7 +36,6 @@ function Users() {
                 <td>{user.lastname}</td>
                 <td>{user.firstname}</td>
                 <td>{user.email}</td>
-                <td>{user.pseudo}</td>
                 <td>
                 <Link to={`/userprofile/${user.id}`}>
                   <button type="button">Voir le profil</button>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { useState } from "react";
 import Footer from "../components/Footer";
 import "./Dashboard.css";
@@ -7,16 +7,14 @@ function Dashboard() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [orderDetails, setOrderDetails] = useState(null);
-    const [order, setOrder] = useState([
-        {
-          id: 1,
-          item_quantity: 3,
-          total_order: 37.00,
-          order_date: "30/10/2024",
-          id_user: 3,
-          statut: "En attente de validation",
-        },
-      ]);
+    const [orders, users, categories, themes, items] = useLoaderData();
+
+    // Filtre sur les commandes de l'utilisateur
+    const [newOrders, setNewOrders] = useState (
+        orders
+            .filter((order) => order.statut === "En attente de validation")
+            .map((order) => ({...order}))
+    );
 
     // Date actuelle
     const today = new Date();
@@ -53,25 +51,25 @@ function Dashboard() {
                     <table>
                         <thead>
                             <tr>
-                                <th>{6} Catégories</th>
+                                <th>{categories.length} Catégories</th>
                                 <Link to="/categories">
                                 <button type="button">Voir tout</button>
                                 </Link>
                             </tr>
                             <tr>
-                                <th>{6} Thèmes</th>
+                                <th>{themes.length} Thèmes</th>
                                 <Link to="/themes">
                                 <button type="button">Voir tout</button>
                                 </Link>
                             </tr>
                             <tr>
-                                <th>{42} Articles</th>
+                                <th>{items.length} Articles</th>
                                 <Link to="/items">
                                 <button type="button">Voir tout</button>
                                 </Link>
                             </tr>
                             <tr>
-                                <th>{3} Utilisateurs</th>
+                                <th>{users.length} Utilisateurs</th>
                                 <Link to="/users">
                                 <button type="button">Voir tout</button>
                                 </Link>
@@ -79,9 +77,11 @@ function Dashboard() {
                         </thead>
                     </table>
                 </div>
-                <div>
-                    <p>* Vous avez {5} nouvelles commandes à confirmer</p>
-                    <p>* {1} nouvel utilisateur cette semaine</p>
+                <div className="right-dashboard">
+                <p>Vous avez <strong>{newOrders.length}</strong> nouvelle{newOrders.length !== 1 ? 's' : ''} commande{newOrders.length !== 1 ? 's' : ''} à confirmer</p>
+                <Link to="/orderslist">
+                    <button type="button">Voir toutes les commandes ({orders.length})</button>
+                </Link>
                 </div>
             </section>
             <section className="order-table">
@@ -89,37 +89,39 @@ function Dashboard() {
                     <thead>
                         <tr>
                             <th>Numéro de commande</th>
+                            <th>Date</th>
                             <th>Utilisateur</th>
                             <th>Email</th>
                             <th>Nombre d'articles</th>
-                            <th>Prix commande</th>
-                            <th>Détail commande</th>
-                            <th>Confirmation commande</th>
+                            <th>Prix</th>
+                            <th>Détail</th>
+                            <th>Etat commande</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {order.map((orderDetail) => (
-                            <tr key={orderDetail.id}>
-                                <td>{orderDetail.id}</td>
-                                <td>Aurore Garnier</td>
-                                <td>aurore.garnier@outlook.com</td>
-                                <td>3</td>
-                                <td>37€</td>
-                                <td>
-                                <Link to="/orderdetail">
+                    {newOrders.map((order) => {
+                        const userAssociated = users.find(user => user.id === order.id_user);
+                        return (
+                            <tr key={order.id}>
+                            <td>{order.id}</td>
+                            <td>{new Date(order.order_date).toLocaleDateString('fr-FR')}</td>
+                            <td>{userAssociated ? `${userAssociated.firstname} ${userAssociated.lastname}` : "Utilisateur non trouvé"}</td>
+                            <td>{userAssociated ? userAssociated.email : "Email non disponible"}</td>
+                            <td>{order.item_quantity}</td>
+                            <td>{order.total_order} €</td>
+                            <td>
+                                <Link to={`/orderdetailadmin/${order.id}`}>
                                     <button type="button">Voir</button>
                                 </Link>
-                                </td>
-                                <td>
-                                    <button 
-                                        type="button" 
-                                        onClick={() => openModal(orderDetail)}
-                                        >
-                                            Confirmer
-                                    </button>
-                                </td>
+                            </td>
+                            <td>
+                                <button type="button" onClick={() => openModal(userAssociated)}>
+                                Confirmer
+                                </button>
+                            </td>
                             </tr>
-                        ))}
+                        );
+                    })}
                     </tbody>
                 </table>
             </section>
@@ -127,11 +129,11 @@ function Dashboard() {
             {isModalOpen && (
                 <div className="order-valid-modal">
                     <div className="order-valid-modal-content">
-                        <h3>Confirmation de la commande</h3>
+                        <h3>Confirmer cette commande ?</h3>
                         {orderDetails && (
                             <div>
-                                <p><strong>Message à </strong> {orderDetails.user}</p>
-                                <p>Votre commande est confirmée. Vous la recevrez aux alentours du {formattedDeliveryDate}. <br/>
+                                <p>Message à <strong>{orderDetails.email}</strong> :</p>
+                                <p>Votre commande est confirmée. Vous la recevrez aux alentours du <strong>{formattedDeliveryDate}</strong>. <br/>
                                 La Boutique de Matheroff vous remercie et vous souhaite une bonne réception !</p>
                             </div>
                         )}

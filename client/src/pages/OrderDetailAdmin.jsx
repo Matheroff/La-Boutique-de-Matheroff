@@ -6,8 +6,6 @@ function OrderDetail() {
 
     const [orders, userOrders, items] = useLoaderData();
 
-    console.info(userOrders);
-
     return(
         <div>
             <section className="fil-ariane">
@@ -15,9 +13,9 @@ function OrderDetail() {
                 <p type="button">Accueil ≻</p>
               </Link>
               <Link to="/userprofile">
-                <p type="button">Mon profil ≻</p>
+                <p type="button">Tableau de bord ≻</p>
               </Link>
-              <p>Détail de ma commande</p>
+              <p>Détail de commande</p>
             </section>
             <section className="order-detail">
                 <div>

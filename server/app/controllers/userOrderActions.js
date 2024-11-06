@@ -5,10 +5,10 @@ const tables = require("../../database/tables");
 const browse = async (req, res, next) => {
   try {
     // Fetch all orders from the database
-    const userOrders = await tables.userOrder.readAll();
+    const orders = await tables.user_order.readAll();
 
     // Respond with the orders in JSON format
-    res.json(userOrders);
+    res.json(orders);
   } catch (err) {
     // Pass any errors to the error-handling middleware
     next(err);
@@ -19,7 +19,7 @@ const browse = async (req, res, next) => {
 const read = async (req, res, next) => {
   try {
     // Fetch a specific order from the database based on the provided ID
-    const userOrder = await tables.userOrder.read(req.params.id);
+    const userOrder = await tables.user_order.read(req.params.id);
 
     // If the order is not found, respond with HTTP 404 (Not Found)
     // Otherwise, respond with the order in JSON format
@@ -38,10 +38,10 @@ const read = async (req, res, next) => {
 const edit = async (req, res, next) => {
   try {
     // Extract the order data from the request body
-    const userOrder = req.body;
+    const order = req.body;
 
     // Update the order in the database based on the provided ID
-    const updated = await tables.userOrder.update(req.params.id, userOrder);
+    const updated = await tables.user_order.update(req.params.id, order);
 
     // If no rows were updated, respond with HTTP 404 (Not Found)
     // Otherwise, respond with HTTP 200 (OK) and the updated order
@@ -59,10 +59,10 @@ const edit = async (req, res, next) => {
 // The A of BREAD - Add (Create) operation
 const add = async (req, res, next) => {
   // Extract the order data from the request body
-  const userOrder = req.body;
+  const order = req.body;
   try {
     // Insert the order into the database
-    const insertId = await tables.userOrder.create(userOrder);
+    const insertId = await tables.user_order.create(order);
 
     // Respond with HTTP 201 (Created) and the ID of the newly inserted order
     res.status(201).json({ insertId });
@@ -76,7 +76,7 @@ const add = async (req, res, next) => {
 const destroy = async (req, res, next) => {
   try {
     // Delete the order from the database based on the provided ID
-    const deleted = await tables.userOrder.delete(req.params.id);
+    const deleted = await tables.user_order.delete(req.params.id);
 
     // If no rows were deleted, respond with HTTP 404 (Not Found)
     // Otherwise, respond with HTTP 204 (No Content)

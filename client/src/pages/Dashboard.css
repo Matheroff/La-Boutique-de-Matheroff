@@ -19,6 +19,14 @@
         width: 8em;
         height: 2em;
     }
+    
+    .right-dashboard {
+
+        button {
+            width: 20em;
+            margin-top: 1em;
+        }
+    }
 }
 
 .order-table {
@@ -46,7 +54,6 @@
         height: 2em;
         width: 8em;
     }
-
 }
 
 .order-valid-modal {
@@ -68,9 +75,13 @@
         width: 80%;
         text-align: center;
 
+        h3 {
+            padding-bottom: 1em;
+        }
+
         p {
             font-family: var(--ff-text);
-            padding: 1em;
+            padding-bottom: 1em;
         }
 
         button {

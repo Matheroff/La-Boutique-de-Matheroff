@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import { useState } from "react";
 import "./Orders.css";
 import Footer from "../components/Footer";
@@ -6,24 +6,15 @@ import EmptyOrder from "../components/EmptyOrder";
 
 function Orders() {
 
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      order_date: "23/10/2024",
-      item_quantity: 1,
-      total_order: 10.00,
-      id_user: 1,
-      statut: 1
-    },
-    {
-      id: 2,
-      order_date: "25/10/2024",
-      item_quantity: 1,
-      total_order: 10.00,
-      id_user: 1,
-      statut: 1
-    },
-  ]);
+  const orders = useLoaderData();
+  const myUser = JSON.parse(localStorage.getItem("myUser"));
+
+// filtre sur les commandes de l'utilisateur
+const [ordersUser, setOrdersUser] = useState(
+  orders
+    .filter((order) => order.id_user === myUser.id)
+    .map((order) => ({ ...order }))
+);
 
   return (
     <div>
@@ -57,8 +48,9 @@ function Orders() {
               <tr>
                 <th>Numéro de commande</th>
                 <th>Date</th>
-                <th>Quantité d'articles</th>
+                <th>Nombre d'articles</th>
                 <th>Total</th>
+                <th>Statut</th>
                 <th>Détail commande</th>
               </tr>
             </thead>
@@ -66,11 +58,12 @@ function Orders() {
               {orders.map((order) => (
                 <tr key={order.id} className="order-item">
                   <td>{order.id}</td>
-                  <td>{order.order_date}</td>
-                  <td>{order.item_quantity} article</td>
+                  <td>{new Date(order.order_date).toLocaleDateString('fr-FR')}</td>
+                  <td>{order.item_quantity} {order.item_quantity > 1 ? 'articles' : 'article'}</td>
                   <td>{order.total_order} €</td>
+                  <td>{order.statut}</td>
                   <td>
-                  <Link to="/orderdetail">
+                  <Link to={`/orderdetail/${order.id}`}>
                     <button type="button">Voir le détail</button>
                   </Link>
                   </td>
