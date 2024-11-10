@@ -12,7 +12,7 @@
 
     p {
         font-family: var(--ff-text);
-        font-size: var(--size-text2);
+        font-size: 1rem;
         color: var(--text-color);
     }
 
@@ -56,3 +56,18 @@
     }
 }
 
+@media (max-width: 768px) {
+    .footer {
+        p {
+            font-size: 0.8rem;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .footer {
+        p {
+            font-size: 0.7rem;
+        }
+    }
+}

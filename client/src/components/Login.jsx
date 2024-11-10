@@ -1,7 +1,7 @@
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { useState } from "react";
+import bcrypt from 'bcryptjs';
 import "./AuthModal.css";
-// import _ from 'lodash';
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -9,36 +9,34 @@ function Login() {
         password: ''
     });
     const [error, setError] = useState("");
-    const users = useLoaderData();
+    const users = useLoaderData();  // Les utilisateurs récupérés via le loader
     const navigate = useNavigate();
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-      };
-    
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-        const listUsers = users[1]
 
-        // console.log('----------------------------------------------------------')
-        // console.log(formData)
-        // console.log(listUsers)
-
-        // je vérifie que mon formData est exact par rapport aux données d'au moins un de mes users
-        const myUser = listUsers.find(user => 
-            user.email === formData.email && user.password === formData.password
-        );
+        // Vérifier si l'utilisateur existe dans la liste récupérée via useLoaderData
+        const myUser = users[1].find(user => user.email === formData.email);
 
         if (myUser) {
-            localStorage.setItem('myUser', JSON.stringify(myUser));
-            navigate("/userprofile");
+            const isPasswordValid = bcrypt.compareSync(formData.password, myUser.password);
+            if (isPasswordValid) {
+                // Sauvegarder l'utilisateur dans le localStorage
+                localStorage.setItem('myUser', JSON.stringify(myUser));
+                navigate("/userprofile");
+                window.location.reload();
+            } else {
+                setError("Erreur lors de la connexion. Vérifiez vos informations.");
+            }
         } else {
-            setError("Erreur lors de la connexion. Vérifiez vos informations.");
+            setError("Utilisateur introuvable.");
         }
-        
     };
 
     return (

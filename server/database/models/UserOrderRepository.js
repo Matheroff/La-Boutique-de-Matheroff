@@ -12,8 +12,8 @@ class UserOrderRepository extends AbstractRepository {
   async create(userOrder) {
     // Execute the SQL INSERT query to add a new order to the "user_order" table
     const [result] = await this.database.query(
-      `insert into ${this.table} (id_item, id_order) values (?, ?)`,
-      [userOrder.id_item, userOrder.id_order]
+      `insert into ${this.table} (id_item, id_order, item_quantity) values (?, ?, ?)`,
+      [userOrder.id_item, userOrder.id_order, userOrder.item_quantity]
     );
     // Return the ID of the newly inserted order
     return result.insertId;

@@ -1,10 +1,22 @@
 import { useLoaderData, Link } from "react-router-dom";
+import { useState } from "react";
 import "./OrderDetail.css";
 import Footer from "../components/Footer";
 
-function OrderDetail() {
+function OrderDetailAdmin() {
 
     const [orders, userOrders, items] = useLoaderData();
+
+    const [orderItems, setOrderItems] = useState(
+        userOrders
+          .map((uo) => {
+            const item = items.find((item) => item.id === uo.id_item);
+            return {
+              ...uo,
+              ...item
+            };
+          })
+      );
 
     return(
         <div>
@@ -12,8 +24,11 @@ function OrderDetail() {
               <Link to="/">
                 <p type="button">Accueil ≻</p>
               </Link>
-              <Link to="/userprofile">
+              <Link to="/dashboard">
                 <p type="button">Tableau de bord ≻</p>
+              </Link>
+              <Link to="/orderslist">
+                <p type="button">Commandes ≻</p>
               </Link>
               <p>Détail de commande</p>
             </section>
@@ -24,12 +39,12 @@ function OrderDetail() {
                     <p>Prix total : {orders.total_order} €</p>
                     <p>Statut : {orders.statut}</p>
                 </div> 
-            {items.map((item) => (
+            {orderItems.map((item) => (
                     <div className="image-container" key={item.name}>
                         <img src={item.image} alt={item.name} />
                         <div>
                             <h3>{item.name}</h3>
-                            <p>x {userOrders.item_quantity}</p>
+                            <p>x {item.item_quantity}</p>
                         </div>
                     </div>
                 ))}
@@ -39,4 +54,4 @@ function OrderDetail() {
     )
 }
 
-export default OrderDetail;
+export default OrderDetailAdmin;

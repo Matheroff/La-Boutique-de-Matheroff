@@ -1,5 +1,4 @@
 import { Link, useLoaderData } from "react-router-dom";
-import { useState } from "react";
 import "./Orders.css";
 import Footer from "../components/Footer";
 import EmptyOrder from "../components/EmptyOrder";
@@ -7,14 +6,6 @@ import EmptyOrder from "../components/EmptyOrder";
 function OrdersList() {
 
   const [orders, users] = useLoaderData();
-  const myUser = JSON.parse(localStorage.getItem("myUser"));
-
-// filtre sur les commandes de l'utilisateur
-const [ordersUser, setOrdersUser] = useState(
-  orders
-    .filter((order) => order.id_user === myUser.id)
-    .map((order) => ({ ...order }))
-);
 
   return (
     <div>

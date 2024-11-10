@@ -1,9 +1,13 @@
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Footer from "../components/Footer";
+import { ToastContainer, toast } from "react-toastify";
 import "./Dashboard.css";
+import myAxios from "../services/myAxios";
 
 function Dashboard() {
+
+    const navigate = useNavigate();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [orderDetails, setOrderDetails] = useState(null);
@@ -18,15 +22,14 @@ function Dashboard() {
 
     // Date actuelle
     const today = new Date();
-    const formattedDate = today.toLocaleDateString("fr-FR");
-
     // Calcul de la date de livraison à +8 jours
     const deliveryDate = new Date();
     deliveryDate.setDate(today.getDate() + 8);
     const formattedDeliveryDate = deliveryDate.toLocaleDateString("fr-FR");
 
-    const openModal = (orderConfirmation) => {
-        setOrderDetails(orderConfirmation);
+    const openModal = (user, order) => {
+        const mergedObj = { ...user, ...order };
+        setOrderDetails(mergedObj);
         setIsModalOpen(true);
     };
 
@@ -34,6 +37,26 @@ function Dashboard() {
         setOrderDetails(null);
         setIsModalOpen(false);
     };
+
+    const handleSubmit = async (orderDetail, e) => {
+        e.preventDefault();
+        try {
+            const orderDdate = new Date(orderDetail.order_date);
+            await myAxios.put(`/api/orders/${orderDetail.id}`, 
+                { 
+                    ...orderDetail,
+                    order_date: orderDdate.toISOString().slice(0, 19).replace('T', ' '),
+                    statut: 'Validée', 
+                    confirmation_date: new Date().toISOString().split('T')[0] + ' 00:00:00'
+                }
+            );
+            closeModal();
+            navigate("/orderslist");
+        } catch (error) {
+          console.error("Erreur lors du changement de statut:", error);
+          toast.error("Une erreur est survenue lors de la mise à jour du statut !");
+        }
+      };
 
     return (
         <div>
@@ -103,22 +126,22 @@ function Dashboard() {
                         const userAssociated = users.find(user => user.id === order.id_user);
                         return (
                             <tr key={order.id}>
-                            <td>{order.id}</td>
-                            <td>{new Date(order.order_date).toLocaleDateString('fr-FR')}</td>
-                            <td>{userAssociated ? `${userAssociated.firstname} ${userAssociated.lastname}` : "Utilisateur non trouvé"}</td>
-                            <td>{userAssociated ? userAssociated.email : "Email non disponible"}</td>
-                            <td>{order.item_quantity}</td>
-                            <td>{order.total_order} €</td>
-                            <td>
-                                <Link to={`/orderdetailadmin/${order.id}`}>
-                                    <button type="button">Voir</button>
-                                </Link>
-                            </td>
-                            <td>
-                                <button type="button" onClick={() => openModal(userAssociated)}>
-                                Confirmer
-                                </button>
-                            </td>
+                                <td>{order.id}</td>
+                                <td>{new Date(order.order_date).toLocaleDateString('fr-FR')}</td>
+                                <td>{userAssociated ? `${userAssociated.firstname} ${userAssociated.lastname}` : "Utilisateur non trouvé"}</td>
+                                <td>{userAssociated ? userAssociated.email : "Email non disponible"}</td>
+                                <td>{order.item_quantity}</td>
+                                <td>{order.total_order} €</td>
+                                <td>
+                                    <Link to={`/orderdetailadmin/${order.id}`}>
+                                        <button type="button">Voir</button>
+                                    </Link>
+                                </td>
+                                <td>
+                                    <button type="button" onClick={() => openModal(userAssociated, order)}>
+                                    Confirmer
+                                    </button>
+                                </td>
                             </tr>
                         );
                     })}
@@ -138,7 +161,7 @@ function Dashboard() {
                             </div>
                         )}
                         <button type="button" className="grey-button" onClick={closeModal}>Annuler</button>
-                        <button type="button" >Confirmer</button>
+                        <button type="button" onClick={(e) => handleSubmit(orderDetails, e)}>Confirmer</button>
                     </div>
                 </div>
             )}

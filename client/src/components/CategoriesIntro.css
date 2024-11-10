@@ -37,3 +37,9 @@
     }
 }
 
+@media (max-width: 768px) {
+    .categories-intro {
+        display: none;
+    }
+}
+

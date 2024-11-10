@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Footer from "../components/Footer";
 import myAxios from "../services/myAxios";
 import "./InfosPerso.css";
+import bcrypt from 'bcryptjs';
 
 function InfosPerso() {
 
@@ -74,7 +75,7 @@ const handleChange = (e) => {
     e.preventDefault();
 
     try {
-      await myAxios.put(`/api/users/${myUser.id}`, formData);
+      await myAxios.put(`/api/users/${myUser.id}`, {...formData, password: myUser.password});
       
       toast.success("Les informations ont été mises à jour avec succès !");
     } catch (error) {
@@ -85,29 +86,33 @@ const handleChange = (e) => {
 
   const handlePasswordChange = async (e) => {
     e.preventDefault();
-  
-        // Vérifier que tous les champs sont remplis
-        if (!passwordData.currentPassword || !formData.password || !passwordData.confirmNewPassword) {
-          toast.error("Tous les champs de mot de passe doivent être remplis.");
-          return;
-        }
+    
+      // Vérifier que tous les champs sont remplis
+      if (!passwordData.currentPassword || !formData.password || !passwordData.confirmNewPassword) {
+        toast.error("Tous les champs de mot de passe doivent être remplis.");
+        return;
+      }
 
-        // Vérifier que le champ "mot de passe actuel" corresponde au mot de passe de la BDD
-        if (passwordData.currentPassword !== myUser.password) {
-          toast.error("Le mot de passe actuel renseigné ne correspond pas.");
-          return;
-        }
-      
-        // Vérifier que les nouveaux mots de passe correspondent
-        if (formData.password !== passwordData.confirmNewPassword) {
-          toast.error("Le nouveau mot de passe et la confirmation ne correspondent pas.");
-          return;
-        }
+      const isCurrentPasswordValid = bcrypt.compareSync(passwordData.currentPassword, myUser.password);
+
+      // Vérifier que le champ "mot de passe actuel" corresponde au mot de passe de la BDD
+      if (!isCurrentPasswordValid) {
+        toast.error("Le mot de passe actuel renseigné ne correspond pas.");
+        return;
+      }
+    
+      // Vérifier que les nouveaux mots de passe correspondent
+      if (formData.password !== passwordData.confirmNewPassword) {
+        toast.error("Le nouveau mot de passe et la confirmation ne correspondent pas.");
+        return;
+      }
 
     try {
-      await myAxios.put(`/api/users/${myUser.id}`, formData);
-      localStorage.setItem("myUser", JSON.stringify({ ...myUser, password: formData.password }));
+      const hashedPassword = bcrypt.hashSync(formData.password, 10);
+      await myAxios.put(`/api/users/${myUser.id}`, {...formData, password: hashedPassword});
+      localStorage.setItem("myUser", JSON.stringify({ ...myUser, password: hashedPassword }));
       toast.success("Les informations ont été mises à jour avec succès !");
+      window.location.reload();
     } catch (error) {
       console.error("Erreur lors de la mise à jour des informations :", error);
       toast.error("Une erreur est survenue lors de la mise à jour des informations.");
@@ -126,8 +131,19 @@ const handleChange = (e) => {
         <p>Informations personnelles</p>
       </section>
       <section className="user-infos">
-        <h3>Mes informations</h3>
-        <div className="forms-flex">
+      <h3>Mes informations</h3>
+      <Link to="/orders">
+        <button
+          className="button-2"
+          alt="Commandes"
+          type="button"
+        >
+          Voir mes commandes et factures
+        </button>
+      </Link>
+      </section>
+      <section className="forms-flex">
+        <div>
           <form className="form-informations" onSubmit={handleSubmit}>
             <p>Les champs avec un * sont obligatoires <br/>afin d'assurer le bon déroulement de votre livraison</p>
             <input
@@ -214,17 +230,6 @@ const handleChange = (e) => {
             <button type="submit">Enregistrer</button>
           </form>
         </div>
-        <div className="order">
-          <Link to="/orders">
-            <button
-              className="button-2"
-              alt="Commandes"
-              type="button"
-            >
-              Voir mes commandes et factures
-            </button>
-          </Link>
-        </div>
       </section>
       <Footer />
       <ToastContainer />
@@ -233,6 +238,7 @@ const handleChange = (e) => {
 }
 
 export default InfosPerso;
+
 
 
 

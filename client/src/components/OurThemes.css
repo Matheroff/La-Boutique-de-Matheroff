@@ -22,11 +22,26 @@
     }
 
     h2 {
-        font-family: var(--ff-title);
-        font-size: var(--size-title);
         color: var(--text-color2);
         background-repeat: no-repeat;
         background-size: cover;
         padding: 0;
+    }
+}
+
+/* Media Queries pour les petits écrans */
+@media (max-width: 1024px) { /* Tablettes et smartphones */
+    .bg-theme {
+        flex-direction: column; /* Les images s'empilent en mode colonne */
+        height: auto; /* Permet à la div de s'adapter à son contenu */
+
+        img {
+            max-height: 40vh; /* Les images ne deviennent pas trop grandes */
+        }
+        
+        h2 {
+            left: 5%; /* Légèrement décalé sur l'écran */
+            margin: 0.5em 0;
+        }
     }
 }

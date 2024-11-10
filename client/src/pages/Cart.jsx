@@ -35,6 +35,11 @@ function Cart() {
       0
     );
 
+    // calcul cumul des quantités
+    const totalQuantity = cartItems.reduce((acc, item) => {
+      return acc + parseInt(item.quantity, 10);
+    }, 0);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -42,7 +47,7 @@ function Cart() {
         id_user: myUser.id,
         total_order: totalPrice,
         order_date: new Date().toISOString().split('T')[0] + ' 00:00:00',
-        item_quantity: Number(cartItems.length),
+        item_quantity: totalQuantity,
         statut: "En attente de validation",
       };
 
@@ -52,11 +57,11 @@ function Cart() {
 
       // création du detail de la commande (user_order)
       if (response.data && response.data.insertId) {
-        const newId = response.data.insertId
         cartItems.map(async (item) => {
           const itemOrder = {
             id_item: item.id,
-            id_order: newId
+            id_order: response.data.insertId,
+            item_quantity: item.quantity
           };
           // création ligne dans user_order
           await myAxios.post("/api/userorders", itemOrder);

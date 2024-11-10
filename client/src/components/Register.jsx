@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import myAxios from "../services/myAxios";
 import "./AuthModal.css";
+import bcrypt from 'bcryptjs';  // Si tu utilises npm ou un bundler
 
 function Register() {
     const [error, setError] = useState("");
@@ -31,11 +32,13 @@ function Register() {
         try {
             // si email conforme : inscription
             if (!userAlreadyExist) {
-                const response = await myAxios.post("/api/users", formData);
+                const hashedPassword = bcrypt.hashSync(formData.password, 10); // 10 est le "salt rounds"
+                const response = await myAxios.post("/api/users", {email: formData.email, password: hashedPassword});
+
                 if (response && response.data.insertId) {
                     localStorage.setItem(
                         'myUser', 
-                        JSON.stringify({id: response.data.insertId, email: formData.email, password: formData.password})
+                        JSON.stringify({id: response.data.insertId, email: formData.email, password: hashedPassword})
                     );
                     navigate("/userprofile")
                 }

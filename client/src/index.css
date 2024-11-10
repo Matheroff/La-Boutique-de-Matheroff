@@ -117,3 +117,26 @@ a {
     background-color: rgb(186, 186, 186);
 }
 
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    h2 {
+        font-size: var(--size-title2);
+    }
+
+    .fil-ariane {
+        height: 5vh;
+        margin: 2em 0;
+        padding-left: 1em;
+        font-size: 1rem;
+     }
+}
+
+@media (max-width: 480px) {
+    .fil-ariane {
+        height: 3vh;
+        margin: 2em 0;
+        padding-left: 1em;
+        font-size: 0.6rem;
+     }
+}
+

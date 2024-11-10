@@ -95,3 +95,44 @@
     }
 }
 
+@media (max-width: 1024px) {
+    .grid-items {
+        margin: 1em;
+        grid-gap: 0.5em;
+
+        .item-card {
+            height: auto;
+            width: 80vw;
+            max-width: 22vw;
+
+            img {
+                max-width: 18vw;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-items {
+        margin: 0;
+        grid-gap: 0;
+        grid-template-columns: repeat(2, 1fr); /* 2 éléments par ligne */
+        grid-template-rows: auto;
+
+        .item-card {
+            width: 100%; /* Assure que l'item prend toute la largeur de la colonne */
+            height: auto;
+            max-width: none; /* Désactive la largeur maximale */
+
+            img {
+                width: 100%; /* L'image prend toute la largeur de l'élément */
+                height: auto; /* Conserve le ratio d'aspect de l'image */
+            }
+
+            p {
+                text-align: center;
+                font-size: 0.7rem;
+            }
+        }
+    }
+}

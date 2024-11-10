@@ -9,12 +9,12 @@ function Orders() {
   const orders = useLoaderData();
   const myUser = JSON.parse(localStorage.getItem("myUser"));
 
-// filtre sur les commandes de l'utilisateur
-const [ordersUser, setOrdersUser] = useState(
-  orders
-    .filter((order) => order.id_user === myUser.id)
-    .map((order) => ({ ...order }))
-);
+  // filtre sur les commandes de l'utilisateur
+  const [ordersUser, setOrdersUser] = useState(
+    orders
+      .filter((order) => order.id_user === myUser.id)
+      .map((order) => ({ ...order }))
+  );
 
   return (
     <div>
@@ -25,7 +25,7 @@ const [ordersUser, setOrdersUser] = useState(
         <Link to="/userprofile">
           <p type="button">Mon profil ≻</p>
         </Link>
-        <p>Commandes</p>
+        <p>Mes commandes</p>
       </section>
       <section className="order-info">
         <h3>Mes commandes</h3>
@@ -55,7 +55,7 @@ const [ordersUser, setOrdersUser] = useState(
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
+              {ordersUser.map((order) => (
                 <tr key={order.id} className="order-item">
                   <td>{order.id}</td>
                   <td>{new Date(order.order_date).toLocaleDateString('fr-FR')}</td>

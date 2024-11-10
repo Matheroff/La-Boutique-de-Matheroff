@@ -25,6 +25,7 @@ import ThankYouForOrder from "./pages/ThankYouForOrder";
 import Themes from "./pages/ThemesList";
 import UserProfile from "./pages/UserProfile";
 import UsersList from "./pages/UsersList";
+import ProtectedRoute from "./ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -64,7 +65,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/categories",
-        element: <CategoriesList />,
+        element: <ProtectedRoute
+          element={<CategoriesList />}
+        />,
         loader: async () => {
           const response = await myAxios.get("/api/categories");
 
@@ -93,7 +96,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: (
+          <ProtectedRoute
+            element={<Dashboard />}
+          />
+        ),
         loader: async () => {
           const response = await myAxios.get("/api/orders");
           const responseus = await myAxios.get("/api/users");
@@ -156,7 +163,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/items",
-        element: <ItemsList />,
+        element: <ProtectedRoute
+          element={<ItemsList />}
+        />,
         loader: async () => {
           const response = await myAxios.get("/api/items");
           const responsecat = await myAxios.get("/api/categories");
@@ -243,7 +252,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/orderdetailadmin/:id",
-        element: <OrderDetailAdmin />,
+        element: <ProtectedRoute
+          element={<OrderDetailAdmin />}
+        />,
         loader: async ({params}) => {
           const responseOrder = await myAxios.get(`/api/orders/${params.id}`);
           const responseUserOrder = await myAxios.get("/api/userorders");
@@ -265,7 +276,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/orderslist",
-        element: <OrdersList />,
+        element: <ProtectedRoute
+          element={<OrdersList />}
+        />,
         loader: async () => {
           const response = await myAxios.get("/api/orders");
           const responseus = await myAxios.get("/api/users");
@@ -353,7 +366,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/themes",
-        element: <Themes />,
+        element: <ProtectedRoute
+          element={<Themes />}
+        />,
         loader: async () => {
           const response = await myAxios.get("/api/themes");
 
@@ -371,7 +386,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/users",
-        element: <UsersList />,
+        element: <ProtectedRoute
+          element={<UsersList />}
+        />,
         loader: async () => {
           const response = await myAxios.get("/api/users");
           
