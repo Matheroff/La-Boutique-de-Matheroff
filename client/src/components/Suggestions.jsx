@@ -21,7 +21,6 @@ function Suggestions() {
                 {randomItems.map((item) => (
                     <Link to={`/item/${item.id}`} key={item.id}>
                         <img 
-                            key={item.id} 
                             src={item.image} 
                             alt={`Suggestion ${item.id + 1}`} 
                         />
