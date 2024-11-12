@@ -1,72 +1,72 @@
-create table category (
-  id int unsigned primary key auto_increment not null,
-  name varchar(50) not null
+CREATE TABLE item (
+  id INT unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  description TEXT NOT NULL,
+  unit_price DECIMAL(10, 2),
+  id_category INT unsigned NOT NULL,
+  id_theme INT unsigned NOT NULL,
+  image TEXT NOT NULL,
+  FOREIGN KEY(id_category) REFERENCES category(id),
+  FOREIGN KEY(id_theme) REFERENCES theme(id)
 );
 
-create table theme (
-  id int unsigned primary key auto_increment not null,
-  name varchar(255) not null
+CREATE TABLE category (
+  id INT unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  name VARCHAR(50) NOT NULL
 );
 
-create table item (
-  id int unsigned primary key auto_increment not null,
-  name varchar(100) not null,
-  description text not null,
-  unit_price decimal(10, 2),
-  id_category int unsigned not null,
-  id_theme int unsigned not null,
-  image text not null,
-  foreign key(id_category) references category(id),
-  foreign key(id_theme) references theme(id)
+CREATE TABLE theme (
+  id INT unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  name VARCHAR(255) NOT NULL
 );
 
-create table user (
-  id int unsigned primary key auto_increment not null,
-  firstname varchar(100),
-  lastname varchar(100),
-  email varchar(255) not null unique,
-  password varchar(100) not null,
-  phone_number varchar(15),
-  adress varchar(255),
-  postal_code varchar(10),
-  city varchar(100),
-  pseudo varchar(100),
-  is_admin boolean default false
+CREATE TABLE user (
+  id INT unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  firstname VARCHAR(100),
+  lastname VARCHAR(100),
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(100) NOT NULL,
+  phone_number VARCHAR(15),
+  adress VARCHAR(255),
+  postal_code VARCHAR(10),
+  city VARCHAR(100),
+  pseudo VARCHAR(100),
+  is_admin BOOLEAN DEFAULT false
 );
 
-create table cart (
-  quantity varchar(10) not null,
-  total_price decimal(10, 2) not null,
-  id_user int unsigned not null,
-  id_item int unsigned not null,
-  foreign key(id_user) references user(id),
-  foreign key(id_item) references item(id)
+CREATE TABLE cart (
+  quantity VARCHAR(10) NOT NULL,
+  total_price DECIMAL(10, 2) NOT NULL,
+  id_user INT unsigned NOT NULL,
+  id_item INT unsigned NOT NULL,
+  FOREIGN KEY(id_user) REFERENCES user(id),
+  FOREIGN KEY(id_item) REFERENCES item(id)
 );
 
-create table favorite (
-  id int auto_increment primary key,
-  id_user int,
-  id_item int,
-  foreign key (id_user) references user(id),
-  foreign key (id_item) references item(id)
+CREATE TABLE favorite (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  id_user INT,
+  id_item INT,
+  FOREIGN KEY (id_user) REFERENCES user(id),
+  FOREIGN KEY (id_item) REFERENCES item(id)
 );
 
 
-create table order (
-  id int auto_increment primary key,
-  item_quantity int not null,
-  total_order decimal(10, 2) not null,
-  order_date timestanp default current_timestanp not null,
-  statut enum("En attente de validation", "Validée", "Livrée") not null,
-  confirmation_date default current_timestanp ,
-  id_user int unsigned not null,
-  foreign key(id_user) references user(id)
+CREATE TABLE order (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  item_quantity INT NOT NULL,
+  total_order DECIMAL(10, 2) NOT NULL,
+  order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  statut ENUM("En attente de validation", "Validée", "Livrée") NOT NULL,
+  confirmation_date DEFAULT CURRENT_TIMESTAMP ,
+  id_user INT unsigned NOT NULL,
+  FOREIGN KEY(id_user) REFERENCES user(id)
 );
 
-create table user_order (
-  id int auto_increment primary key,
-  id_item int unsigned not null,
-  id_order int unsigned not null,
-  foreign key(id_item) references item(id)
-  foreign key(id_order) references order(id)
+CREATE TABLE user_order (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  id_item INT unsigned NOT NULL,
+  id_order INT unsigned NOT NULL,
+  FOREIGN KEY(id_item) REFERENCES item(id)
+  FOREIGN KEY(id_order) REFERENCES order(id)
 );

@@ -102,6 +102,66 @@
         background-color: red;
         border-radius: 50%;
     }
+
+        /* Container du dropdown */
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Style pour l'image (le bouton déclencheur du dropdown) */
+  .dropdown-button {
+    cursor: pointer;
+    width: 40px; /* Adapte la taille de l'image selon ton besoin */
+    height: auto;
+  }
+  
+  /* Menu déroulant */
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 100;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  /* Groupes dans le menu */
+  .dropdown-group {
+    margin-bottom: 15px;
+  }
+  
+  .dropdown-group-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* Liste des items du dropdown */
+  .dropdown-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Effet de focus ou sélection */
+  .dropdown-item:active {
+    background-color: #e0e0e0;
+  }
 }
 
 
