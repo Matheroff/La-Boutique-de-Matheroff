@@ -43,6 +43,8 @@ class OrderRepository extends AbstractRepository {
 
   // The U of CRUD - Update operation
   async update(id, order) {
+    console.info(id);
+    console.info(order);
     // Execute the SQL UPDATE query to modify an existing order
     const [result] = await this.database.query(
       `update ${this.table} set item_quantity = ?, total_order = ?, order_date = ?, id_user = ?, statut = ?, confirmation_date = ? where id = ?`,

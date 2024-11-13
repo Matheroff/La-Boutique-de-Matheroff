@@ -1,7 +1,7 @@
 import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Footer from "../components/Footer";
 import { ToastContainer, toast } from "react-toastify";
+import Footer from "../components/Footer";
 import "./Dashboard.css";
 import myAxios from "../services/myAxios";
 
@@ -46,7 +46,7 @@ function Dashboard() {
                 { 
                     ...orderDetail,
                     order_date: orderDdate.toISOString().slice(0, 19).replace('T', ' '),
-                    statut: 'Validée', 
+                    statut: 'Confirmée', 
                     confirmation_date: new Date().toISOString().split('T')[0] + ' 00:00:00'
                 }
             );
@@ -59,8 +59,6 @@ function Dashboard() {
       };
 
     // infos pour l'envoi de mail
-    const subject = "confirmation commande";
-    const body = "Bonjour,\n\nVotre commande a été validée.";
 
     const sendConfirmationEmail = (orderDetails) => {
         console.log('envoi mail')
@@ -153,46 +151,55 @@ function Dashboard() {
                 </div>
             </section>
             <section className="order-table">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Numéro de commande</th>
-                            <th>Date</th>
-                            <th>Utilisateur</th>
-                            <th>Email</th>
-                            <th>Nombre d'articles</th>
-                            <th>Prix</th>
-                            <th>Détail</th>
-                            <th>Etat commande</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {newOrders.map((order) => {
-                        const userAssociated = users.find(user => user.id === order.id_user);
-                        return (
-                            <tr key={order.id}>
-                                <td>{order.id}</td>
-                                <td>{new Date(order.order_date).toLocaleDateString('fr-FR')}</td>
-                                <td>{userAssociated ? `${userAssociated.firstname} ${userAssociated.lastname}` : "Utilisateur non trouvé"}</td>
-                                <td>{userAssociated ? userAssociated.email : "Email non disponible"}</td>
-                                <td>{order.item_quantity}</td>
-                                <td>{order.total_order} €</td>
-                                <td>
-                                    <Link to={`/orderdetailadmin/${order.id}`}>
-                                        <button type="button">Voir</button>
-                                    </Link>
-                                </td>
-                                <td>
-                                    <button type="button" onClick={() => openModal(userAssociated, order)}>
+    <table>
+        <thead>
+            <tr>
+                <th>Numéro de commande</th>
+                <th>Date</th>
+                <th>Utilisateur</th>
+                <th>Email</th>
+                <th>Nombre d'articles</th>
+                <th>Prix</th>
+                <th>Détail</th>
+                <th>Etat commande</th>
+            </tr>
+        </thead>
+        <tbody>
+            {newOrders.length === 0 ? (
+                <tr>
+                    <td colSpan="8" style={{ textAlign: "center" }}>
+                        Aucune commande en attente de validation
+                    </td>
+                </tr>
+            ) : (
+                newOrders.map((order) => {
+                    const userAssociated = users.find(user => user.id === order.id_user);
+                    return (
+                        <tr key={order.id}>
+                            <td>{order.id}</td>
+                            <td>{new Date(order.order_date).toLocaleDateString('fr-FR')}</td>
+                            <td>{userAssociated ? `${userAssociated.firstname} ${userAssociated.lastname}` : "Utilisateur non trouvé"}</td>
+                            <td>{userAssociated ? userAssociated.email : "Email non disponible"}</td>
+                            <td>{order.item_quantity}</td>
+                            <td>{order.total_order} €</td>
+                            <td>
+                                <Link to={`/orderdetailadmin/${order.id}`}>
+                                    <button type="button">Voir</button>
+                                </Link>
+                            </td>
+                            <td>
+                                <button type="button" onClick={() => openModal(userAssociated, order)}>
                                     Confirmer
-                                    </button>
-                                </td>
-                            </tr>
-                        );
-                    })}
-                    </tbody>
-                </table>
-            </section>
+                                </button>
+                            </td>
+                        </tr>
+                    );
+                })
+            )}
+        </tbody>
+    </table>
+</section>
+            <ToastContainer />
             <Footer />
             {isModalOpen && (
                 <div className="order-valid-modal">

@@ -130,6 +130,14 @@
     z-index: 100;
     max-height: 300px;
     overflow-y: auto;
+
+    div {
+        font-family: var(--ff-button);
+    }
+
+    ul, li {
+        font-family: var(--ff-text);
+    }
   }
   
   /* Groupes dans le menu */

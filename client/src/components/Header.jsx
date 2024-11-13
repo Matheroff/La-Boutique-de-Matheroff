@@ -158,9 +158,6 @@ function Header() {
                     </div>
                   )}
                 </div>
-
-                {/* Affichage de l'option sélectionnée */}
-                {selectedOption && <p>Option sélectionnée : {selectedOption}</p>}
               </div>
             ) : (
               <Link to="/shop">

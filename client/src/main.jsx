@@ -23,6 +23,7 @@ import Register from "./components/Register";
 import Shop from "./pages/Shop";
 import ThankYouForOrder from "./pages/ThankYouForOrder";
 import Themes from "./pages/ThemesList";
+import Unauthorized from "./pages/Unauthorized";
 import UserProfile from "./pages/UserProfile";
 import UsersList from "./pages/UsersList";
 import ProtectedRoute from "./ProtectedRoute";
@@ -34,8 +35,10 @@ const router = createBrowserRouter([
     loader: async () => {
       const response = await myAxios.get("/api/items");
       const responseUsers = await myAxios.get("/api/users");
+      const responsecat = await myAxios.get("/api/categories");
+      const responsethe = await myAxios.get("/api/themes");
 
-      return [response.data, responseUsers.data];
+      return [response.data, responseUsers.data, responsecat.data, responsethe.data];
     },
     children: [
       {
@@ -383,6 +386,10 @@ const router = createBrowserRouter([
 
           return redirect(`/themes/${response.data.insertId}`);
         },
+      },
+      {
+        path: "/not-authorized",
+        element: <Unauthorized />
       },
       {
         path: "/users",
