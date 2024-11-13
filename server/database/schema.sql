@@ -57,7 +57,7 @@ CREATE TABLE order (
   item_quantity INT NOT NULL,
   total_order DECIMAL(10, 2) NOT NULL,
   order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  statut ENUM("En attente de validation", "Validée", "Livrée") NOT NULL,
+  statut ENUM("En attente de validation", "Confirmée") NOT NULL,
   confirmation_date DEFAULT CURRENT_TIMESTAMP ,
   id_user INT unsigned NOT NULL,
   FOREIGN KEY(id_user) REFERENCES user(id)
