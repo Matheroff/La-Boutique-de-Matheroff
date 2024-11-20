@@ -116,17 +116,17 @@
     .grid-items {
         margin: 0;
         grid-gap: 0;
-        grid-template-columns: repeat(2, 1fr); /* 2 éléments par ligne */
+        grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto;
 
         .item-card {
-            width: 100%; /* Assure que l'item prend toute la largeur de la colonne */
+            width: 100%;
             height: auto;
-            max-width: none; /* Désactive la largeur maximale */
+            max-width: none;
 
             img {
-                width: 100%; /* L'image prend toute la largeur de l'élément */
-                height: auto; /* Conserve le ratio d'aspect de l'image */
+                width: 100%;
+                height: auto;
             }
 
             p {

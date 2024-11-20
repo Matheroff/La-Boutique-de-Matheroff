@@ -39,14 +39,14 @@
 
   input {
     height: 2em;
-    border-radius: 10px; /* Border-radius de 10px pour les inputs */
+    border-radius: 10px;
     margin: 0.4em;
-    width: 80%; /* Largeur ajustée pour un meilleur rendu */
+    width: 80%;
   }
 
   select {
     height: 2.4em;
-    width: 80%; /* Largeur ajustée */
+    width: 80%; 
     border-radius: 10px;
     margin: 0.4em;
   }
@@ -54,5 +54,5 @@
   button {
     margin-top: 1em;
     margin-bottom: 2em;
-}
+  }
 }

@@ -3,12 +3,6 @@ const express = require("express");
 const router = express.Router();
 
 /* ************************************************************************* */
-// Import And Use Routers Here
-const { sayWelcome } = require("../../controllers/sayActions");
-
-router.get("/", sayWelcome);
-
-/* ************************************************************************* */
 
 const categoryRouter = require("./categories/categoryRouter");
 

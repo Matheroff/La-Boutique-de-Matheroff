@@ -31,14 +31,13 @@ h2 {
 .exit-button {
     display: flex;
     justify-content: flex-end;
-    margin-top: 1em; /* Pour espacer le bouton */
+    margin-top: 1em;
 
     button {
         width: 9em;
     }
 }
 
-/* Media queries for responsiveness */
 @media (max-width: 1024px) {
     .user-profile img {
         width: 30vh;

@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import bcrypt from 'bcryptjs';
 import myAxios from "../services/myAxios";
 import "./AuthModal.css";
-import bcrypt from 'bcryptjs';  // Si tu utilises npm ou un bundler
 
 function Register() {
     const [error, setError] = useState("");
@@ -25,7 +25,7 @@ function Register() {
         setError("");
         const listUsers = users[1]
 
-        // je vérifie que l'email saisit n'est pas déjà en base
+        // je vérifie que l'email saisi n'est pas déjà en base
         const userAlreadyExist = listUsers.find(user => 
             user.email === formData.email
         );

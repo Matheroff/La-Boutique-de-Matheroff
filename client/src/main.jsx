@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
 import { createBrowserRouter, redirect, RouterProvider } from "react-router-dom";
-
 import myAxios from "./services/myAxios";
 import Apropos from "./pages/Apropos";
 import Cart from "./pages/Cart";
@@ -14,12 +12,10 @@ import Home from "./pages/Home";
 import InfosPerso from "./pages/InfosPerso";
 import ItemDetail from "./pages/ItemDetail";
 import ItemsList from "./pages/ItemsList";
-import Login from "./components/Login";
 import Orders from "./pages/Orders";
 import OrderDetail from "./pages/OrderDetail";
 import OrderDetailAdmin from "./pages/OrderDetailAdmin";
 import OrdersList from "./pages/OrdersList";
-import Register from "./components/Register";
 import Shop from "./pages/Shop";
 import ThankYouForOrder from "./pages/ThankYouForOrder";
 import Themes from "./pages/ThemesList";
@@ -86,6 +82,13 @@ const router = createBrowserRouter([
               });
 
               return redirect(`/categories/${params.id}`);
+            }
+            case "post" : {
+              const name = formData.get("name");
+
+              const response = await myAxios.post("/api/categories", { name });
+
+              return redirect(`/categories/${response.data.insertId}`);
             }
             case "delete": {
               await myAxios.delete(`/api/categories/${params.id}`);
@@ -159,7 +162,7 @@ const router = createBrowserRouter([
           const unitPrice = formData.get("unit_price")
           const description = formData.get("description");
 
-          const response = await myAxios.post("/api/items/:id", { image, name, "unit_price":unitPrice, description });
+          const response = await myAxios.post("/api/items", { image, name, "unit_price":unitPrice, description });
 
           return redirect(`/itemdetail/${response.data.insertId}`);
         },
@@ -217,10 +220,6 @@ const router = createBrowserRouter([
               throw new Response("", { status: 405 });
           }
         },
-      },
-      {
-        path: "/login",
-        element: <Login />,
       },
       {
         path: "/orders",
@@ -288,10 +287,6 @@ const router = createBrowserRouter([
 
           return [response.data, responseus.data];
         },
-      },
-      {
-        path: "/register",
-        element: <Register />,
       },
       {
         path: "/shop",

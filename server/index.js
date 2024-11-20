@@ -1,18 +1,17 @@
-// Load environment variables from .env file
+// Récupération des données du fichier .env grâce au package dotenv de Node.js
 require("dotenv").config();
 
-// Check database connection
-// Note: This is optional and can be removed if the database connection
-// is not required when starting the application
+// Import du fichier client.js
+// Vérifie l'accessibilité de la BDD avant l'exécution de l'application
 require("./database/client").checkConnection();
 
-// Import the Express application from app/config.js
+// Import de l'application Express depuis app/config.js
 const app = require("./app/config");
 
-// Get the port from the environment variables
+// Définition du port et récupération des variables d'environnement du fichier .env
 const port = process.env.APP_PORT;
 
-// Start the server and listen on the specified port
+// Démarre le serveur en écoutant les requêtes entrantes sur le port défini
 app
   .listen(port, () => {
     console.info(`Server is listening on port ${port}`);

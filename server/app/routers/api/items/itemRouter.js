@@ -2,26 +2,22 @@ const express = require("express");
 
 const itemRouter = express.Router();
 
-/* ************************************************************************* */
-// Define Your API Routes Here
-/* ************************************************************************* */
-
-// Import item-related actions
+// Import de 5 méthodes (BREAD) depuis le fichier itemActions
 const { browse, read, edit, add, destroy } = require("../../../controllers/itemActions");
 
-// Route to get a list of items
+// Route pour obtenir la liste des articles
 itemRouter.get("/", browse);
 
-// Route to get a specific item by ID
+// Route pour obtenir un article spécifique via son ID
 itemRouter.get("/:id", read);
 
-// Route to edit a specific item
+// Route pour éditer / modifier un article via son ID
 itemRouter.put("/:id", edit);
 
-// Route to add a new item
+// Route pour créer un nouvel article
 itemRouter.post("/", add);
 
-// Route to delete item
+// Route pour supprimer un article via son ID
 itemRouter.delete("/:id", destroy);
 
 /* ************************************************************************* */

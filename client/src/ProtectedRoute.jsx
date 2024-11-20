@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ element, requiredRole, ...rest }) => {
+function ProtectedRoute ({ element, requiredRole, ...rest }) {
   const myUser = JSON.parse(localStorage.getItem("myUser"));
 
   if ((myUser && myUser.is_admin !== 1) || !myUser) {

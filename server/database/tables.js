@@ -1,4 +1,4 @@
-// Import the repository modules responsible for handling data operations on the tables
+// Import des fichiers repository
 const CartRepository = require("./models/CartRepository");
 const CategoryRepository = require("./models/CategoryRepository");
 const FavoriteRepository = require("./models/FavoriteRepository");
@@ -8,14 +8,11 @@ const ThemeRepository = require("./models/ThemeRepository");
 const UserOrderRepository = require("./models/UserOrderRepository");
 const UserRepository = require("./models/UserRepository");
 
-// Create an empty object to hold data repositories for different tables
+// Création de l'objet "tables" vide : servira à stocker chaque repository
+// en tant que propriété avec un nom associé à sa table respective
 const tables = {};
 
-/* ************************************************************************* */
-// Register data repositories for tables
-/* ************************************************************************* */
-
-// Register each repository as data access point for its table
+// Enregistrement des repository dans l'objet "tables"
 tables.category = new CategoryRepository();
 tables.cart = new CartRepository();
 tables.favorite = new FavoriteRepository();
@@ -25,17 +22,13 @@ tables.theme = new ThemeRepository();
 tables.user_order = new UserOrderRepository();
 tables.user = new UserRepository();
 
-/* ************************************************************************* */
-
-// Use a Proxy to customize error messages when trying to access a non-existing table
-
-// Export the Proxy instance with custom error handling
+// Utilisation d’un Proxy pour une gestion des erreurs personnalisée
 module.exports = new Proxy(tables, {
   get(obj, prop) {
-    // Check if the property (table) exists in the tables object
+    // Check l'existance de la propriété (table) dans l'objet "tables"
     if (prop in obj) return obj[prop];
 
-    // If the property (table) does not exist, throw a ReferenceError with a custom error message
+    // Renvoie un message d'erreur si la propriété (table) n'existe pas
     throw new ReferenceError(
       `tables.${prop} is not defined. Did you register it in ${__filename}?`
     );

@@ -1,9 +1,11 @@
-// Get variables from .env file for database connection
+// Importation des variables d'environnement
 const { DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
 
-// Create a connection pool to the database
+// Importation de la bibliothèque mysql2 en mode promise : permet d'exécuter les requêtes
+// asynchrones et d'utiliser des promesses (async/await) pour gérer les requêtes
 const mysql = require("mysql2/promise");
-
+// Création d'un pool de connexion : permet de réutiliser les connexions
+// à la base de données plutôt que d'en ouvrir une nouvelle pour chaque requête.
 const client = mysql.createPool({
   host: DB_HOST,
   port: DB_PORT,
@@ -13,7 +15,7 @@ const client = mysql.createPool({
 });
 
 client.checkConnection = () => {
-  // Try to get a connection to the database
+  // Tentative de connexion à la base de données
   client
     .getConnection()
     .then((connection) => {
@@ -31,8 +33,7 @@ client.checkConnection = () => {
     });
 };
 
-// Store database name into client for further uses
+// Stockage du nom de la base de données
 client.databaseName = DB_NAME;
 
-// Ready to export
 module.exports = client;

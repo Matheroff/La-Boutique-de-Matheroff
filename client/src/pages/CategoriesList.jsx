@@ -168,7 +168,7 @@ function CategoriesList() {
             {isModalOpen && (
                 <div className="new-add-modal">
                     <div className="new-add-modal-content">
-                        <p>Êtes-vous sûr de vouloir supprimer ce thème ?</p>
+                        <p>Êtes-vous sûr de vouloir supprimer cette catégorie ?</p>
                         <div className="modal-buttons">
                             <button type="button" onClick={confirmDelete}>
                                 Supprimer
@@ -185,9 +185,3 @@ function CategoriesList() {
 }
 
 export default CategoriesList;
-
-
-
-
-
-
